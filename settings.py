@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.mysql.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'regnskap',                      # Or path to database file if using sqlite3.
         'USER': 'regnskap',                      # Not used with sqlite3.
         'PASSWORD': 'X4y8ZCtGW3Uj93rX',                  # Not used with sqlite3.
@@ -115,10 +115,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'regnskap',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    #'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging

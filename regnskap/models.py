@@ -9,23 +9,29 @@ class Konto(models.Model):
       (4,'Varekostnad'),
       (5,'Lonnskonstnad'),
       (6,'Annen driftskostnad'),
-      (7,'Av- og nedskrivninger',
+      (7,'Av- og nedskrivninger'),
       (8,'Finans')
     )
-    kontoType = model.IntegerField(choices=AVAILABLE_KONTO_TYPE)
-    nummer = model.IntegerField(primary_key=True)
-    tittel = model.CharField(max_length=256)
+    kontoType = models.IntegerField(choices=AVAILABLE_KONTO_TYPE)
+    nummer = models.IntegerField(primary_key=True)
+    tittel = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return unicode(self.nummer) +' '+self.tittel
 
 class Bilag(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
-    bilagsnummer = model.IntegerField() #Automatic?
-    dato = model.DateField()
-    innslag = model.ManyToManyField(Konto, trough='Innslag')
+    bilagsnummer = models.IntegerField() #Automatic?
+    dato = models.DateField()
+    innslag = models.ManyToManyField(Konto, through='Innslag')
+    def __unicode__(self):
+        return str(self.bilagsnummer)
 
 class Innslag(models.Model):
-    bilag = model.ForeignKey(Bilag)
-    konto = model.ForeginKey(Konto)
-    debit = model.DecimalField(decimal_places=2)
-    kredit = model.DecimalField(decimal_places=2)
-
+    bilag = models.ForeignKey(Bilag, related_name='bilaget')
+    konto = models.ForeignKey(Konto)
+    debit = models.DecimalField(max_digits=16,decimal_places=2, null=True)
+    kredit = models.DecimalField(max_digits=16,decimal_places=2, null=True)
+    def __unicode__(self):
+        return unicode(self.konto.nummer) +' '+unicode(self.debit)+'|'+unicode(self.kredit)
