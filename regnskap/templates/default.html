@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Bilags liste {% endblock %}
+
+{% block content %}
+<h1>Liste over alle blilag</h1>
+
+<ul>
+{% for bilag in bilag_list %}
+<li>
+<strong>{{ bilag.bilagsnummer }}</strong>{{ bilag.dato }}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}
