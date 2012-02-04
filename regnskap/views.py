@@ -31,5 +31,6 @@ def registrerBilagForm(request):
         form = forms.BilagForm()
     return render_to_response('bilagRegistrering.html',{
         'form': form,
+        'url' : request.get_full_path(),
     })
     

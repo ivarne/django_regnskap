@@ -1,3 +1,10 @@
 {% block title %}Registrering av billag {% endblock %}
 
-{%%}
+{% block content %}
+<form action="{{url}}" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+
+{% endblock %}
