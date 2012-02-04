@@ -3,6 +3,7 @@
 import os
 ## my files import
 from regnskap import models
+from regnskap import forms
 ## django import
 from django.shortcuts import render_to_response
 
@@ -18,3 +19,17 @@ def registerform(request):
     
 def registerAction(request):
     pass
+
+def registrerBilagForm(request):
+    if(request.method == 'POST'):
+        form = forms.BilagForm(request.POST)
+        if form.is_valid():
+            ##process data
+            
+            return HttpResponseRedirect(request.get_full_path())
+    else:
+        form = forms.BilagForm()
+    return render_to_response('bilagRegistrering.html',{
+        'form': form,
+    })
+    
