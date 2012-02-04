@@ -34,7 +34,7 @@ class Bilag(models.Model):
     innslagDebit = property(_getDebit)
 
 class Innslag(models.Model):
-    krosjekt = models.ForeignKey(Prosjekt)
+    prosjekt = models.ForeignKey(Prosjekt)
     bilag = models.ForeignKey(Bilag, related_name='bilaget')
     konto = models.ForeignKey(Konto)
     debit = models.DecimalField(max_digits=16,decimal_places=2, null=True)
