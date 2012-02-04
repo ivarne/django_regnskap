@@ -23,28 +23,44 @@ class Bilag(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     bilagsnummer = models.IntegerField() #Automatic?
     dato = models.DateField()
+    beskrivelse = models.CharField(max_length=256)
     innslag = models.ManyToManyField(Konto, through='Innslag')
     def __unicode__(self):
         return str(self.bilagsnummer)
     def _getKredit(self):
-        self.innslag.filter(isKredit)
+        self.innslag.filter(type=0)
     def _getDebit(self):
-        self.innslag.filter(isDebit)
+        self.innslag.filter(type=1)
     innslagKredit = property(_getKredit)
     innslagDebit = property(_getDebit)
 
 class Innslag(models.Model):
+    AVAILABLE_TYPE = (
+      (0,'Debit'),
+      (1,'Kredit')
+    )
     prosjekt = models.ForeignKey('Prosjekt')
     bilag = models.ForeignKey(Bilag, related_name='bilaget')
     konto = models.ForeignKey(Konto)
-    debit = models.DecimalField(max_digits=16,decimal_places=2, null=True)
-    kredit = models.DecimalField(max_digits=16,decimal_places=2, null=True)
+    
+    belop = models.DecimalField(max_digits=16,decimal_places=2, blank=True, null=True)
+    type = models.IntegerField(choices=AVAILABLE_TYPE)
+
     def __unicode__(self):
         return unicode(self.konto.nummer) +' '+unicode(self.debit)+'|'+unicode(self.kredit)
-    def isDebit(self):
-        return self.debit!=Null
-    def isKredit(self):
-        return self.kredit!=Null
+        
+    def _debitValue(self):
+        if self.type == 0:
+            return belop
+        else:
+            return None
+    def _kreditValue(self):
+        if self.type == 1:
+            return belop
+        else:
+            return None
+    debit = property(_debitValue)
+    kredit = property(_kreditValue)
         
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=256)
