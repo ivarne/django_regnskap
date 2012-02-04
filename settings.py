@@ -9,17 +9,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'regnskap',                      # Or path to database file if using sqlite3.
-        'USER': 'regnskap',                      # Not used with sqlite3.
-        'PASSWORD': 'X4y8ZCtGW3Uj93rX',                  # Not used with sqlite3.
-        'HOST': '192.168.1.11',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -144,3 +133,4 @@ LOGGING = {
         },
     }
 }
+from local_settings import *
