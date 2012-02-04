@@ -2,7 +2,13 @@ from models import *
 
 from django import forms
 
-class BilagForm(From):
-    kommentar = forms.CharField(max_lenght=255)
-    dato = forms.DateField()
+class BilagForm(forms.Form):
+    kommentar = forms.CharField(
+        max_length=255,
+        required = False,
+        )
+    dato = forms.DateField(
+        required = False,
+        )
+    debit = 
     
