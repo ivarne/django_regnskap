@@ -26,6 +26,12 @@ class Bilag(models.Model):
     innslag = models.ManyToManyField(Konto, through='Innslag')
     def __unicode__(self):
         return str(self.bilagsnummer)
+    def getKredit(self):
+        self.innslag.
+    def getDebit(self):
+        pass¨
+    innslagKredit = property(getKredit)
+    innslagDebit = property(getDebit)
 
 class Innslag(models.Model):
     bilag = models.ForeignKey(Bilag, related_name='bilaget')
