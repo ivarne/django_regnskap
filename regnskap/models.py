@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Kontoplan
 class Konto(models.Model):
     AVAILABLE_KONTO_TYPE = (
       (1,'Eiendeler'),
@@ -21,7 +21,6 @@ class Konto(models.Model):
 
 class Bilag(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-
     bilagsnummer = models.IntegerField() #Automatic?
     dato = models.DateField()
     innslag = models.ManyToManyField(Konto, through='Innslag')
