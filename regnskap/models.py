@@ -26,12 +26,12 @@ class Bilag(models.Model):
     innslag = models.ManyToManyField(Konto, through='Innslag')
     def __unicode__(self):
         return str(self.bilagsnummer)
-    def getKredit(self):
-        self.innslag.
-    def getDebit(self):
-        pass¨
-    innslagKredit = property(getKredit)
-    innslagDebit = property(getDebit)
+    def _getKredit(self):
+        self.innslag.filter(isKredit)
+    def _getDebit(self):
+        self.innslag.filter(isDebit)
+    innslagKredit = property(_getKredit)
+    innslagDebit = property(_getDebit)
 
 class Innslag(models.Model):
     bilag = models.ForeignKey(Bilag, related_name='bilaget')
@@ -40,3 +40,7 @@ class Innslag(models.Model):
     kredit = models.DecimalField(max_digits=16,decimal_places=2, null=True)
     def __unicode__(self):
         return unicode(self.konto.nummer) +' '+unicode(self.debit)+'|'+unicode(self.kredit)
+    def isDebit(self):
+        return self.debit!=Null
+    def isKredit(self):
+        return self.kredit!=Null
