@@ -49,22 +49,22 @@ class InnslagForm(forms.Form):
     
     #Validation:
     def clean(self):
-    cleaned_data = super(InnslagForm, self).clean()
+        cleaned_data = super(InnslagForm, self).clean()
     
         ##Maks en verdi i kredit og debit
         debit = cleaned_data.get("debit")
         kredit = cleaned_data.get("kredit")
-        if debit && kredit
+        if debit and kredit:
             #Begge feltene er gyldige formateringsmessig - la oss sjekke at maks ett er satt
-            if debit!=None && kredit !=None:
+            if debit!=None and kredit !=None:
                 msg = u"Enten debit eller kredit kan inneholde verdi."
                 self._errors["debit"] = self.error_class([msg])
                 self._errors["kredit"] = self.error_class([msg])
                 del cleaned_data["kredit"]
                 del cleaned_data["debit"]
-            #og dersom minst ett av de inneholder verdi må konto være satt
-            if debit!=None || kredit !=None:
+            #og dersom minst ett av de inneholder verdi ma konto vare satt
+            if debit!=None or kredit !=None:
                 ##TODO: Sjekke at eksakt en konto er satt
                 pass
 
-    return cleaned_data
+        return cleaned_data
