@@ -46,3 +46,25 @@ class InnslagForm(forms.Form):
         max_value = 10000000, # Ti milioner
         decimal_places = 2,
     )
+    
+    #Validation:
+    def clean(self):
+    cleaned_data = super(InnslagForm, self).clean()
+    
+        ##Maks en verdi i kredit og debit
+        debit = cleaned_data.get("debit")
+        kredit = cleaned_data.get("kredit")
+        if debit && kredit
+            #Begge feltene er gyldige formateringsmessig - la oss sjekke at maks ett er satt
+            if debit!=None && kredit !=None:
+                msg = u"Enten debit eller kredit kan inneholde verdi."
+                self._errors["debit"] = self.error_class([msg])
+                self._errors["kredit"] = self.error_class([msg])
+                del cleaned_data["kredit"]
+                del cleaned_data["debit"]
+            #og dersom minst ett av de inneholder verdi må konto være satt
+            if debit!=None || kredit !=None:
+                ##TODO: Sjekke at eksakt en konto er satt
+                pass
+
+    return cleaned_data

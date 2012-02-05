@@ -28,6 +28,37 @@ def registrerBilagForm(request):
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
         if form.is_valid():
             ##process data
+            magicNumber = 7 ##GetID
+            bilag = models.Bilag(bilagsnummer=magicNumber, dato=bilagform.dato, beskrivelse=bilagform.beskrivelse)
+            bilag.save()
+            
+            for form in innslagform:
+            
+                ##REFACTOR: Do this directly in the form
+                if form.eiendeler != 0:
+                    konto = form.eiendeler
+                elif form.egenkapital_gjeld != 0:
+                    konto = form.egenkapital_gjeld 
+                elif form.inntekter != 0:
+                    konto = form.inntekter 
+                elif form.kostnader != 0:
+                    konto = form.kostnader
+                else:
+                    continue
+                
+                type = 1
+                belop = form.kredit
+                if form.debit != 0:
+                    type = 0
+                    belop = form.debit
+                    
+                innslag = models.Innslag(bilag=bilag)
+                innslag.konto = models.Konto.get(id=konto)
+                innslag.belop = belop
+                innslag.type = type
+                
+                innslag.save()
+                
             
             return HttpResponseRedirect(request.path)
     else:
