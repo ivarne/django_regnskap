@@ -3,9 +3,10 @@
 import os
 ## my files import
 from regnskap import models
-from regnskap import forms
+from regnskap.forms import *
 ## django import
 from django.shortcuts import render_to_response
+from django.forms.formsets import formset_factory
 
 
 def default(request):
@@ -21,16 +22,20 @@ def registerAction(request):
     pass
 
 def registrerBilagForm(request):
+    InnslagFormSet = formset_factory(InnslagForm, extra=5)
     if(request.method == 'POST'):
-        form = forms.BilagForm(request.POST)
+        bilagform   = BilagForm(request.POST, prefix="bilag")
+        innslagform = InnslagFormSet(request.POST, prefix="innslag")
         if form.is_valid():
             ##process data
             
-            return HttpResponseRedirect(request.get_full_path())
+            return HttpResponseRedirect(request.path)
     else:
-        form = forms.BilagForm()
+        bilagform   = BilagForm(prefix="bilag")
+        innslagform = InnslagFormSet(prefix="innslag")
     return render_to_response('bilagRegistrering.html',{
-        'form': form,
-        'url' : request.get_full_path(),
+        'bilagform' : bilagform,
+        'innslagform': innslagform,
+        'url' : request.path,
     })
     

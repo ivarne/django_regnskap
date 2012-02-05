@@ -1,25 +1,42 @@
+{% extends "base.html" %}
+
 {% block title %}Registrering av billag {% endblock %}
 
 {% block content %}
 <form action="{{url}}" method="post">{% csrf_token %}
 
 <table>
-<tr><th>Dato</th><td>{{form.dato}} {{form.dato.errors}}/td></tr>
-<tr><th>Kommentar</th><td>{{form.kommentar}} {{form.dato.errors}}</td></tr>
+<tr>
+  <th>Dato</th><td>{{bilagform.dato}} {{bilagform.dato.errors}}</td>
+</tr>
+<tr>
+  <th>Kommentar</th><td>{{bilagform.kommentar}} {{bilagform.dato.errors}}</td>
+</tr>
 </table>
 
 <table>
-<tr><th colspan="2">Debit</th></tr>
-<tr><th>Konto</th><th>Beløp</th></tr>
-
-<tr><th colspan="2">Kredit</th></tr>
-<tr><th>Konto</th><th>Beløp</th></tr>
+<tr><th colspan="5">Innslag</th></tr>
+<tr>
+    <th>S&oslash;k</th>
+    <th>Eiendeler 1XX</th>
+    <th>Egenkaptial/Gjeld 2XX</th>
+    <th>Inntekt 3XX</th>
+    <th>Kostnad 4XX - 8XX</th>
+    <th>Debet</th>
+    <th>Kredit</th>
+</tr>
+{% for innslag in innslagform %}
+<tr>
+  <td><input type="text" value="S&oslash;k etter konto"/></td>
+  <td>{{ innslag.eiendeler }}</td>
+  <td>{{ innslag.egenkapital_gjeld }}</td>
+  <td>{{ innslag.inntekter }}</td>
+  <td>{{ innslag.kostnader }}</td>
+  <td>{{ innslag.debit }}</td>
+  <td>{{ innslag.kredit }}</td>
+</tr>
+{% endfor %}
 </table>
-
-{{ form.as_p }}
-
-
-
 <input type="submit" value="Submit" />
 </form>
 
