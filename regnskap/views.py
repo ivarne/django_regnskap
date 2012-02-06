@@ -7,19 +7,22 @@ from regnskap.forms import *
 ## django import
 from django.shortcuts import render_to_response
 from django.forms.formsets import formset_factory
-from django.core.context_processors import csrf
 from django.contrib import messages
+from django.template import RequestContext
+
 
 
 
 def default(request):
     bilag_list = models.Bilag.objects.all()
-    return render_to_response('default.html',{'bilag_list': bilag_list})
+    return render_to_response('default.html',{'bilag_list': bilag_list}, RequestContext(request))
 
 def registerform(request):
     konto_plan = models.Konto.objects.all()
     files = os.listdir(os.path.join('/','var','www','django_regnskap'))
-    return render_to_response('form.html',{'files': files})
+    return render_to_response('form.html',{
+        'files': files
+        }, RequestContext(request))
     
 def registerAction(request):
     pass
@@ -67,11 +70,9 @@ def registrerBilagForm(request):
     else:
         bilagform   = BilagForm(prefix="bilag")
         innslagform = InnslagFormSet(prefix="innslag")
-    c = {
+    return render_to_response('bilagRegistrering.html', {
         'bilagform' : bilagform,
         'innslagform': innslagform,
         'url' : request.path,
-    }
-    c.update(csrf(request)) # add Cross Site Request Forgery Protection
-    return render_to_response('bilagRegistrering.html', c)
+    },RequestContext(request))
     
