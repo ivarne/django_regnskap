@@ -55,17 +55,21 @@ $(document).ready(function(){
     var debit = 0;
     $(".debit > input").each(function(){
       if(this.value){
-        debit += parseFloat(this.value);
+        var v = parseFloat(this.value);
+        debit += v;
+        this.value = v.toFixed(2);
       }
     });
-    $("#debit_sum").text(debit.toString());
+    $("#debit_sum").text(debit.toFixed(2));
     var kredit = 0;
     $(".kredit > input").each(function(){
       if(this.value){
-        kredit += parseFloat(this.value);
+        var v = parseFloat(this.value);
+        kredit += v;
+        this.value = v.toFixed(2);
       }
     });
-    $("#kredit_sum").text(kredit.toString());
+    $("#kredit_sum").text(kredit.toFixed(2));
   });
 });
   
