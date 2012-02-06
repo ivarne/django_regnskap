@@ -1,0 +1,20 @@
+/* Special stylings for django messages */
+ul.messages > li{
+	padding:5px;
+	display:inline;
+}
+ul.messages > li.debug{
+	color:gray;
+}
+ul.messages > li.info{
+	background-color:yellow;
+}
+ul.messages > li.sucess{
+	background-color:green;
+}
+ul.messages > li.warning{
+	background-color:red;
+}
+ul.messages > li.error{
+	background-color:red;
+}

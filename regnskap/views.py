@@ -8,16 +8,20 @@ from regnskap.forms import *
 from django.shortcuts import render_to_response, render
 from django.forms.formsets import formset_factory
 from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
+from django.template import RequestContext
 
 
 def default(request):
     bilag_list = models.Bilag.objects.all()
-    return render_to_response('default.html',{'bilag_list': bilag_list})
+    return render_to_response('default.html',{'bilag_list': bilag_list}, RequestContext(request))
 
 def registerform(request):
     konto_plan = models.Konto.objects.all()
     files = os.listdir(os.path.join('/','var','www','django_regnskap'))
-    return render_to_response('form.html',{'files': files})
+    return render_to_response('form.html',{
+        'files': files
+        }, RequestContext(request))
     
 def registerAction(request):
     pass
@@ -28,7 +32,7 @@ def registrerBilagForm(request):
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
-        if form.is_valid():
+        if bilagform.is_valid() and innslagform.is_valid():
             ##process data
             magicNumber = 7 ##GetID
             bilag = models.Bilag(bilagsnummer=magicNumber, dato=bilagform.dato, beskrivelse=bilagform.beskrivelse)
@@ -61,20 +65,13 @@ def registrerBilagForm(request):
                 
                 innslag.save()
                 
-            
+            messages.add_message(request, messages.SUCESS, 'Bilag lagret.')
             return HttpResponseRedirect(request.path)
     else:
         bilagform   = BilagForm(prefix="bilag")
         innslagform = InnslagFormSet(prefix="innslag")
-		
-	return render(request, 'bilagRegistrering.html' ,{
+    return render_to_response('bilagRegistrering.html', {
         'bilagform' : bilagform,
         'innslagform': innslagform,
         'url' : request.path,
-    })
-    return render_to_response('bilagRegistrering.html',{
-        'bilagform' : bilagform,
-        'innslagform': innslagform,
-        'url' : request.path,
-    })
-    
+    },RequestContext(request))

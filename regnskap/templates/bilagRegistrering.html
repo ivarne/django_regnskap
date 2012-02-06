@@ -32,13 +32,46 @@
   <td>{{ innslag.egenkapital_gjeld }}</td>
   <td>{{ innslag.inntekter }}</td>
   <td>{{ innslag.kostnader }}</td>
-  <td>{{ innslag.debit }}</td>
-  <td>{{ innslag.kredit }}</td>
+  <td class="innslag debit">{{ innslag.debit }}</td>
+  <td class="innslag kredit">{{ innslag.kredit }}</td>
 </tr>
 {% endfor %}
+<tr>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>Sum:<span id="debit_sum"></span></td>
+  <td>Sum:<span id="kredit_sum"></span></td>
+</tr>
 </table>
 <input type="submit" value="Submit" />
 </form>
 
-
+<script>
+$(document).ready(function(){
+  $(".innslag").change(function(){
+    var debit = 0;
+    $(".debit > input").each(function(){
+      if(this.value){
+        var v = parseFloat(this.value);
+        debit += v;
+        this.value = v.toFixed(2);
+      }
+    });
+    $("#debit_sum").text(debit.toFixed(2));
+    var kredit = 0;
+    $(".kredit > input").each(function(){
+      if(this.value){
+        var v = parseFloat(this.value);
+        kredit += v;
+        this.value = v.toFixed(2);
+      }
+    });
+    $("#kredit_sum").text(kredit.toFixed(2));
+  });
+});
+  
+</script>
 {% endblock %}
