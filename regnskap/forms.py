@@ -50,7 +50,6 @@ class InnslagForm(forms.Form):
     #Validation:
     def clean(self):
         cleaned_data = super(InnslagForm, self).clean()
-    
         ##Maks en verdi i kredit og debit
         debit = cleaned_data.get("debit")
         kredit = cleaned_data.get("kredit")
@@ -63,8 +62,6 @@ class InnslagForm(forms.Form):
                 del cleaned_data["kredit"]
                 del cleaned_data["debit"]
             #og dersom minst ett av de inneholder verdi ma konto vare satt
-            if debit!=None or kredit !=None:
-                ##TODO: Sjekke at eksakt en konto er satt
-                pass
-
+            #if debit!=None or kredit !=None:
+            ##TODO: Sjekke at eksakt en konto er satt
         return cleaned_data

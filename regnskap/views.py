@@ -5,8 +5,9 @@ import os
 from regnskap import models
 from regnskap.forms import *
 ## django import
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.forms.formsets import formset_factory
+from django.views.decorators.csrf import csrf_protect
 
 
 def default(request):
@@ -21,6 +22,7 @@ def registerform(request):
 def registerAction(request):
     pass
 
+@csrf_protect
 def registrerBilagForm(request):
     InnslagFormSet = formset_factory(InnslagForm, extra=5)
     if(request.method == 'POST'):
@@ -64,6 +66,12 @@ def registrerBilagForm(request):
     else:
         bilagform   = BilagForm(prefix="bilag")
         innslagform = InnslagFormSet(prefix="innslag")
+		
+	return render(request, 'bilagRegistrering.html' ,{
+        'bilagform' : bilagform,
+        'innslagform': innslagform,
+        'url' : request.path,
+    })
     return render_to_response('bilagRegistrering.html',{
         'bilagform' : bilagform,
         'innslagform': innslagform,
