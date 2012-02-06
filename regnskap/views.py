@@ -8,6 +8,8 @@ from regnskap.forms import *
 from django.shortcuts import render_to_response
 from django.forms.formsets import formset_factory
 from django.core.context_processors import csrf
+from django.contrib import messages
+
 
 
 def default(request):
@@ -27,7 +29,7 @@ def registrerBilagForm(request):
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
-        if form.is_valid():
+        if bilagform.is_valid() and innslagform.is_valid():
             ##process data
             magicNumber = 7 ##GetID
             bilag = models.Bilag(bilagsnummer=magicNumber, dato=bilagform.dato, beskrivelse=bilagform.beskrivelse)
@@ -60,7 +62,7 @@ def registrerBilagForm(request):
                 
                 innslag.save()
                 
-            
+            messages.add_message(request, messages.SUCESS, 'Bilag lagret.')
             return HttpResponseRedirect(request.path)
     else:
         bilagform   = BilagForm(prefix="bilag")

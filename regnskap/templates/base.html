@@ -1,10 +1,20 @@
 <html>
 <head>
 <title>{% block title %}Regnskap for Trondheim kristne studentlag {% endblock %}</title>
+
+<script src="/static/jquery/jquery.js"></script>
+
 </head>
 
 
 <body>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 {% block content %} 
 No Content
