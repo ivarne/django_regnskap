@@ -7,6 +7,7 @@ from regnskap.forms import *
 ## django import
 from django.shortcuts import render_to_response
 from django.forms.formsets import formset_factory
+from django.core.context_processors import csrf
 
 
 def default(request):
@@ -64,9 +65,11 @@ def registrerBilagForm(request):
     else:
         bilagform   = BilagForm(prefix="bilag")
         innslagform = InnslagFormSet(prefix="innslag")
-    return render_to_response('bilagRegistrering.html',{
+    c = {
         'bilagform' : bilagform,
         'innslagform': innslagform,
         'url' : request.path,
-    })
+    }
+    c.update(csrf(request)) # add Cross Site Request Forgery Protection
+    return render_to_response('bilagRegistrering.html', c)
     
