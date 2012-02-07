@@ -18,3 +18,12 @@ ul.messages > li.warning{
 ul.messages > li.error{
 	background-color:red;
 }
+
+/*Bilags registrering*/
+#diffDebitkredit{
+	background-color:red;
+	padding:10px;
+	margin:15px;
+	display:none;
+	float:center;
+}
