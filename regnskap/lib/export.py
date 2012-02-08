@@ -20,7 +20,7 @@ class ExelYearView(object):
             self._wb = openpyxl.Workbook()
             self._wb.properties.creator = "Django_regnskap, av Trondheim Kristne Studentlag"
             self._wb.worksheets[0].title = "Transaksjonsoversikt"
-            self._wb.create_sheet(1,"Resultat Regnskap")
+            self._wb.create_sheet(1,"Resultatregnskap")
             self._wb.create_sheet(2,"Balanse")
         # set metadata
         p = self._wb.properties
@@ -58,24 +58,44 @@ class ExelYearView(object):
             ra.cell(row=0,column=i+3).value = konto.tittel
             ra.cell(row=1,column=i+3).value = konto.nummer
             kontoIndex[konto.nummer] = i+3;
+        #write all bilag
         for i, bilag in enumerate(bilagList):
-            ra.cell(row=i+3, column=0).value = bilag.bilagsnummer
-            ra.cell(row=i+3, column=1).value = bilag.dato
-            ra.cell(row=i+3, column=2).value = bilag.beskrivelse
+            ra.cell(row=i+2, column=0).value = bilag.bilagsnummer
+            ra.cell(row=i+2, column=1).value = bilag.dato
+            ra.cell(row=i+2, column=2).value = bilag.beskrivelse
             for innslag in bilag.innslag.all():
                 c = kontoIndex[innslag.konto.nummer]
                 if(innslag.isDebit):
-                    ra.cell(row=i+3, column = c).value = innslag.belop
+                    ra.cell(row=i+2, column = c).value = innslag.belop
                 else: #negativ for kredit
-                    ra.cell(row=i+3, column = c).value = -innslag.belop
+                    ra.cell(row=i+2, column = c).value = -innslag.belop
     
     def _generateResultArk(self, kontoList,bilagList):
         ra = self._wb.worksheets[1]
-        ra.cell("A1").value = "Resultatregnskap er ikke implementert"
+        ra.cell("A1").value = "Resultatregnskap"
+        ra.cell("C3").value = "Kostnader"
+        ra.cell("D3").value = "Inntekter"
+        kostKonto = list(Konto.objects.filter(kontoType__gte = 4))
+        intKonto =list(Konto.objects.filter(kontoType = 3))
+        maxLen = max(len(kostKonto),len(intKonto))
+        for i, konto in enumerate(kostKonto):
+            ra.cell(row=i+3, column=0).value = konto.nummer
+            ra.cell(row=i+3, column=1).value = konto.tittel
+            ra.cell(row=i+3, column=2).value = "=SUM(2,3)"
+        for i, konto in enumerate(intKonto):
+            ra.cell(row=i+3, column=3).value = konto.nummer
+            ra.cell(row=i+3, column=4).value = konto.tittel
+            ra.cell(row=i+3, column=5).value = "=SUM(2,3)"
+        ra.cell(row=maxLen+3,column=1).value = "Sum:"
+        ra.cell(row=maxLen+3,column=4).value = "Sum:"
+        ra.cell(row=maxLen+3,column=2).value = "=SUM(C4:C%d)" % (maxLen+3)
+        ra.cell(row=maxLen+3,column=5).value = "=SUM(F4:F%d)" % (maxLen+3)
+    
     def _generateBalanseArk(self):
         ba = self._wb.worksheets[2]
         ba.cell("A1").value = "Balanse oppsett er ikke implementert"
+    
 
 if __name__ == '__main__':
     excel = ExcelYearView(2011)
-    excel.save('test.xls')
+    excel.save('test.xlsx')
