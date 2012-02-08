@@ -24,7 +24,6 @@ class Bilag(models.Model):
     bilagsnummer = models.IntegerField() #Automatic?
     dato = models.DateField()
     beskrivelse = models.CharField(max_length=256)
-    innslag = models.ManyToManyField(Konto, through='Innslag')
     def __unicode__(self):
         return str(self.bilagsnummer)
     def _getKredit(self):
@@ -40,12 +39,17 @@ class Innslag(models.Model):
       (1,'Kredit')
     )
     prosjekt = models.ForeignKey('Prosjekt')
-    bilag = models.ForeignKey(Bilag, related_name='bilaget')
+    bilag = models.ForeignKey(Bilag, related_name='innslag')
     konto = models.ForeignKey(Konto)
     
     belop = models.DecimalField(max_digits=16,decimal_places=2, blank=True, null=True)
     type = models.IntegerField(choices=AVAILABLE_TYPE)
-
+    @property
+    def isDebit(self):
+        return self.type ==0
+    @property
+    def isKredit(self):
+        return self.type == 1
     def __unicode__(self):
         return unicode(self.konto.nummer) +' '+unicode(self.debit)+'|'+unicode(self.kredit)
         
