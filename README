@@ -1,0 +1,3 @@
+List of dependencies:
+django # of course, it's a django app
+openpyxl # to enable Excel export

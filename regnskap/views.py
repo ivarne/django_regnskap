@@ -10,11 +10,24 @@ from django.forms.formsets import formset_factory
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.template import RequestContext
+from django.http import HttpResponse
+
 
 
 def default(request):
     bilag_list = models.Bilag.objects.all()
     return render_to_response('default.html',{'bilag_list': bilag_list}, RequestContext(request))
+
+def export(request, year):
+    year = int(year)
+    from regnskap.lib.export import ExelYearView
+    e = ExelYearView()
+    e.generateYear(year)
+    response = HttpResponse(mimetype='application/vnd.ms-excel')
+    response['Content-Disposition'] = "attachment; filename=regnskap%d.xls" % year
+    response.write(e.getExcelFileStream())
+    return response
+    
 
 def registerform(request):
     konto_plan = models.Konto.objects.all()
