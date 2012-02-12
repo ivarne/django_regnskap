@@ -1,7 +1,9 @@
 from django.conf.urls.defaults import patterns, include, url
 
 urlpatterns = patterns('',
-    url(r'^$', 'regnskap.views.default'),
-    url(r'^registrer$','regnskap.views.registrerBilagForm'),
-    url(r'^export/(\d{4})/$','regnskap.views.export')
+#    url(r'^$', 'regnskap.views.default'),
+    url(r'^registrer$','regnskap.views.bilag.registrerBilagForm'),
+    url(r'^export/(\d{4})/$','regnskap.views.excel.export'),
+    url(r'^dropbox/connect$','regnskap.views.dropbox_integrations.connect'),
+    url(r'^drpobox/export/(\d{4})$', 'regnskap.views.dropbox_integrations.saveBackup'),
 )

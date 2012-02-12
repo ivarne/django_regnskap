@@ -7,40 +7,9 @@ from regnskap.forms import *
 ## django import
 from django.shortcuts import render_to_response, render
 from django.forms.formsets import formset_factory
-from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.template import RequestContext
-from django.http import HttpResponse
 
-
-
-def default(request):
-    bilag_list = Bilag.objects.all()
-    return render_to_response('default.html',{'bilag_list': bilag_list}, RequestContext(request))
-
-def export(request, year):
-    year = int(year)
-    # import localy so that openpyxl is only required if needed.
-    from regnskap.lib.export import ExelYearView
-    e = ExelYearView()
-    e.generateYear(year)
-    response = HttpResponse(mimetype='application/vnd.ms-excel')
-    response['Content-Disposition'] = "attachment; filename=regnskap%d.xlsx" % year
-    response.write(e.getExcelFileStream())
-    return response
-    
-
-def registerform(request):
-    konto_plan = models.Konto.objects.all()
-    files = os.listdir(os.path.join('/','var','www','django_regnskap'))
-    return render_to_response('form.html',{
-        'files': files
-        }, RequestContext(request))
-    
-def registerAction(request):
-    pass
-
-@csrf_protect
 def registrerBilagForm(request):
     InnslagFormSet = formset_factory(InnslagForm, extra=5)
     if(request.method == 'POST'):

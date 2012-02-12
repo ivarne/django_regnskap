@@ -11,3 +11,7 @@ DATABASES = {
     }
 }
 
+DROPBOX_SETTINGS = {
+  'app_key'    : "insert key",
+  'app_secret' : "insert secret"
+}

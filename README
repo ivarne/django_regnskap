@@ -1,3 +1,5 @@
 List of dependencies:
-django # of course, it's a django app
-openpyxl # to enable Excel export
+Installable using easy_install:
+django      # of course, it's a django app
+openpyxl    # to enable Excel export
+dropbox     # for dropbox upload and make security copies of files

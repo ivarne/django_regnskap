@@ -1,5 +1,8 @@
 from django.db import models
 
+from django.contrib.auth.models import User
+
+
 # Kontoplan
 class Konto(models.Model):
     AVAILABLE_KONTO_TYPE = (
@@ -69,3 +72,8 @@ class Innslag(models.Model):
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=256)
     beskrivelse = models.TextField()
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    dropbox_token = models.CharField(max_length=256)
+    
