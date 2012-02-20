@@ -11,7 +11,8 @@ from django.contrib import messages
 from django.template import RequestContext
 
 def registrerBilagForm(request):
-    InnslagFormSet = formset_factory(InnslagForm, extra=5)
+    NumberOfInnslag = 5
+    InnslagFormSet = formset_factory(InnslagForm, extra = NumberOfInnslag)
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
@@ -57,4 +58,5 @@ def registrerBilagForm(request):
         'bilagform' : bilagform,
         'innslagform': innslagform,
         'url' : request.path,
+        'counter' : iter(xrange(NumberOfInnslag)),
     },RequestContext(request))

@@ -20,7 +20,7 @@
     <th>Debet</th>
     <th>Kredit</th>
 </tr>
-{% for i, innslag in enumerate(innslagform) %}
+{% for innslag in innslagform %}
 <tr>
   <td><input type="text" value="S&oslash;k etter konto"/></td>
   <td>{{ innslag.eiendeler }}</td>
@@ -29,7 +29,7 @@
   <td>{{ innslag.kostnader }}</td>
   <td class="innslag debit">{{ innslag.debit }}</td>
   <td class="innslag kredit">{{ innslag.kredit }}</td>
-  <td class=""></td>
+  <td><button class="balance-row" row="{{ counter.next }}" type="button">Balance</button></td>
 </tr>
 {% endfor %}
 <tr>
@@ -84,6 +84,7 @@ function update(){
   }else{
     $("#diffDebitkredit").hide();
   }
+  return debit-kredit;
 }
 /* get a reference to the similar field debit->kredit kredit->debit */
 function deactivateTwinField(feld, disabled){
@@ -98,8 +99,25 @@ function deactivateTwinField(feld, disabled){
   feld.children[0].disabled = disabled;
 }
 
+function balance(){
+  var row = this.attributes['row'].value
+  // zero this row
+  var d = $("#id_innslag-"+row+"-debit")[0];
+  d.value = "";
+  var c = $("#id_innslag-"+row+"-kredit")[0];
+  c.value = "";
+  var diff = update();
+  if(diff<0){
+    d.value = (-diff).toFixed(2);
+  }else if(diff > 0){
+    c.value = diff.toFixed(2);
+  }
+  update();// 
+}
+
 $(document).ready(function(){
   $(".innslag").change(update);
+  $(".balance-row").click(balance);
 });
   
 </script>
