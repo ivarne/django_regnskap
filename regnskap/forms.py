@@ -8,7 +8,7 @@ class BilagForm(forms.ModelForm):
         exclude = ('bilagsnummer',)
 
 def kontoFilterToChoice(**kwargs):
-    kontos = Konto.objects.filter(**kwargs)
+    kontos = Konto.objects.filter(**kwargs).order_by('nummer')
     choices = [(0,'')]
     for konto in kontos:
         choices.append((konto.nummer, str(konto.nummer) + ' ' + konto.tittel))

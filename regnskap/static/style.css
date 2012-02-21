@@ -19,11 +19,33 @@ ul.messages > li.error{
 	background-color:red;
 }
 
-/*Bilags registrering*/
+/************************
+ * Bilags registrering  *
+ ***********************/
 #diffDebitkredit{
 	background-color:red;
 	padding:10px;
 	margin:15px;
 	display:none;
 	float:center;
+}
+/* konto suggest*/
+#kontos{
+   display: block;
+   background-color: wheat;
+   position: absolute;
+   left: 10px;
+/*   top: 46px;*/
+}
+#kontos > span{
+   display:block;
+}
+#kontos > span:hover{
+   background-color: yellow;
+}
+.kontonummer{
+   color: red;
+}
+.kontonavn{
+   color: black;
 }

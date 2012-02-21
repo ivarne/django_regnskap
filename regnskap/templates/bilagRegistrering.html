@@ -22,14 +22,16 @@
 </tr>
 {% for innslag in innslagform %}
 <tr>
-  <td><input type="text" value="S&oslash;k etter konto"/></td>
+  <td><input class="kontosok" type="text" value="S&oslash;k etter konto"/></td>
   <td>{{ innslag.eiendeler }}</td>
   <td>{{ innslag.egenkapital_gjeld }}</td>
   <td>{{ innslag.inntekter }}</td>
   <td>{{ innslag.kostnader }}</td>
   <td class="innslag debit">{{ innslag.debit }}</td>
   <td class="innslag kredit">{{ innslag.kredit }}</td>
-  <td><button class="balance-row" row="{{ counter.next }}" type="button">Balance</button></td>
+  <td>
+    <button class="balance-row" row="{{counter.next}}" type="button">Balance</button>
+  </td>
 </tr>
 {% endfor %}
 <tr>
@@ -52,7 +54,14 @@
 </table>
 <input type="submit" value="Submit" />
 </form>
-
+<div id="kontos">
+  {% for konto in kontos %}
+  <span kontonummer="{{konto.nummer}}" kontonavn="{{konto.tittel}}">
+    <span class="kontonummer">{{ konto.nummer }}</span>
+    <span class="kontonavn">{{ konto.tittel }}</span>
+  </span>
+  {% endfor %}
+</div>
 <script>
 function update(){
   var debit = 0;
@@ -112,12 +121,25 @@ function balance(){
   }else if(diff > 0){
     c.value = diff.toFixed(2);
   }
-  update();// 
+  update();// ensure the difference warning is removed
 }
+function search(){
+  var reg = new RegExp(this.value,"i");
+  $("#kontos > span").each(function(){
+    if(this.attributes['kontonavn'].value.match(reg)){
+      this.style.display = "block";
+    }else{
+      this.style.display = "none";
+    }
+//    alert(this.attributes['kontonavn'].value.match(string));
+  });
+}
+
 
 $(document).ready(function(){
   $(".innslag").change(update);
   $(".balance-row").click(balance);
+  $(".kontosok").keyup(search)
 });
   
 </script>
