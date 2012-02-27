@@ -5,9 +5,9 @@
 {% block content %}
 <form action="{{url}}" method="post">{% csrf_token %}
 
-<table>
-{{bilagform}}
-</table>
+{{ bilagform.dato }}<div id="datepicker"></div>
+{{ bilagform.beskrivelse }}
+
 {{ innslagform.management_form }}
 <table>
 <tr>
@@ -192,6 +192,10 @@ $(document).ready(function(){
   $(".kontosok").focusin(startsearch);
   $(".kontosok").focusout(endsearch);
   $(".kontoSelect").change(colorGrid);
+  $("#datepicker").datepicker({
+    altField:"#id_bilag-dato",
+    altFormat:"yy-mm-dd"
+  });
 });
   
 </script>
