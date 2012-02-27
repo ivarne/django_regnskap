@@ -55,9 +55,10 @@ def registrerBilagForm(request):
         bilagform   = BilagForm(prefix="bilag")
         innslagform = InnslagFormSet(prefix="innslag")
     return render_to_response('bilagRegistrering.html', {
-        'bilagform' : bilagform,
-        'innslagform': innslagform,
-        'url'       : request.path,
-        'kontos'    : Konto.objects.all().order_by('nummer'),
-        'counter'   : iter(xrange(NumberOfInnslag)),
+        'bilagform'     : bilagform,
+        'innslagform'   : innslagform,
+        'url'           : request.path,
+        'kontos'        : Konto.objects.all().order_by('nummer'),
+        'buttoncounter' : iter(xrange(NumberOfInnslag)),
+        'searchcounter' : iter(xrange(NumberOfInnslag)),
     },RequestContext(request))

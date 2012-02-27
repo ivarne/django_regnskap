@@ -7,40 +7,42 @@ class BilagForm(forms.ModelForm):
         model = Bilag
         exclude = ('bilagsnummer',)
 
-def kontoFilterToChoice(**kwargs):
-    kontos = Konto.objects.filter(**kwargs).order_by('nummer')
-    choices = [(0,'')]
-    for konto in kontos:
-        choices.append((konto.nummer, str(konto.nummer) + ' ' + konto.tittel))
-    return choices
+def kontoFilterToChoice():
+    types = [('','')]
+    #reverse sort to get them out in correct order using pop()
+    kontos  = list(Konto.objects.order_by('-nummer').all())
+    konto   = kontos.pop()
+    print 'filter'
+    try:
+        for i, kategori in Konto.AVAILABLE_KONTO_TYPE:
+            subtypes = []
+            while konto.kontoType == i:
+                subtypes.append((konto.nummer, str(konto.nummer) + ' ' + konto.tittel,))
+                konto = kontos.pop() #last element
+            types.append([kategori, subtypes])
+    except IndexError: #kontos.pop() when the list is emptpy
+        types.append([kategori, subtypes])
+    print types
+    return types
 
 class InnslagForm(forms.Form):
-    eiendeler = forms.TypedChoiceField(
+    kontos = forms.TypedChoiceField(
         coerce = int,
-        choices = kontoFilterToChoice(kontoType = 1),#'eiendeler')
-        empty_value = 0
-    )
-    egenkapital_gjeld = forms.TypedChoiceField(
-        coerce = int,
-        choices = kontoFilterToChoice(kontoType = 2),#'Egenkapital og gjeld')
-    )
-    inntekter = forms.TypedChoiceField(
-        coerce = int,
-        choices = kontoFilterToChoice(kontoType = 3),#'Salg og driftsinntekt')
-    )
-    kostnader = forms.TypedChoiceField(
-        coerce = int,
-        choices = kontoFilterToChoice(kontoType__gte = 4),#'Varekostnad')
+        choices = kontoFilterToChoice(),
+        empty_value = None,
+        widget = forms.Select(attrs={'tabindex':'-1'})
     )
     debit = forms.DecimalField(
         min_value = 0,
         max_value = 10000000, # Ti milioner
         decimal_places = 2,
+        widget=forms.TextInput(attrs={'size':'10'})
     )
     kredit = forms.DecimalField(
         min_value = 0,
         max_value = 10000000, # Ti milioner
         decimal_places = 2,
+        widget=forms.TextInput(attrs={'size':'10'})
     )
     
     #Validation:

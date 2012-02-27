@@ -10,31 +10,33 @@
 </table>
 {{ innslagform.management_form }}
 <table>
-<tr><th colspan="5">Innslag</th></tr>
 <tr>
     <th>S&oslash;k</th>
-    <th>Eiendeler 1XX</th>
-    <th>Egenkaptial/Gjeld 2XX</th>
-    <th>Inntekt 3XX</th>
-    <th>Kostnad 4XX - 8XX</th>
+    <th>Konto</th>
+    <th>Eiendeler<br>1XX</th>
+    <th>Egenkaptial<br>/Gjeld<br>2XX</th>
+    <th>Inntekt<br>3XX</th>
+    <th>Kostnad<br>4XX - 8XX</th>
     <th>Debet</th>
     <th>Kredit</th>
 </tr>
 {% for innslag in innslagform %}
 <tr>
-  <td><input class="kontosok" type="text" value="S&oslash;k etter konto"/></td>
-  <td>{{ innslag.eiendeler }}</td>
-  <td>{{ innslag.egenkapital_gjeld }}</td>
-  <td>{{ innslag.inntekter }}</td>
-  <td>{{ innslag.kostnader }}</td>
+  <td><input class="kontosok" type="text" row="{{searchcounter.next}}" size="5"/></td>
+  <td class="kontoSelect">{{ innslag.kontos }}</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
   <td class="innslag debit">{{ innslag.debit }}</td>
   <td class="innslag kredit">{{ innslag.kredit }}</td>
   <td>
-    <button class="balance-row" row="{{counter.next}}" type="button">Balance</button>
+    <button class="balance-row" row="{{buttoncounter.next}}" type="button">Balance</button>
   </td>
 </tr>
 {% endfor %}
 <tr>
+  <td></td>
   <td></td>
   <td></td>
   <td></td>
@@ -54,9 +56,9 @@
 </table>
 <input type="submit" value="Submit" />
 </form>
-<div id="kontos">
+<div id="kontos" style="display:none">
   {% for konto in kontos %}
-  <span kontonummer="{{konto.nummer}}" kontonavn="{{konto.tittel}}">
+  <span kontonummer="{{konto.nummer}}" kontonavn="{{ konto.nummer }}{{konto.tittel}}">
     <span class="kontonummer">{{ konto.nummer }}</span>
     <span class="kontonavn">{{ konto.tittel }}</span>
   </span>
@@ -125,21 +127,71 @@ function balance(){
 }
 function search(){
   var reg = new RegExp(this.value,"i");
+  var count = 0;
+  var matchkonto;
   $("#kontos > span").each(function(){
     if(this.attributes['kontonavn'].value.match(reg)){
       this.style.display = "block";
+      count++;
+      matchkonto = this.attributes['kontonummer'].value;
     }else{
       this.style.display = "none";
     }
-//    alert(this.attributes['kontonavn'].value.match(string));
   });
+  if(count == 1){// only one konto match search string
+    var row = this.attributes['row'].value;
+    var select = $("#id_innslag-"+row+"-kontos");
+    select[0].value = matchkonto;
+    select.change();
+    $("#id_innslag-"+row+"-debit")[0].focus();
+    this.value = "";
+  }
+}
+function startsearch(){
+  this.value = "";
+  // .position() uses position relative to the offset parent, 
+  var pos = $(this).position();
+
+  // .outerWidth() takes into account border and padding.
+  var width = $(this).outerWidth();
+  
+  $("#kontos").css({
+    position: "absolute",
+    top: pos.top + "px",
+    left: (pos.left + width) + "px"
+  }).show();
+}
+function endsearch(){
+  $("#kontos > span").each(function(){
+    this.style.display = "block";
+  });
+  $("#kontos").hide();
 }
 
+function colorGrid(){
+  var konto = Math.floor(parseInt(this.childNodes[0].value)/100);
+  //clear all colors
+  var node = this.nextElementSibling;
+  if (konto > 4){
+    konto = 4;
+  }
+  for(i = 1; i<5; i++){
+    if(konto == i){
+      node.style.backgroundColor = "red";
+    }else{
+      node.style.backgroundColor = "";
+    }
+    node = node.nextElementSibling;
+  }
+}
 
 $(document).ready(function(){
   $(".innslag").change(update);
   $(".balance-row").click(balance);
-  $(".kontosok").keyup(search)
+  $(".kontosok").keyup(search);
+  $(".kontosok").focusin(startsearch);
+  $(".kontosok").focusout(endsearch);
+  $(".kontoSelect").change(colorGrid);
 });
   
 </script>
