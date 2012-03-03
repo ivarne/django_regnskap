@@ -21,8 +21,8 @@
     <th>Kredit</th>
 </tr>
 {% for innslag in innslagform %}
-<tr>
-  <td><input class="kontosok" type="text" row="{{searchcounter.next}}" size="5"/></td>
+<tr class="kontoRow">
+  <td class="kontoSokField"><input class="kontosok" type="text" row="{{searchcounter.next}}" size="5"/></td>
   <td class="kontoSelect">{{ innslag.kontos }}</td>
   <td></td>
   <td></td>
@@ -186,11 +186,17 @@ function colorGrid(){
 }
 
 $(document).ready(function(){
+  $(".kontoRow").each(function(){
+      var searchField = $(this).children('.kontoSokField').children('input')[0];
+      var kontoList = $(this).children('.kontoSelect').children('select')[0];
+      var debetField = $(this).children('.debit').children('input')[0];
+      SelectSearchBox.init(searchField, kontoList, debetField);
+      });
   $(".innslag").change(update);
   $(".balance-row").click(balance);
-  $(".kontosok").keyup(search);
-  $(".kontosok").focusin(startsearch);
-  $(".kontosok").focusout(endsearch);
+//  $(".kontosok").keyup(search);
+//  $(".kontosok").focusin(startsearch);
+//  $(".kontosok").focusout(endsearch);
   $(".kontoSelect").change(colorGrid);
   $("#datepicker").datepicker({
     altField:"#id_bilag-dato",
