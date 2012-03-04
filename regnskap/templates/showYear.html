@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Årsoversikt {{year}}{% endblock %}
+
+{% block content %}
+<h2>Årsoversikt {{year}}</h2>
+<table>
+  <tr>
+    <th>#</th>
+    <th>Dato</th>
+    <th>Beskrivelse</th>
+    <th>Konto</th>
+    <th>Debet</th>
+    <th>Kredit</th>
+  </tr>
+  {% for bilag in bilagYear %}
+  {% for innslag in bilag.innslag.all %}
+  <tr>
+    {% ifchanged bilag %}
+    <td rowspan="{{bilag.innslag.count}}">{{bilag.bilagsnummer}}</td>
+    <td rowspan="{{bilag.innslag.count}}">{{bilag.dato|date:"j. b"}}</td>
+    <td rowspan="{{bilag.innslag.count}}">{{bilag.beskrivelse}}</td>
+    {% endifchanged %}
+    <td>{{innslag.konto}}</td>
+    <td>{{innslag.debit}}</td>
+    <td>{{innslag.kredit}}</td>
+  </tr>
+  {% endfor %}
+  {% endfor %}
+</table>
+{% endblock %}

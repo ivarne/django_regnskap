@@ -17,25 +17,8 @@ def registrerBilagForm(request):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
         if bilagform.is_valid() and innslagform.is_valid():
-            ##process data
-            magicNumber = 7 ##GetID
-            bilag = models.Bilag(bilagsnummer=magicNumber, dato=bilagform.dato, beskrivelse=bilagform.beskrivelse)
-            bilag.save()
-            
+            #validate innslag
             for form in innslagform:
-            
-                ##REFACTOR: Do this directly in the form
-                if form.eiendeler != 0:
-                    konto = form.eiendeler
-                elif form.egenkapital_gjeld != 0:
-                    konto = form.egenkapital_gjeld 
-                elif form.inntekter != 0:
-                    konto = form.inntekter 
-                elif form.kostnader != 0:
-                    konto = form.kostnader
-                else:
-                    continue
-                
                 type = 1
                 belop = form.kredit
                 if form.debit != 0:

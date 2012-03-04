@@ -35,6 +35,13 @@ class Bilag(models.Model):
         self.innslag.filter(type=1)
     innslagKredit = property(_getKredit)
     innslagDebit = property(_getDebit)
+    def save(self, *args, **kwargs):
+        """Not thread safe, concider using transactions"""
+        year = self.dato.year
+        previous = self.objects.filter(dato__year = year).aggregate(models.Max("bilagsnummer"))
+        self.bilagsnummer = previous + 1
+        super(Bilag,self).save(*args, **kwargs)
+        return self.bilagsnummer
 
 class Innslag(models.Model):
     AVAILABLE_TYPE = (
@@ -58,14 +65,14 @@ class Innslag(models.Model):
         
     def _debitValue(self):
         if self.type == 0:
-            return belop
+            return self.belop
         else:
-            return None
+            return ""
     def _kreditValue(self):
         if self.type == 1:
-            return belop
+            return self.belop
         else:
-            return None
+            return ""
     debit = property(_debitValue)
     kredit = property(_kreditValue)
         
