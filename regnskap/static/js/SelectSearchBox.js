@@ -54,7 +54,8 @@ SelectSearchBox.prototype = function(searchBox, select, jumpto){
         
         for(var i in elements){
             var e = elements[i]
-            $($('<div></div>').text(e.label)).mousedown(function(){d.pick(e);d.endsearch();}).appendTo(d._optionList);
+            var picker = function(elem){return function(){d.pick(elem);d.endsearch();};};
+            $($('<div></div>').text(e.label)).mousedown(picker(e)).appendTo(d._optionList);
         }
     };
 
