@@ -125,49 +125,6 @@ function balance(){
   }
   update();// ensure the difference warning is removed
 }
-function search(){
-  var reg = new RegExp(this.value,"i");
-  var count = 0;
-  var matchkonto;
-  $("#kontos > span").each(function(){
-    if(this.attributes['kontonavn'].value.match(reg)){
-      this.style.display = "block";
-      count++;
-      matchkonto = this.attributes['kontonummer'].value;
-    }else{
-      this.style.display = "none";
-    }
-  });
-  if(count == 1){// only one konto match search string
-    var row = this.attributes['row'].value;
-    var select = $("#id_innslag-"+row+"-kontos");
-    select[0].value = matchkonto;
-    select.change();
-    $("#id_innslag-"+row+"-debit")[0].focus();
-    this.value = "";
-  }
-}
-function startsearch(){
-  this.value = "";
-  // .position() uses position relative to the offset parent, 
-  var pos = $(this).position();
-
-  // .outerWidth() takes into account border and padding.
-  var width = $(this).outerWidth();
-  
-  $("#kontos").css({
-    position: "absolute",
-    top: pos.top + "px",
-    left: (pos.left + width) + "px"
-  }).show();
-}
-function endsearch(){
-  $("#kontos > span").each(function(){
-    this.style.display = "block";
-  });
-  $("#kontos").hide();
-}
-
 function colorGrid(){
   var konto = Math.floor(parseInt(this.childNodes[0].value)/100);
   //clear all colors
@@ -194,9 +151,6 @@ $(document).ready(function(){
       });
   $(".innslag").change(update);
   $(".balance-row").click(balance);
-//  $(".kontosok").keyup(search);
-//  $(".kontosok").focusin(startsearch);
-//  $(".kontosok").focusout(endsearch);
   $(".kontoSelect").change(colorGrid);
   $("#datepicker").datepicker({
     altField:"#id_bilag-dato",
