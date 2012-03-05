@@ -67,12 +67,12 @@ class Innslag(models.Model):
         if self.type == 0:
             return self.belop
         else:
-            return ""
+            return None
     def _kreditValue(self):
         if self.type == 1:
             return self.belop
         else:
-            return ""
+            return None
     debit = property(_debitValue)
     kredit = property(_kreditValue)
         

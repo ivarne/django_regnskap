@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Årsoversikt {{year}}{% endblock %}
+{% block title %}{{overskrift}}{% endblock %}
 
 {% block content %}
-<h2>Årsoversikt {{year}}</h2>
+<h2>{{overskrift}}</h2>
 <table>
   <tr>
     <th>#</th>
@@ -21,8 +21,8 @@
     <td rowspan="{{bilag.innslag.count}}">{{bilag.beskrivelse}}</td>
     {% endifchanged %}
     <td>{{innslag.konto}}</td>
-    <td>{{innslag.debit}}</td>
-    <td>{{innslag.kredit}}</td>
+    <td>{{innslag.debit|default_if_none:""}}</td>
+    <td>{{innslag.kredit|default_if_none:""}}</td>
   </tr>
   {% endfor %}
   {% endfor %}
