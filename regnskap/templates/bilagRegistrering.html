@@ -4,9 +4,10 @@
 
 {% block content %}
 <form action="{{url}}" method="post">{% csrf_token %}
+{{ bilagform.non_field_errors }}
 
-{{ bilagform.dato }}<div id="datepicker"></div>
-{{ bilagform.beskrivelse }}
+{{ bilagform.dato }}<div id="datepicker"></div>{{ bilagsform.dato.errors }}
+{{ bilagform.beskrivelse }}{{ bilagsform.beskrivelse.errors }}
 
 {{ innslagform.management_form }}
 <table>
@@ -23,13 +24,13 @@
 {% for innslag in innslagform %}
 <tr class="kontoRow">
   <td class="kontoSokField"><input class="kontosok" type="text" row="{{searchcounter.next}}" size="5"/></td>
-  <td class="kontoSelect">{{ innslag.kontos }}</td>
+  <td class="kontoSelect">{{ innslag.kontos }}{{ innslag.kontos.errors }}</td>
   <td></td>
   <td></td>
   <td></td>
   <td></td>
-  <td class="innslag debit">{{ innslag.debit }}</td>
-  <td class="innslag kredit">{{ innslag.kredit }}</td>
+  <td class="innslag debit">{{ innslag.debit }}{{ innslag.debit.errors }}</td>
+  <td class="innslag kredit">{{ innslag.kredit }}{{ innslag.kredit.errors }}</td>
   <td>
     <button class="balance-row" row="{{buttoncounter.next}}" type="button">Balance</button>
   </td>
@@ -56,14 +57,6 @@
 </table>
 <input type="submit" value="Submit" />
 </form>
-<div id="kontos" style="display:none">
-  {% for konto in kontos %}
-  <span kontonummer="{{konto.nummer}}" kontonavn="{{ konto.nummer }}{{konto.tittel}}">
-    <span class="kontonummer">{{ konto.nummer }}</span>
-    <span class="kontonavn">{{ konto.tittel }}</span>
-  </span>
-  {% endfor %}
-</div>
 <script>
 function update(){
   var debit = 0;

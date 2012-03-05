@@ -38,7 +38,7 @@ class Bilag(models.Model):
     def save(self, *args, **kwargs):
         """Not thread safe, concider using transactions"""
         year = self.dato.year
-        previous = self.objects.filter(dato__year = year).aggregate(models.Max("bilagsnummer"))
+        previous = Bilag.objects.filter(dato__year = year).aggregate(models.Max("bilagsnummer"))['bilagsnummer__max'] or 0
         self.bilagsnummer = previous + 1
         super(Bilag,self).save(*args, **kwargs)
         return self.bilagsnummer

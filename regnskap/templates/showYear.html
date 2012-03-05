@@ -3,7 +3,7 @@
 
 {% block content %}
 <h2>{{overskrift}}</h2>
-<table>
+<table class="BilagListe">
   <tr>
     <th>#</th>
     <th>Dato</th>
@@ -16,13 +16,17 @@
   {% for innslag in bilag.innslag.all %}
   <tr>
     {% ifchanged bilag %}
-    <td rowspan="{{bilag.innslag.count}}">{{bilag.bilagsnummer}}</td>
-    <td rowspan="{{bilag.innslag.count}}">{{bilag.dato|date:"j. b"}}</td>
-    <td rowspan="{{bilag.innslag.count}}">{{bilag.beskrivelse}}</td>
+    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.bilagsnummer|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.beskrivelse|default:"&nbsp;"}}</td>
+    <td class="topBorder">{{innslag.konto|default:"&nbsp;"}}</td>
+    <td class="topBorder">{{innslag.debit|default_if_none:"&nbsp;"}}</td>
+    <td class="topBorder">{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
+    {% else %}
+    <td>{{innslag.konto|default:"&nbsp;"}}</td>
+    <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
+    <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
     {% endifchanged %}
-    <td>{{innslag.konto}}</td>
-    <td>{{innslag.debit|default_if_none:""}}</td>
-    <td>{{innslag.kredit|default_if_none:""}}</td>
   </tr>
   {% endfor %}
   {% endfor %}

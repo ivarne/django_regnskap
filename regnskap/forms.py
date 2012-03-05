@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
 from models import *
 
 from django import forms
+
+from decimal import *
+
 
 class BilagForm(forms.ModelForm):
     class Meta:
@@ -27,7 +31,7 @@ def kontoFilterToChoice():
 
 class InnslagForm(forms.Form):
     kontos = forms.TypedChoiceField(
-        coerce = int,
+        coerce = lambda id: Konto.objects.get(nummer=id),
         choices = kontoFilterToChoice(),
         empty_value = None,
         widget = forms.Select(attrs={'tabindex':'-1'})
@@ -36,13 +40,15 @@ class InnslagForm(forms.Form):
         min_value = 0,
         max_value = 10000000, # Ti milioner
         decimal_places = 2,
-        widget=forms.TextInput(attrs={'size':'10'})
+        widget=forms.TextInput(attrs={'size':'10'}),
+        required=False, # one of debit/kredit required(not both)
     )
     kredit = forms.DecimalField(
         min_value = 0,
         max_value = 10000000, # Ti milioner
         decimal_places = 2,
-        widget=forms.TextInput(attrs={'size':'10'})
+        widget=forms.TextInput(attrs={'size':'10'}),
+        required=False, # one of debit/kredit required(not both)
     )
     
     #Validation:
@@ -59,7 +65,19 @@ class InnslagForm(forms.Form):
                 self._errors["kredit"] = self.error_class([msg])
                 del cleaned_data["kredit"]
                 del cleaned_data["debit"]
-            #og dersom minst ett av de inneholder verdi ma konto vare satt
-            #if debit!=None or kredit !=None:
-            ##TODO: Sjekke at eksakt en konto er satt
         return cleaned_data
+
+class BaseInnslagFormSet(forms.formsets.BaseFormSet):
+    def clean(self):
+        """Checks that no two articles have the same title."""
+        if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+        debit = Decimal(0) # datatype with exact decimal fractions
+        kredit = Decimal(0)
+        for form in self.forms:
+            if form.cleaned_data:
+                debit += form.cleaned_data['debit'] or 0
+                kredit += form.cleaned_data['kredit'] or 0
+        if debit != kredit:
+            raise forms.ValidationError(u"Kredit og debit må summere til samme tall")

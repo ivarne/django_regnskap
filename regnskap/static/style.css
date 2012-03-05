@@ -49,3 +49,15 @@ ul.messages > li.error{
 .kontonavn{
    color: black;
 }
+/*Bilagsliste*/
+.BilagListe{
+   border-collapse:collapse
+}
+.BilagListe .topBorder{
+   border-top: 1px solid black;
+}
+.BilagListe td{
+   padding: 3px;
+   border-left: 1px dashed black;
+   border-right: 1px dashed black;
+}
