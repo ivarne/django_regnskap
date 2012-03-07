@@ -22,11 +22,21 @@ class Konto(models.Model):
     def __unicode__(self):
         return unicode(self.nummer) +' '+self.tittel
 
+class Exteral_Actor(models.Model):
+    name = models.CharField(max_length = 256)
+    email = models.EmailField(blank = True)
+    adress = models.TextField(blank = True)
+    org_nr = models.CharField(blank = True, max_length = 100)
+    archived = models.DateField(editable = False, null=True)
+    def __unicode__(self):
+        return str(self.id) + " " + self.name
+
 class Bilag(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    bilagsnummer = models.IntegerField() #Automatic?
+    created = models.DateTimeField(auto_now_add=True, editable = False)
+    bilagsnummer = models.IntegerField(editable = False) #Automatic?
     dato = models.DateField()
     beskrivelse = models.CharField(max_length=256)
+    external_actor = models.ForeignKey(Exteral_Actor, null = True)
     def __unicode__(self):
         return str(self.bilagsnummer)
     def _getKredit(self):
@@ -75,7 +85,7 @@ class Innslag(models.Model):
             return None
     debit = property(_debitValue)
     kredit = property(_kreditValue)
-        
+
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=256)
     beskrivelse = models.TextField()

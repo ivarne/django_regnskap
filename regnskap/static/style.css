@@ -23,32 +23,21 @@ ul.messages > li.error{
  * Bilags registrering  *
  ***********************/
 #diffDebitkredit{
-	background-color:red;
-	padding:10px;
-	margin:15px;
-	display:none;
-	float:center;
+   background-color:red;
+   padding:10px;
+   margin:15px;
+   display:none;
+   float:center;
 }
-/* konto suggest*/
-#kontos{
-   display: block;
-   background-color: wheat;
+#datepicker{
+   float:left;
+}
+/* kontakt search box */
+.search-div{
    position: absolute;
-   left: 10px;
-/*   top: 46px;*/
+   background-color: wheat;
 }
-#kontos > span{
-   display:block;
-}
-#kontos > span:hover{
-   background-color: yellow;
-}
-.kontonummer{
-   color: red;
-}
-.kontonavn{
-   color: black;
-}
+
 /*Bilagsliste*/
 .BilagListe{
    border-collapse:collapse

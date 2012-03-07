@@ -7,10 +7,17 @@
 {{ bilagform.non_field_errors }}
 
 {{ bilagform.dato }}<div id="datepicker"></div>{{ bilagsform.dato.errors }}
-{{ bilagform.beskrivelse }}{{ bilagsform.beskrivelse.errors }}
+<div>
+  <label for="id_external-id">Søk etter kontakt:</label>
+  <input id="id_external-id" type="text" maxlenght="100" name="external-id"/>
+  <table>{{ external_a_form }}</table>
+</div>
 
-{{ innslagform.management_form }}
-<table>
+<div style="clear:both;"></div>
+
+{{ bilagform.beskrivelse.label }} {{ bilagform.beskrivelse }}{{ bilagsform.beskrivelse.errors }}<br/>
+
+<table>{{ innslagform.management_form }}
 <tr>
     <th>S&oslash;k</th>
     <th>Konto</th>
@@ -29,8 +36,12 @@
   <td></td>
   <td></td>
   <td></td>
-  <td class="innslag debit">{{ innslag.debit }}{{ innslag.debit.errors }}</td>
-  <td class="innslag kredit">{{ innslag.kredit }}{{ innslag.kredit.errors }}</td>
+  <td class="innslag debit">
+    {{ innslag.debit }}{{ innslag.debit.errors }}
+  </td>
+  <td class="innslag kredit">
+    {{ innslag.kredit }}{{ innslag.kredit.errors }}
+  </td>
   <td>
     <button class="balance-row" row="{{buttoncounter.next}}" type="button">Balance</button>
   </td>
@@ -57,6 +68,7 @@
 </table>
 <input type="submit" value="Submit" />
 </form>
+
 <script>
 function update(){
   var debit = 0;
@@ -148,6 +160,12 @@ $(document).ready(function(){
   $("#datepicker").datepicker({
     altField:"#id_bilag-dato",
     altFormat:"yy-mm-dd"
+  });
+  $("#id_bilag-dato").hide();
+  $("#id_external-id").autocompleteFill({
+    'server-url'  : "/regnskap/registrer/externalActorJSON",
+    'match_order' : ['name', 'email', 'adress'],
+    'prefix'      : "id_external-",
   });
 });
   

@@ -9,25 +9,31 @@ from decimal import *
 class BilagForm(forms.ModelForm):
     class Meta:
         model = Bilag
-        exclude = ('bilagsnummer',)
+        exclude = ('external_actor',)
 
-def kontoFilterToChoice():
-    types = [('','')]
-    #reverse sort to get them out in correct order using pop()
-    kontos  = list(Konto.objects.order_by('-nummer').all())
-    konto   = kontos.pop()
-    print 'filter'
-    try:
-        for i, kategori in Konto.AVAILABLE_KONTO_TYPE:
-            subtypes = []
-            while konto.kontoType == i:
-                subtypes.append((konto.nummer, str(konto.nummer) + ' ' + konto.tittel,))
-                konto = kontos.pop() #last element
+class External_ActorForm(forms.ModelForm):
+    class Meta:
+        model = Exteral_Actor
+        widgets = {
+            'adress': forms.Textarea(attrs={'cols': 20, 'rows': 4}),
+        }
+
+class kontoFilterToChoice(object):
+    def __iter__(self):
+        types = [('','')]
+        #reverse sort to get them out in correct order using pop()
+        kontos  = list(Konto.objects.order_by('-nummer').all())
+        konto   = kontos.pop()
+        try:
+            for i, kategori in Konto.AVAILABLE_KONTO_TYPE:
+                subtypes = []
+                while konto.kontoType == i:
+                    subtypes.append((konto.nummer, str(konto.nummer) + ' ' + konto.tittel,))
+                    konto = kontos.pop() #last element
+                types.append([kategori, subtypes])
+        except IndexError: #kontos.pop() when the list is emptpy
             types.append([kategori, subtypes])
-    except IndexError: #kontos.pop() when the list is emptpy
-        types.append([kategori, subtypes])
-    print types
-    return types
+        return iter(types)
 
 class InnslagForm(forms.Form):
     kontos = forms.TypedChoiceField(
