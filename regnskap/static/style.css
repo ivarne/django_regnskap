@@ -9,7 +9,7 @@ ul.messages > li.debug{
 ul.messages > li.info{
 	background-color:yellow;
 }
-ul.messages > li.sucess{
+ul.messages > li.success{
 	background-color:green;
 }
 ul.messages > li.warning{

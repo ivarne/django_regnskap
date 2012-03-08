@@ -9,13 +9,13 @@
 {{ bilagform.dato }}<div id="datepicker"></div>{{ bilagsform.dato.errors }}
 <div>
   <label for="id_external-id">Søk etter kontakt:</label>
-  <input id="id_external-id" type="text" maxlenght="100" name="external-id"/>
+  <input id="id_external-id" type="text" maxlenght="100" name="external-id" value="{{ external_id }}"/>
   <table>{{ external_a_form }}</table>
 </div>
 
 <div style="clear:both;"></div>
 
-{{ bilagform.beskrivelse.label }} {{ bilagform.beskrivelse }}{{ bilagsform.beskrivelse.errors }}<br/>
+{{ bilagform.beskrivelse.label }} {{ bilagform.beskrivelse }}{{ bilagform.beskrivelse.errors }}<br/>
 
 <table>{{ innslagform.management_form }}
 <tr>
@@ -159,7 +159,9 @@ $(document).ready(function(){
   $(".kontoSelect").change(colorGrid);
   $("#datepicker").datepicker({
     altField:"#id_bilag-dato",
-    altFormat:"yy-mm-dd"
+    altFormat:"yy-mm-dd",
+    changeMonth: true,
+    changeYear: true,
   });
   $("#id_bilag-dato").hide();
   $("#id_external-id").autocompleteFill({

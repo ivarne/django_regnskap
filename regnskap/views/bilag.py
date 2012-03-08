@@ -13,21 +13,17 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 from django.core import serializers
 
-def getExternal(request):
-    try:
-        inst = Exteral_Actor.objects.get(id = int(request.POST['external-id']))
-    except:
-        inst = None
-    return External_ActorForm(request.POST, prefix="external", instance = inst)
-
-
 def registrerBilagForm(request):
     NumberOfInnslag = 5
     InnslagFormSet = formset_factory(InnslagForm, extra = NumberOfInnslag, formset=BaseInnslagFormSet)
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
-        external_actor = getExternal(request)
+        try:
+            inst = Exteral_Actor.objects.get(id = int(request.POST['external-id']))
+        except:
+            inst = None
+        external_actor = External_ActorForm(request.POST, prefix="external", instance = inst)
         if bilagform.is_valid() and innslagform.is_valid():
             if(external_actor.is_valid()):
                 external_actor.save()
@@ -46,10 +42,13 @@ def registrerBilagForm(request):
                     inn.save()
             messages.add_message(request, messages.SUCCESS, 'Bilag lagret.')
             return HttpResponseRedirect(request.path)
+        external_id = request.POST['external-id']
+        messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')
     else:
         bilagform   = BilagForm(prefix="bilag")
         innslagform = InnslagFormSet(prefix="innslag")
         external_actor = External_ActorForm(prefix="external")
+        external_id = '';
     return render_to_response('bilagRegistrering.html', {
         'bilagform'     : bilagform,
         'innslagform'   : innslagform,
@@ -57,6 +56,7 @@ def registrerBilagForm(request):
         'url'           : request.path,
         'buttoncounter' : iter(xrange(NumberOfInnslag)),
         'searchcounter' : iter(xrange(NumberOfInnslag)),
+        'external_id'   : external_id
     },RequestContext(request))
     
 def ajaxExternalActors(request):

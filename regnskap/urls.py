@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^dropbox/connect$', module + 'dropbox_integrations.connect'),
     url(r'^drpobox/export/(\d{4})$', module + 'dropbox_integrations.saveBackup'),
     url(r'^rapport/year/(\d{4})$' , module + 'rapport.showYear'),
+    url(r'^$', module + 'menues.frontpage'),
 )

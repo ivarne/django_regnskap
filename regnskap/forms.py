@@ -17,7 +17,7 @@ class External_ActorForm(forms.ModelForm):
             'adress': forms.Textarea(attrs={'cols': 20, 'rows': 4}),
         }
 
-class kontoFilterToChoice(object):
+class _kontoFilterToChoice(object):
     def __iter__(self):
         types = [('','')]
         #reverse sort to get them out in correct order using pop()
@@ -37,7 +37,7 @@ class kontoFilterToChoice(object):
 class InnslagForm(forms.Form):
     kontos = forms.TypedChoiceField(
         coerce = lambda id: Konto.objects.get(nummer=id),
-        choices = kontoFilterToChoice(),
+        choices = _kontoFilterToChoice(),
         empty_value = None,
         widget = forms.Select(attrs={'tabindex':'-1'})
     )
