@@ -2,8 +2,8 @@
 ## standard includes
 import os
 ## my files import
-from regnskap.models import *
-from regnskap.forms import *
+from django_regnskap.regnskap.models import *
+from django_regnskap.regnskap.forms import *
 ## django import
 from django.shortcuts import render_to_response, render
 from django.forms.formsets import formset_factory

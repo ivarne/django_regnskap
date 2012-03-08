@@ -9,7 +9,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-AUTH_PROFILE_MODULE = 'regnskap.UserProfile'
+AUTH_PROFILE_MODULE = 'djaong_regnskap.regnskap.UserProfile'
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -108,7 +108,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'regnskap',
+    'django_regnskap.regnskap',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

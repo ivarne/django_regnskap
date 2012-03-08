@@ -1,5 +1,5 @@
 from django.contrib import admin
-from regnskap.models import *
+from django_regnskap.regnskap.models import *
 
 class BilagAdmin(admin.ModelAdmin):
     list_display = ('bilagsnummer', 'dato',) # 'innslag')

@@ -2,7 +2,7 @@
 django view methods to interact with the dropbox api
 """
 
-from regnskap.lib.export import ExelYearView
+from django_regnskap.regnskap.lib.export import ExelYearView
 
 from dropbox import client, session
 from oauth.oauth import OAuthToken
@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 
-from regnskap.models import UserProfile
+from django_regnskap.regnskap.models import UserProfile
 
 from pprint import pprint
 

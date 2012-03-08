@@ -1,7 +1,7 @@
 """
 Collection of exportation routines
 """
-from regnskap.models import *
+from django_regnskap.regnskap.models import *
 import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
 import datetime

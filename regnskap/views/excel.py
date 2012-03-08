@@ -1,4 +1,4 @@
-from regnskap.lib.export import ExelYearView
+from django_regnskap.regnskap.lib.export import ExelYearView
 from django.http import HttpResponse
 
 def export(request, year):

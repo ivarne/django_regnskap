@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from regnskap.models import *
+from django_regnskap.regnskap.models import *
 
 
 from django.template import RequestContext
