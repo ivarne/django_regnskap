@@ -8,6 +8,7 @@
     <th>#</th>
     <th>Dato</th>
     <th>Beskrivelse</th>
+    <th>Hvem?</th>
     <th>Konto</th>
     <th>Debet</th>
     <th>Kredit</th>
@@ -19,6 +20,7 @@
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.bilagsnummer|default:"&nbsp;"}}</td>
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.beskrivelse|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.external_actor|default:"&nbsp;"}}</td>
     <td class="topBorder">{{innslag.konto|default:"&nbsp;"}}</td>
     <td class="topBorder">{{innslag.debit|default_if_none:"&nbsp;"}}</td>
     <td class="topBorder">{{innslag.kredit|default_if_none:"&nbsp;"}}</td>

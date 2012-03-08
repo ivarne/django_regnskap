@@ -15,6 +15,7 @@
     var searchdiv = $("<div>").addClass('search-div');
     searchdiv.hide()
     this.after(searchdiv);
+    
     var contacts = [];
     $.getJSON(settings["server-url"], function(c) {
       //restructure json (the default django export does not suit my needs)

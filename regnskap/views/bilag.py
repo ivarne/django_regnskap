@@ -13,6 +13,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 from django.core import serializers
 
+def getExternal(request):
+    try:
+        inst = Exteral_Actor.objects.get(id = int(request.POST['external-id']))
+    except:
+        inst = None
+    return External_ActorForm(request.POST, prefix="external", instance = inst)
+
 
 def registrerBilagForm(request):
     NumberOfInnslag = 5
@@ -20,8 +27,12 @@ def registrerBilagForm(request):
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
-        external_actor = External_ActorForm(request.POST, prefix="external")
+        external_actor = getExternal(request)
         if bilagform.is_valid() and innslagform.is_valid():
+            if(external_actor.is_valid()):
+                external_actor.save()
+                b = bilagform.instance
+                b.external_actor = external_actor.instance
             bilagform.save()
             for innslag in innslagform:
                 cd = innslag.cleaned_data

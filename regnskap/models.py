@@ -27,7 +27,7 @@ class Exteral_Actor(models.Model):
     email = models.EmailField(blank = True)
     adress = models.TextField(blank = True)
     org_nr = models.CharField(blank = True, max_length = 100)
-    archived = models.DateField(editable = False, null=True)
+    archived = models.DateField(editable = False, blank=True, null=True)
     def __unicode__(self):
         return str(self.id) + " " + self.name
 
@@ -36,7 +36,7 @@ class Bilag(models.Model):
     bilagsnummer = models.IntegerField(editable = False) #Automatic?
     dato = models.DateField()
     beskrivelse = models.CharField(max_length=256)
-    external_actor = models.ForeignKey(Exteral_Actor, null = True)
+    external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True)
     def __unicode__(self):
         return str(self.bilagsnummer)
     def _getKredit(self):

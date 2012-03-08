@@ -9,7 +9,6 @@ from decimal import *
 class BilagForm(forms.ModelForm):
     class Meta:
         model = Bilag
-        exclude = ('external_actor',)
 
 class External_ActorForm(forms.ModelForm):
     class Meta:
