@@ -90,6 +90,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django_regnskap.utilities.enforce_login_middleware.EnforceLoginMiddleware',
 )
 
 ROOT_URLCONF = 'django_regnskap.urls'
