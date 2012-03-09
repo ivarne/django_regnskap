@@ -29,7 +29,7 @@ class Exteral_Actor(models.Model):
     org_nr = models.CharField(blank = True, max_length = 100)
     archived = models.DateField(editable = False, blank=True, null=True)
     def __unicode__(self):
-        return str(self.id) + " " + self.name
+        return self.name + ( " (%d)" % self.id )
 
 class Bilag(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable = False)
@@ -94,3 +94,38 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     dropbox_token = models.CharField(max_length=256)
     
+def getKontoaggregation(when = "YEAR(`dato`) = %(year)s", kontoType = None, **params):
+    """
+    In default case this should be called with
+    getKontoaggregation(year = 2012, kontoType = '4,5,6,7,8')
+    for expences and
+    getKontoaggregation(year = 2012, kontoType = 3)
+    for income
+    """
+    result_query = """SELECT *,
+    (SELECT SUM(`i`.`belop`)
+        FROM `%(i)s` as `i`
+        LEFT JOIN `%(b)s` as `b`
+        ON `b`.`id` = `i`.`bilag_id`
+        WHERE `i`.`konto_id` = `k`.`nummer`
+            AND %(when)s
+            AND `i`.`type` = 0
+    ) as `sum_debit`,
+    (SELECT sum(`i`.`belop`)
+        FROM `%(i)s` as `i`
+        LEFT JOIN `%(b)s` AS `b`
+        ON `b`.`id` = `i`.`bilag_id`
+        WHERE `i`.`konto_id` = `k`.`nummer`
+            AND %(when)s
+            AND `i`.`type` = 1
+    ) AS `sum_kredit`
+    FROM `%(k)s` as `k` 
+    WHERE `k`.`kontoType` IN (%(kontoType)s)
+    ORDER BY `k`.`nummer`""" % {
+        'k': Konto._meta.db_table,
+        'b': Bilag._meta.db_table,
+        'i': Innslag._meta.db_table,
+        'when': when,
+        'kontoType': kontoType,
+    }
+    return Konto.objects.raw(result_query, params)

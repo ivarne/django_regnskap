@@ -34,8 +34,8 @@ class ExelYearView(object):
         kontoList = list(Konto.objects.all().order_by('nummer'))
         bilagList = Bilag.objects.filter(dato__year = year).order_by('bilagsnummer')
         self._generateRegnskapArk(kontoList,bilagList)
-        self._generateResultArk(kontoList,bilagList)
-        self._generateBalanseArk()
+        self._generateResultArk(year)
+        self._generateBalanseArk(year)
     
     def getExcelFileStream(self):
         return save_virtual_workbook(self._wb)
@@ -52,17 +52,20 @@ class ExelYearView(object):
         ra.cell("B2").value = "Dato"
         ra.cell("C1").value = "Beskrivelse"
         ra.cell("C2").value = ""
+        ra.cell("D1").value = "Hvem?"
+        ra.cell("D2").value = ""
         #write konto numbers and labels (first two lines)
         kontoIndex = {} # kontonummer -> column pos
         for i, konto in enumerate(kontoList):
-            ra.cell(row=0,column=i+3).value = konto.tittel
-            ra.cell(row=1,column=i+3).value = konto.nummer
-            kontoIndex[konto.nummer] = i+3;
+            ra.cell(row=0,column=i+4).value = konto.tittel
+            ra.cell(row=1,column=i+4).value = konto.nummer
+            kontoIndex[konto.nummer] = i+4;
         #write all bilag
         for i, bilag in enumerate(bilagList):
             ra.cell(row=i+2, column=0).value = bilag.bilagsnummer
             ra.cell(row=i+2, column=1).value = bilag.dato
             ra.cell(row=i+2, column=2).value = bilag.beskrivelse
+            ra.cell(row=i+2, column=3).value = unicode(bilag.external_actor)
             for innslag in bilag.innslag.all():
                 c = kontoIndex[innslag.konto.nummer]
                 if(innslag.isDebit):
@@ -70,31 +73,43 @@ class ExelYearView(object):
                 else: #negativ for kredit
                     ra.cell(row=i+2, column = c).value = -innslag.belop
     
-    def _generateResultArk(self, kontoList,bilagList):
+    def _generateResultArk(self, year):
         ra = self._wb.worksheets[1]
         ra.cell("A1").value = "Resultatregnskap"
-        ra.cell("C3").value = "Kostnader"
-        ra.cell("D3").value = "Inntekter"
-        kostKonto = list(Konto.objects.filter(kontoType__gte = 4))
-        intKonto =list(Konto.objects.filter(kontoType = 3))
+        ra.cell("B3").value = "Kostnader"
+        ra.cell("C3").value = "Inntekter"
+        intKonto =list(getKontoaggregation(year = int(year), kontoType = '3'))
+        kostKonto = list(getKontoaggregation(year = int(year), kontoType = '4,5,6,7,8,9'))
         maxLen = max(len(kostKonto),len(intKonto))
         for i, konto in enumerate(kostKonto):
-            ra.cell(row=i+3, column=0).value = konto.nummer
-            ra.cell(row=i+3, column=1).value = konto.tittel
-            ra.cell(row=i+3, column=2).value = "=SUM(2,3)"
+            ra.cell(row=i+3, column=0).value = unicode(konto)
+            ra.cell(row=i+3, column=1).value = int(konto.sum_debit or 0) - int(konto.sum_kredit or 0)
         for i, konto in enumerate(intKonto):
-            ra.cell(row=i+3, column=3).value = konto.nummer
-            ra.cell(row=i+3, column=4).value = konto.tittel
-            ra.cell(row=i+3, column=5).value = "=SUM(2,3)"
-        ra.cell(row=maxLen+3,column=1).value = "Sum:"
-        ra.cell(row=maxLen+3,column=4).value = "Sum:"
-        ra.cell(row=maxLen+3,column=2).value = "=SUM(C4:C%d)" % (maxLen+3)
-        ra.cell(row=maxLen+3,column=5).value = "=SUM(F4:F%d)" % (maxLen+3)
+            ra.cell(row=i+3, column=2).value = unicode(konto)
+            ra.cell(row=i+3, column=3).value = int(konto.sum_kredit or 0) - int(konto.sum_debit or 0)
+        ra.cell(row=maxLen+3,column=0).value = "Sum:"
+        ra.cell(row=maxLen+3,column=2).value = "Sum:"
+        ra.cell(row=maxLen+3,column=1).value = "=SUM(B4:B%d)" % (maxLen+3)
+        ra.cell(row=maxLen+3,column=3).value = "=SUM(D4:D%d)" % (maxLen+3)
     
-    def _generateBalanseArk(self):
+    def _generateBalanseArk(self, year):
         ba = self._wb.worksheets[2]
-        ba.cell("A1").value = "Balanse oppsett er ikke implementert"
-    
+        ba.cell("A1").value = "Balanseregnskap"
+        ba.cell("B3").value = "Eiendeler"
+        ba.cell("C3").value = "Egenkapital og Gjeld"
+        eiendelKonto =list(getKontoaggregation(year = int(year), kontoType = '1'))
+        finansKonto = list(getKontoaggregation(year = int(year), kontoType = '2'))
+        maxLen = max(len(eiendelKonto),len(finansKonto))
+        for i, konto in enumerate(eiendelKonto):
+            ba.cell(row=i+3, column=0).value = unicode(konto)
+            ba.cell(row=i+3, column=1).value = int(konto.sum_debit or 0) - int(konto.sum_kredit or 0)
+        for i, konto in enumerate(finansKonto):
+            ba.cell(row=i+3, column=2).value = unicode(konto)
+            ba.cell(row=i+3, column=3).value = int(konto.sum_kredit or 0) - int(konto.sum_debit or 0)
+        ba.cell(row=maxLen+3,column=0).value = "Sum:"
+        ba.cell(row=maxLen+3,column=2).value = "Sum:"
+        ba.cell(row=maxLen+3,column=1).value = "=SUM(B4:B%d)" % (maxLen+3)
+        ba.cell(row=maxLen+3,column=3).value = "=SUM(D4:D%d)" % (maxLen+3)
 
 if __name__ == '__main__':
     excel = ExcelYearView(2011)

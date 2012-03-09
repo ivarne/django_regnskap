@@ -8,9 +8,18 @@
 
 {{ bilagform.dato }}<div id="datepicker"></div>{{ bilagsform.dato.errors }}
 <div>
-  <label for="id_external-id">Søk etter kontakt:</label>
-  <input id="id_external-id" type="text" maxlenght="100" name="external-id" value="{{ external_id }}"/>
-  <table>{{ external_a_form }}</table>
+  <h3>Hvem?</h3>
+  <table>
+    <tr>
+      <th>
+        <label for="id_external-id">Id:</label>
+      </th>
+      <td>
+        <input id="id_external-id" type="text" maxlenght="100" name="external-id" value="{{ external_id }}"/> (Søk etter eksisterende kontakter her)
+      </td>
+    </tr>
+    {{ external_a_form }}
+  </table>
 </div>
 
 <div style="clear:both;"></div>
