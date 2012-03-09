@@ -10,6 +10,13 @@ from models import *
 #  så jeg har måttet endre første siffer i kontoplan for å få ting til å stemme
 #  med de nye kategoriene
 
+
+
+
+
+
+
+
 kontos = [
 (u"Leie Hybel", 313),
 (u"Div. leie", 321),
@@ -25,14 +32,14 @@ kontos = [
 (u"Renter + gebyr", 821),
 (u"Avskr. invent.", 711),
 (u"Avskr. bygn.", 721),
-(u"Vaktm. konto", 111),
-(u"Sparebankenpluss", 112),
-(u"M. TKS/NKSS", 221),
-(u"M. leie", 223),
-(u"M. div.", 224),
-(u"M. vaktmester", 225),
-(u"Inventar/utstyr", 111),
-(u"Bygninger", 121),
+(u"Vaktm. konto", 191),
+(u"Sparebankenpluss", 190),
+(u"M. TKS/NKSS", 121),
+(u"M. leie", 150),
+(u"M. div.", 151),
+(u"M. vaktmester", 125),
+(u"Inventar/utstyr", 110),
+(u"Bygninger", 120),
 (u"Lån H. legat", 212),
 (u"Lån Kapellråd", 214),
 (u"Nøkkelfond", 221),

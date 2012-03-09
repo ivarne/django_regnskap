@@ -33,7 +33,15 @@
       }
     });
     this.focusout(function(){
-      setTimeout(function(){searchdiv.hide();searchdiv.empty()},20);
+      setTimeout(function(){
+        searchdiv.hide();
+        searchdiv.empty();
+      },80);
+      var v = parseInt(this.value);
+      if(isNaN(v)){
+        v = "";
+      }
+      this.value = v;
     });
     this.keyup(function(){
       var reg = new RegExp(this.value,"i");

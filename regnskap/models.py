@@ -15,8 +15,9 @@ class Konto(models.Model):
       (7,'Av- og nedskrivninger'),
       (8,'Finans')
     )
+    id = models.AutoField(primary_key=True)
     kontoType = models.IntegerField(choices=AVAILABLE_KONTO_TYPE)
-    nummer = models.IntegerField(primary_key=True)
+    nummer = models.IntegerField(unique=True)
     tittel = models.CharField(max_length=256)
 
     def __unicode__(self):
