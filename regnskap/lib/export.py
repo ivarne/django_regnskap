@@ -83,10 +83,10 @@ class ExelYearView(object):
         maxLen = max(len(kostKonto),len(intKonto))
         for i, konto in enumerate(kostKonto):
             ra.cell(row=i+3, column=0).value = unicode(konto)
-            ra.cell(row=i+3, column=1).value = int(konto.sum_debit or 0) - int(konto.sum_kredit or 0)
+            ra.cell(row=i+3, column=1).value = float(konto.sum_debit or 0) - float(konto.sum_kredit or 0)
         for i, konto in enumerate(intKonto):
             ra.cell(row=i+3, column=2).value = unicode(konto)
-            ra.cell(row=i+3, column=3).value = int(konto.sum_kredit or 0) - int(konto.sum_debit or 0)
+            ra.cell(row=i+3, column=3).value = float(konto.sum_kredit or 0) - float(konto.sum_debit or 0)
         ra.cell(row=maxLen+3,column=0).value = "Sum:"
         ra.cell(row=maxLen+3,column=2).value = "Sum:"
         ra.cell(row=maxLen+3,column=1).value = "=SUM(B4:B%d)" % (maxLen+3)
@@ -102,10 +102,10 @@ class ExelYearView(object):
         maxLen = max(len(eiendelKonto),len(finansKonto))
         for i, konto in enumerate(eiendelKonto):
             ba.cell(row=i+3, column=0).value = unicode(konto)
-            ba.cell(row=i+3, column=1).value = int(konto.sum_debit or 0) - int(konto.sum_kredit or 0)
+            ba.cell(row=i+3, column=1).value = float(konto.sum_debit or 0) - float(konto.sum_kredit or 0)
         for i, konto in enumerate(finansKonto):
             ba.cell(row=i+3, column=2).value = unicode(konto)
-            ba.cell(row=i+3, column=3).value = int(konto.sum_kredit or 0) - int(konto.sum_debit or 0)
+            ba.cell(row=i+3, column=3).value = float(konto.sum_kredit or 0) - float(konto.sum_debit or 0)
         ba.cell(row=maxLen+3,column=0).value = "Sum:"
         ba.cell(row=maxLen+3,column=2).value = "Sum:"
         ba.cell(row=maxLen+3,column=1).value = "=SUM(B4:B%d)" % (maxLen+3)
