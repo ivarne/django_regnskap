@@ -27,7 +27,7 @@ class _kontoFilterToChoice(object):
             for i, kategori in Konto.AVAILABLE_KONTO_TYPE:
                 subtypes = []
                 while konto.kontoType == i:
-                    subtypes.append((konto.nummer, str(konto.nummer) + ' ' + konto.tittel,))
+                    subtypes.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
                     konto = kontos.pop() #last element
                 types.append([kategori, subtypes])
         except IndexError: #kontos.pop() when the list is emptpy
