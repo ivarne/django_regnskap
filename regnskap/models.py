@@ -59,7 +59,6 @@ class Innslag(models.Model):
       (0,'Debit'),
       (1,'Kredit')
     )
-    prosjekt = models.ForeignKey('Prosjekt')
     bilag = models.ForeignKey(Bilag, related_name='innslag')
     konto = models.ForeignKey(Konto)
     

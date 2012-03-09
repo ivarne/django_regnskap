@@ -35,7 +35,6 @@ def registrerBilagForm(request):
                 if cd: # do not save the empty innslags
                     inn = Innslag()
                     inn.bilag = bilagform.instance
-                    inn.prosjekt = Prosjekt.objects.get(id = 1)
                     inn.konto = cd["kontos"]
                     inn.belop = cd["debit"] or cd["kredit"]
                     inn.type = not cd["debit"] or 0

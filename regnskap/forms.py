@@ -36,7 +36,7 @@ class _kontoFilterToChoice(object):
 
 class InnslagForm(forms.Form):
     kontos = forms.TypedChoiceField(
-        coerce = lambda id: Konto.objects.get(nummer=id),
+        coerce = lambda id: Konto.objects.get(id=id),
         choices = _kontoFilterToChoice(),
         empty_value = None,
         widget = forms.Select(attrs={'tabindex':'-1'})
