@@ -53,6 +53,8 @@ class Bilag(models.Model):
         self.bilagsnummer = previous + 1
         super(Bilag,self).save(*args, **kwargs)
         return self.bilagsnummer
+    def __unicode__(self):
+        return "%s-%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse)
 
 class Innslag(models.Model):
     AVAILABLE_TYPE = (

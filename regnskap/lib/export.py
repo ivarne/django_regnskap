@@ -65,7 +65,7 @@ class ExelYearView(object):
             ra.cell(row=i+2, column=0).value = bilag.bilagsnummer
             ra.cell(row=i+2, column=1).value = bilag.dato
             ra.cell(row=i+2, column=2).value = bilag.beskrivelse
-            ra.cell(row=i+2, column=3).value = unicode(bilag.external_actor)
+            ra.cell(row=i+2, column=3).value = unicode(bilag.external_actor) or ""
             for innslag in bilag.innslag.all():
                 c = kontoIndex[innslag.konto.nummer]
                 if(innslag.isDebit):
