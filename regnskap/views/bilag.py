@@ -39,7 +39,7 @@ def registrerBilagForm(request):
                     inn.belop = cd["debit"] or cd["kredit"]
                     inn.type = not cd["debit"] or 0
                     inn.save()
-            messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %d.' % bilagform.instance.bilagsnummer)
+            messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %d-%d.' % (bilagform.instance.dato.year , bilagform.instance.bilagsnummer))
             return HttpResponseRedirect(request.path)
         external_id = request.POST['external-id']
         messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')

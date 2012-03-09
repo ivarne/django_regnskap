@@ -109,7 +109,7 @@ def getKontoaggregation(when = "YEAR(`dato`) = %(year)s", kontoType = None, **pa
         FROM `%(i)s` as `i`
         LEFT JOIN `%(b)s` as `b`
         ON `b`.`id` = `i`.`bilag_id`
-        WHERE `i`.`konto_id` = `k`.`nummer`
+        WHERE `i`.`konto_id` = `k`.`id`
             AND %(when)s
             AND `i`.`type` = 0
     ) as `sum_debit`,
@@ -117,7 +117,7 @@ def getKontoaggregation(when = "YEAR(`dato`) = %(year)s", kontoType = None, **pa
         FROM `%(i)s` as `i`
         LEFT JOIN `%(b)s` AS `b`
         ON `b`.`id` = `i`.`bilag_id`
-        WHERE `i`.`konto_id` = `k`.`nummer`
+        WHERE `i`.`konto_id` = `k`.`id`
             AND %(when)s
             AND `i`.`type` = 1
     ) AS `sum_kredit`
