@@ -3,6 +3,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Prosjekt(models.Model):
+    navn = models.CharField(max_length=256)
+    beskrivelse = models.TextField()
+
+class ProsjektManager(models.Manager):
+    def project(self, project):
+        return self.filter(project = project)
+
+class KontoManager(ProsjektManager):
+    def sum(when = "YEAR(`dato`) = %(year)s",):
+        pass
+
 # Kontoplan
 class Konto(models.Model):
     AVAILABLE_KONTO_TYPE = (
@@ -19,7 +31,9 @@ class Konto(models.Model):
     kontoType = models.IntegerField(choices=AVAILABLE_KONTO_TYPE)
     nummer = models.IntegerField(unique=True)
     tittel = models.CharField(max_length=256)
-
+    prosjekt = models.ForeignKey(Prosjekt)
+    objects = KontoManager()
+    
     def __unicode__(self):
         return unicode(self.nummer) +' '+self.tittel
     def getLoadedDebit(self):
@@ -37,6 +51,9 @@ class Exteral_Actor(models.Model):
     adress = models.TextField(blank = True)
     org_nr = models.CharField(blank = True, max_length = 100)
     archived = models.DateField(editable = False, blank=True, null=True)
+    prosjekt = models.ForeignKey(Prosjekt)
+    objects = ProsjektManager()
+
     def __unicode__(self):
         return self.name + ( " (%d)" % self.id )
 
@@ -46,6 +63,9 @@ class Bilag(models.Model):
     dato = models.DateField()
     beskrivelse = models.CharField(max_length=256)
     external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True)
+    prosjekt = models.ForeignKey(Prosjekt)
+    objects = ProsjektManager()
+    
     def __unicode__(self):
         return str(self.bilagsnummer)
     def _getKredit(self):
@@ -96,10 +116,7 @@ class Innslag(models.Model):
     debit = property(_debitValue)
     kredit = property(_kreditValue)
 
-class Prosjekt(models.Model):
-    navn = models.CharField(max_length=256)
-    beskrivelse = models.TextField()
-    
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     dropbox_token = models.CharField(max_length=256)
