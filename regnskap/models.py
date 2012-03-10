@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -12,8 +13,36 @@ class ProsjektManager(models.Manager):
         return self.filter(project = project)
 
 class KontoManager(ProsjektManager):
-    def sum(when = "YEAR(`dato`) = %(year)s",):
-        pass
+    def sum(year, when = "YEAR(`dato`) = %(year)s"):
+        subsql = '''SELECT SUM(`i`.`belop`)
+            FROM `%(i)s` as `i`
+            LEFT JOIN `%(b)s` as `b`
+            ON `b`.`id` = `i`.`bilag_id`
+            WHERE `i`.`konto_id` = `%(k)s`.`id`
+                AND %(when)s
+                AND `i`.`type` = %(type)s'''
+        
+        return self.extra(
+            select = {
+                'sum_debit': subsql % {
+                    'b': Bilag._meta.db_table,
+                    'i': Innslag._meta.db_table,
+                    'k': Konto._meta.db_table,
+                    'when': when,
+                    'kontoType': kontoType,
+                    'type' : 0
+                    },
+                'sum_kredit': subsql % {
+                    'b': Bilag._meta.db_table,
+                    'i': Innslag._meta.db_table,
+                    'k': Konto._meta.db_table,
+                    'when': when,
+                    'kontoType': kontoType,
+                    'type' : 0
+                    },
+            },
+            select_params = (arg,arg)
+            )
 
 # Kontoplan
 class Konto(models.Model):
@@ -25,7 +54,8 @@ class Konto(models.Model):
       (5,'Lonnskonstnad'),
       (6,'Annen driftskostnad'),
       (7,'Av- og nedskrivninger'),
-      (8,'Finans')
+      (8,'Finans'),
+      (9,u'Oppgjørskontoer')
     )
     id = models.AutoField(primary_key=True)
     kontoType = models.IntegerField(choices=AVAILABLE_KONTO_TYPE)
@@ -36,13 +66,10 @@ class Konto(models.Model):
     
     def __unicode__(self):
         return unicode(self.nummer) +' '+self.tittel
+    # views can not do calculations
     def getLoadedDebit(self):
-#        if(self.sum_kredit == None or self.sum_debit == None):
-#            raise ValueError("Konto was not loaded with aggregation")
         return (self.sum_debit or 0) - (self.sum_kredit or 0)
     def getLoadedKredit(self):
-#        if(self.sum_kredit == None or self.sum_debit == None):
-#            raise ValueError("Konto was not loaded with aggregation")
         return (self.sum_kredit or 0) - (self.sum_debit or 0)
 
 class Exteral_Actor(models.Model):
@@ -65,9 +92,6 @@ class Bilag(models.Model):
     external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True)
     prosjekt = models.ForeignKey(Prosjekt)
     objects = ProsjektManager()
-    
-    def __unicode__(self):
-        return str(self.bilagsnummer)
     def _getKredit(self):
         self.innslag.filter(type=0)
     def _getDebit(self):
