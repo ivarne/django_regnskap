@@ -1,0 +1,1559 @@
+{% extends "base.html" %}
+{% block title %}{{ flatpage.title }}{% endblock %}
+
+{% block content %}
+<style type="text/css">
+<!--
+body,td,th {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px;}
+-->
+</style>
+
+
+<p> <a href="http://www.eholding.no">Bulldog</a> | <a href="http://www.eholding.no/regnskap/">Regnskap</a> | <a href="http://www.eholding.no/regnskap/norsk-standard-kontoplan.htm">Norsk
+    Standard kontoplan</a> | <a href="http://www.eholding.no/regnskap/ordbok-oekonomi-regnskap.htm">Ordbok
+    innen &oslash;konomisk styring </a></p>
+
+<table border="0" width="600">
+  <tr>
+    <td width="100%" valign="top"><div class="Section1">
+        <h1>{{ flatpage.title }}</h1>
+        <h3>Oppstillingsplan for balanse</h3>
+        <table border="1" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="420" valign="top"><b>EIENDELER </b></td>
+
+            <td width="151" valign="top"><b>Dette år </b></td>
+            <td width="137" valign="top"><b>Forrige år </b></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b><i>Anleggsmidler </i></b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Immaterielle
+                    eiendeler </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Forskning
+                  og utvikling </td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Konsesjoner,
+                  patenter, lisenser, varemerker og lignende rettigh. </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top">Utsatt
+                  skattefordel </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Goodwill </td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    immaterielle eiendeler </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Varige
+                    driftsmidler </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top">Tomter,
+                  bygninger og annen fast eiendom </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Andre
+                  anleggsmidler </td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Driftsløsøre,
+                  inventar ol. </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    varige driftsmidler </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Finansielle
+                    anleggsmidler </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top">Lån
+                  til foretak i samme konsern </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Investeringer
+                  i aksjer og andeler </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top">Obligasjoner
+                  og andre fordringer </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    finansielle anleggsmidler </b></td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top"><b><i>Sum
+                      anleggsmidler </i></b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b><i>Omløpsmidler </i></b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Varer </b></td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top"><b>Fordringer </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Kundefordringer </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top">Andre
+                  fordringer </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    fordringer </b></td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top"><b>Investeringer </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Markedsbaserte
+                  aksjer </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top">Andre
+                  aksjer </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Markedsbaserte
+                  obligasjoner </td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Andre
+                  obligasjoner </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    investeringer </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Bankinnskudd,
+                    kontanter og lignende </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b><i>Sum
+                      omløpsmidler </i></b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>SUM
+                    EIENDELER </b></td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+        </table>
+        <table border="1" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="420" valign="top"><b>EGENKAPITAL
+                    OG GJELD </b></td>
+            <td width="151" valign="top"><b>Dette år </b></td>
+
+            <td width="137" valign="top"><b>Forrige år </b></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b><i>Egenkapital </i></b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top"><b>Innskutt
+                    egenkapital </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Bundet
+                  egenkapital </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    innskutt egenkapital </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Opptjent
+                    egenkapital </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top">Fond
+                  for vurderingsforskjeller </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Annen
+                  egenkapital </td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    opptjent egenkapital </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b><i>Sum
+                      egenkapital </i></b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b><i>Gjeld </i></b></td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Avsetning
+                    for forpliktelser </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top">Pensjonsforpliktelser </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Uopptjent
+                  inntekt </td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Andre
+                  avsetninger for forpliktelser </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top"><b>Sum
+                    avsetning for forpliktelser </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Annen
+                    langsiktig gjeld </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Konvertible
+                  lån </td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Obligasjonslån </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top">Gjeld
+                  til kredittinstitusjoner </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Øvrig
+                  langsiktig gjeld </td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    annen langsiktig gjeld </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Kortsiktig
+                    gjeld </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top">Konvertible
+                  lån </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Sertifikatlån </td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Gjeld
+                  til kredittinstitusjoner </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top">Leverandørgjeld </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Betalbar
+                  skatt </td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Skyldige
+                  offentlige avgifter </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top">Utbytte </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">Annen
+                  kortsiktig gjeld </td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>Sum
+                    kortsiktig gjeld </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b><i>Sum
+                      gjeld </i></b></td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top">&nbsp;</td>
+            <td width="151" valign="top">&nbsp;</td>
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top"><b>SUM
+                    EGENKAPITAL OG GJELD </b></td>
+            <td width="151" valign="top">&nbsp;</td>
+
+            <td width="137" valign="top">&nbsp;</td>
+          </tr>
+        </table>
+        <p><b><font face="Arial" size="2" color="#000080">Oppstillingsplan
+              resultatregnskap </font></b></p>
+        <table border="1" cellspacing="0" cellpadding="0" height="482">
+          <tr>
+            <td width="420" valign="top" height="14"><p><b><font face="Arial" size="2" color="#000080">RESULTATREGNSKAP </font></b></p></td>
+            <td width="151" valign="top" height="14"><p align="center" style="text-align:center;"><b><font face="Arial" size="2" color="#000080">Dette år </font></b></p></td>
+
+            <td width="137" valign="top" height="14"><p align="center" style="text-align:center;"><b><font face="Arial" size="2" color="#000080">Forrige år </font></b></p></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="14"><p><b><font face="Arial" size="2" color="#000080">Inntekter </font></b></p></td>
+            <td width="151" valign="top" height="14">&nbsp;</td>
+            <td width="137" valign="top" height="14">&nbsp;</td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top" height="14"><p><font face="Arial" size="2" color="#000080">Salgsinntekter,
+                  avgiftspliktige </font></p></td>
+            <td width="151" valign="top" height="14">&nbsp;</td>
+            <td width="137" valign="top" height="14">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="14"><p><font face="Arial" size="2" color="#000080">Salgsinntekter,
+                  avgiftsfrie </font></p></td>
+            <td width="151" valign="top" height="14">&nbsp;</td>
+            <td width="137" valign="top" height="14">&nbsp;</td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="14"><p><font face="Arial" size="2" color="#000080">Salgsinntekter,
+                  utenfor avgiftsområdet </font></p></td>
+            <td width="151" valign="top" height="14">&nbsp;</td>
+            <td width="137" valign="top" height="14">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="14"><p><font face="Arial" size="2" color="#000080">Offentlige
+                  tilskudd </font></p></td>
+
+            <td width="151" valign="top" height="14">&nbsp;</td>
+            <td width="137" valign="top" height="14">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="14"><p><font face="Arial" size="2" color="#000080">Leieinntekter </font></p></td>
+            <td width="151" valign="top" height="14">&nbsp;</td>
+            <td width="137" valign="top" height="14">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Andre
+                  inntekter </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="19"><p><b><font face="Arial" size="2" color="#000080">Sum
+                    inntekter </font></b></p></td>
+            <td width="151" valign="top" height="19"></td>
+
+            <td width="137" valign="top" height="19"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17">&nbsp;</td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17"><p><b><font face="Arial" size="2" color="#000080">Kostnader </font></b></p></td>
+
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Varekostnad </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Lønn
+                  og annen godtgjørelse </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Annen
+                  driftskostnad </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="18"><p><b><font face="Arial" size="2" color="#000080">Sum
+                    kostnader </font></b></p></td>
+            <td width="151" valign="top" height="18"></td>
+            <td width="137" valign="top" height="18"></td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top" height="17">&nbsp;</td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="19"><p><b><i><font face="Arial" size="2" color="#000080">Driftsresultat </font></i></b></p></td>
+            <td width="151" valign="top" height="19"></td>
+            <td width="137" valign="top" height="19"></td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17">&nbsp;</td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17"><p><b><font face="Arial" size="2" color="#000080">Finansposter
+                    og ekstraordinære poster </font></b></p></td>
+
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Finansinntekt </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Finanskostnad </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Ekstraordinær
+                  inntekt </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17"><p><font face="Arial" size="2" color="#000080">Ekstraordinær
+                  kostnad </font></p></td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+          </tr>
+          <tr>
+
+            <td width="420" valign="top" height="19"><p><b><font face="Arial" size="2" color="#000080">Sum
+                    finansposter og ekstraordinære poster </font></b></p></td>
+            <td width="151" valign="top" height="19"></td>
+            <td width="137" valign="top" height="19"></td>
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="17">&nbsp;</td>
+            <td width="151" valign="top" height="17"></td>
+            <td width="137" valign="top" height="17"></td>
+
+          </tr>
+          <tr>
+            <td width="420" valign="top" height="19"><p><b><font face="Arial" size="2" color="#000080">ÅRSRESULTAT </font></b></p></td>
+            <td width="151" valign="top" height="19"></td>
+            <td width="137" valign="top" height="19"></td>
+          </tr>
+        </table>
+        <p><b><font face="Arial" size="2" color="#000080">Kontokodeklasser </font></b></p>
+
+        <p><font face="Arial" size="2" color="#000080">For
+            finansregnskap skal rammen for kontokoder ha åtte kodeklasser: </font></p>
+        <p><font face="Arial" size="2" color="#000080">Kodeklasse
+            1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Eiendeler </font></p>
+        <p><font face="Arial" size="2" color="#000080">Kodeklasse
+            2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Egenkapital
+            og gjeld </font></p>
+        <p><font face="Arial" size="2" color="#000080">Kodeklasse
+            3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgs-
+            og driftsinntekt </font></p>
+
+        <p><font face="Arial" size="2" color="#000080">Kodeklasse
+            4 til 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Driftskostnad </font></p>
+        <p><font face="Arial" size="2" color="#000080">Kodeklasse
+            8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Finansinntekt
+            og –kostnad, ekstraordinær inntekt og –kostnad og skatt </font></p>
+        <p><font face="Arial" size="2" color="#000080">Kodeklasse
+            9 er ledig og kan f.eks. brukes for internt regnskap. Kodeklasse
+            0 skal ikke brukes. </font></p>
+        <p><font color="#000080"><br>
+          <b><font face="Arial" size="2"><br>
+
+          Oversikt over kontokodeklasser og -grupper </font></b></font></p>
+        <table border="1" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="128" valign="top"><p><b><font face="Arial" size="2" color="#000080">1.
+                    Eiendeler </font></b></p></td>
+            <td width="123" valign="top"><p><b><font face="Arial" size="2" color="#000080">2.
+                    Egenkapital og gjeld </font></b></p></td>
+            <td width="132" valign="top"><p><b><font face="Arial" size="2" color="#000080">3.
+                    Salgs- og driftsinntekt </font></b></p></td>
+            <td width="123" valign="top"><p><b><font face="Arial" size="2" color="#000080">4.
+                    Varekostnad </font></b></p></td>
+
+            <td width="132" valign="top"><p><b><font face="Arial" size="2" color="#000080">5.
+                    Lønnskostnad </font></b></p></td>
+            <td width="246" colspan="2" valign="top"><p><b><font face="Arial" size="2" color="#000080">6.
+                    og&nbsp; 7.&nbsp; Annen driftskostnad, av- og nedskriving </font></b></p></td>
+            <td width="132" valign="top"><p><b><font face="Arial" size="2" color="#000080">8.
+                    Finansinntekt og kostnad, ekstraord. Inntekt og kostnad </font></b></p></td>
+          </tr>
+          <tr>
+
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">10.
+                  Immaterielle eiendeler ol. </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">20.
+                  Egenkapital </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">30.
+                  Salgsinntekt, avgiftspliktig </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">40.
+                  Forbruk av råvarer og innkjøpte halvfabrikata </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">50.
+                  Lønn til ansatte </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">60.
+                  Av- og nedskrivning </font></p></td>
+
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">70.
+                  Kostnad transportmidler </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">80.
+                  Finansinntekt </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">11.
+                  Tomter, bygninger, fast eiendom ol. </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">21.
+                  Avsetning for forpliktelser </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">31.
+                  Salgsinntekt, avgiftsfri </font></p></td>
+
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">41.
+                  Forbruk av varer under tilvirkning </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">51.
+                  Lønn til ansatte </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">61.
+                  Frakt og transportkostnad vedrørende salg </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">71.
+                  Kostnad og godtgjørelse for reise, diett, bil ol. </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">81.
+                  Finanskostnad </font></p></td>
+          </tr>
+
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">12.
+                  Transportmidler, inventar, maskiner ol. </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">22.
+                  Annen langsiktig gjeld </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">32.
+                  Salgsinntekt, utenfor avgiftsområde </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">42.
+                  Forbruk av ferdig tilvirkede varer </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">52.
+                  Fordel i arbeidsforhold </font></p></td>
+
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">62.
+                  Energi, brensel og vann vedrørende produksjon </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">72.
+                  Provisjonskostnad </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">82.
+                  Fri </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">13.
+                  Finansielle anleggsmidler </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">23.
+                  Kortsiktige konvertible lån, sertifikatlån og gjeld til kredittinstitusjoner </font></p></td>
+
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">33.
+                  Offentlig avgift vedrørende omsetning </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">43.
+                  Forbruk av varer for videresalg </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">53.
+                  Annen oppgavepliktig godtgjørelse </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">63.
+                  Kostnad lokaler </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">73.
+                  Salgs-, reklame- og representasjons-kostnad </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">83.
+                  Skattekostnad på </font></p>
+
+              <p><font face="Arial" size="2" color="#000080">ordinært
+                  resultat </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">14.
+                  Varelager og forskudd til leverandører </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">24.
+                  Leverandørgjeld </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">34.
+                  Offentlig tilskudd/refusjon </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">44.
+                  Fri </font></p></td>
+
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">54.
+                  Arbeidsgiveravgift og pensjonskostnad </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">64.
+                  Leie maskiner, inventar ol. </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">74.
+                  Kontingent og gave </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">84.
+                  Ekstraordinær inntekt (spes. etter art) </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">15.
+                  Kortsiktige fordringer </font></p></td>
+
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">25.
+                  Betalbar skatt </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">35.
+                  Uopptjent inntekt </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">45.
+                  Fremmedytelser og underentreprise </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">55.
+                  Annen kostnadsgodtgjørelse </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">65.
+                  Verktøy, inventar og driftsmaterialer som ikke skal aktiveres </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">75.
+                  Forsikringspremie, garanti- og servicekostnad </font></p></td>
+
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">85.
+                  Ekstraordinær kostnad (spes. etter art) </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">16.
+                  Merverdiavgift, opptjente offentlige tilskudd ol. </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">26.
+                  Skattetrekk og andre trekk </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">36.
+                  Leieinntekt </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">46.
+                  Fri </font></p></td>
+
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">56.
+                  Arbeidsgodt-gjørelse til eiere ol. </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">66.
+                  Reparasjon og vedlikehold </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">76.
+                  Lisens- og patentkostnad </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">86.
+                  Skattekostnad på ekstraordinært resultat </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">17.
+                  Forskuddsbetalte kostnader, påløpte inntekter ol. </font></p></td>
+
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">27.
+                  Skyldige offentlige avgifter </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">37.
+                  Provisjonsinntekt </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">47.
+                  Fri </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">57.
+                  Offentlig tilskudd vedrørende arbeidskraft </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">67.
+                  Fremmed tjeneste </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">77.
+                  Annen kostnad </font></p></td>
+
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">87.
+                  Fri </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">18.
+                  Kortsiktige finansinvesteringer </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">28.
+                  Utbytte </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">38.
+                  Gevinst ved avgang av anleggsmidler </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">48.
+                  Fri </font></p></td>
+
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">58.
+                  Offentlig refusjon vedrørende arbeidskraft </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">68.
+                  Kontorkostnad, trykksak ol. </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">78.
+                  Tap ol. </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">88. Årsresultat </font></p></td>
+          </tr>
+          <tr>
+            <td width="128" valign="top"><p><font face="Arial" size="2" color="#000080">19.
+                  Kontanter, bankinnskudd ol. </font></p></td>
+
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">29.
+                  Annen kortsiktig gjeld </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">39.
+                  Annen driftsrelatert inntekt </font></p></td>
+            <td width="123" valign="top"><p><font face="Arial" size="2" color="#000080">49.
+                  Annen periodisering </font></p></td>
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">59.
+                  Annen personalkostnad </font></p></td>
+            <td width="124" valign="top"><p><font face="Arial" size="2" color="#000080">69.
+                  Telefon, porto ol. </font></p></td>
+            <td width="122" valign="top"><p><font face="Arial" size="2" color="#000080">79.
+                  Periodiserings-konto </font></p></td>
+
+            <td width="132" valign="top"><p><font face="Arial" size="2" color="#000080">89.
+                  Overføringer og disponeringer </font></p></td>
+          </tr>
+        </table>
+      </div>
+      <b><font face="Arial" size="2" color="#000080"><br clear="all" style="page-break-before:right;
+">
+      </font></b>
+      <div>
+        <p class="Section3"><b>Klasse
+              1: Eiendeler </b></p>
+
+        <p class="Section3"><b>Anleggsmidler </b></p>
+        <p class="Section3"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Immaterielle
+              eiendeler </b></p>
+        <p class="Section3"><b>10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Immaterielle
+              eiendeler ol. </b></p>
+        <p class="Section3">1000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forskning
+            og utvikling </p>
+
+        <p class="Section3">1010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Konsesjoner </p>
+        <p class="Section3">1030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Patenter </p>
+        <p class="Section3">1040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lisenser </p>
+
+        <p class="Section3">1050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Varemerker </p>
+        <p class="Section3">1060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            rettigheter </p>
+        <p class="Section3">1070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Utsatt
+            skattefordel </p>
+        <p class="Section3">1080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Goodwill </p>
+
+        <p class="Section3">1090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Varige
+              driftsmidler </b></p>
+        <p class="Section3"><b>11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tomter,
+              bygninger og annen fast eiendom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+        <p class="Section3">1100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bygninger&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">1110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">1120 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bygningsmessige
+            anlegg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">1160&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Boliger
+            inkl. tomter </p>
+
+        <p class="Section3">1170&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1190&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            anleggsmidler&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transportmidler,
+              inventar, maskiner ol. </b></p>
+
+        <p class="Section3">1200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Maskiner
+            og anlegg </p>
+        <p class="Section3">1210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Maskiner
+            og anlegg under utførelse </p>
+        <p class="Section3">1230&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Biler </p>
+        <p class="Section3">1240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            transportmidler </p>
+
+        <p class="Section3">1250&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inventar </p>
+        <p class="Section3">1280&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kontormaskiner </p>
+        <p class="Section3">1290&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            driftsmidler </p>
+        <p class="Section3"><b>Finansielle
+              anleggsmidler </b></p>
+
+        <p class="Section3"><b>13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Finansielle
+              anleggsmidler </b></p>
+        <p class="Section3">1340&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lån
+            til foretak i samme konsern </p>
+        <p class="Section3">1350&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Investeringer
+            i aksjer og andeler </p>
+        <p class="Section3">1360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Obligasjoner </p>
+
+        <p class="Section3">1370&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fordringer
+            på eiere, styremedlemmer ol. </p>
+        <p class="Section3">1380&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fordringer
+            på ansatte </p>
+        <p class="Section3">1390&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            fordringer </p>
+        <p class="Section3"><b>Omløpsmidler </b></p>
+
+        <p class="Section3"><b>Varer </b></p>
+        <p class="Section3"><b>14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Varelager
+              og forskudd til leverandører </b></p>
+        <p class="Section3">1410&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1460 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Varer
+            på lager&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">1470&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1480&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forskuddsbetaling
+            til leverandør </p>
+        <p class="Section3"><b>Fordringer </b></p>
+        <p class="Section3"><b>15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kortsiktige
+              fordringer </b></p>
+
+        <p class="Section3">1500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kundefordringer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">1510&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1520&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1530&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opptjente,
+            ikke fakturerte driftsinntekter </p>
+
+        <p class="Section3">1570 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            kortsiktige fordringer&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">1580 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avsetning
+            tap på fordringer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">1590&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+
+        <p class="Section3"><b>16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Opptjente
+              off.tilskudd ol. </b></p>
+        <p class="Section3">1670&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Krav
+            på offentlige tilskudd </p>
+        <p class="Section3"><b>17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forskuddsbetalt
+              kostnad, påløpt inntekt ol. </b></p>
+        <p class="Section3">1700&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forskuddsbetalt
+            leie&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">1710&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forskuddsbetalt
+            rente </p>
+        <p class="Section3">1720&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1730&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1750&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Påløpt
+            leie </p>
+
+        <p class="Section3">1760&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Påløpt
+            rente </p>
+        <p class="Section3"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Investeringer </b></p>
+        <p class="Section3"><b>18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kortsiktige
+              finansinvesteringer </b></p>
+        <p class="Section3">1810&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Markedsbaserte
+            aksjer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">1820&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            aksjer </p>
+        <p class="Section3">1830&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Markedsbaserte
+            obligasjoner </p>
+        <p class="Section3">1840&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            obligasjoner </p>
+        <p class="Section3"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bankinnskudd,
+              kontanter ol. </b></p>
+
+        <p class="Section3"><b>19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bankinnskudd
+              kontanter ol. </b></p>
+        <p class="Section3">1900 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kasse&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">1910&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1920&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bankinnskudd </p>
+
+        <p class="Section3">1930&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1940&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1950&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bankinnskudd
+            for skattetrekk </p>
+        <p class="Section3">1960&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+
+        <p class="Section3">1970&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1980&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">1990&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3"><b>Klasse
+              2: Egenkapital og gjeld </b></p>
+
+        <p class="Section3"><b>Egenkapital </b></p>
+        <p class="Section3"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Innskutt
+              egenkapital </b></p>
+        <p class="Section3"><b>20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Egenkapital
+              andre foretak </b></p>
+        <p class="Section3">2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Egenkapital
+            bundet </p>
+
+        <p class="Section3">2020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">2030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3"><b>Opptjent
+              egenkapital </b></p>
+        <p class="Section3">2040&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fond
+            for vurderingsforskjeller </p>
+
+        <p class="Section3">2050&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+            egenkapital </p>
+        <p class="Section3">2060&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">2070&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Skatter </p>
+        <p class="Section3">2080&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Udekket
+            tap </p>
+
+        <p class="Section3">2090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3"><b>Gjeld </b></p>
+        <p class="Section3"><b>21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avsetning
+              for forpliktelser </b></p>
+        <p class="Section3">2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pensjonsforpliktelser </p>
+
+        <p class="Section3">2110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">2160&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Uopptjent
+            inntekt </p>
+        <p class="Section3">2180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            avsetninger for forpliktelser </p>
+        <p class="Section3"><b>22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+              langsiktig gjeld </b></p>
+
+        <p class="Section3">2200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Konvertible
+            lån </p>
+        <p class="Section3">2210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Obligasjonslån </p>
+        <p class="Section3">2220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gjeld
+            til kredittinstitusjoner </p>
+        <p class="Section3">2230&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+
+        <p class="Section3">2240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pantelån </p>
+        <p class="Section3">2290&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+            langsiktig gjeld </p>
+        <p class="Section3"><b>Kortsiktig
+              gjeld </b></p>
+        <p class="Section3"><b>23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kortsiktige
+              lån ol. </b></p>
+
+        <p class="Section3">2360&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Byggelån </p>
+        <p class="Section3">2380&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kassakreditt </p>
+        <p class="Section3">2390&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3"><b>24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leverandørgjeld </b></p>
+
+        <p class="Section3">2400 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leverandørgjeld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2410&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3"><b>25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Betalbar
+              skatt </b></p>
+        <p class="Section3">2500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Betalbar
+            skatt, ikke utlignet </p>
+
+        <p class="Section3">2510&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Betalbar
+            skatt, utlignet </p>
+        <p class="Section3">2540&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forhåndsskatt </p>
+        <p class="Section3"><b>26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Skattetrekk
+              og andre trekk </b></p>
+        <p class="Section3">2600 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Skattetrekk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">2610 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Påleggstrekk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2620&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bidragstrekk </p>
+        <p class="Section3">2630&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trygdetrekk </p>
+        <p class="Section3">2640&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forsikringstrekk </p>
+
+        <p class="Section3">2650&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trukket
+            fagforeningskontingent </p>
+        <p class="Section3">2690&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            trekk </p>
+        <p class="Section3"><b>27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Skyldige
+              offentlige avgifter </b></p>
+        <p class="Section3">2700 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Utgående
+            mva&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">2710 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inngående
+            mva&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2720 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Investeringsavgift&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2730 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Grunnlag
+            innv.avg.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">2740 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Oppgjørskonto
+            mva&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2750 </p>
+        <p class="Section3">2760 </p>
+        <p class="Section3">2770&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Skyldig
+            arbeidsgiveravgift&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">2780 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avsatte
+            arb.avg. feriepenger&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2790&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            offentlige utgifter </p>
+        <p class="Section3"><b>28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Utbytte </b></p>
+        <p class="Section3">2800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avsatt
+            utbytte </p>
+
+        <p class="Section3"><b>29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+              kortsiktig gjeld </b></p>
+        <p class="Section3">2900&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forskudd
+            fra kunder </p>
+        <p class="Section3">2910&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gjeld
+            til ansatte </p>
+        <p class="Section3">2930&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lønn </p>
+
+        <p class="Section3">2940 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avsatte
+            feriepenger&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2950 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Påløpt
+            rente&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">2960 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Påløpt
+            kostnad og forskuddsbetalt innt.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">2980&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avsetning
+            for forpliktelser </p>
+        <p class="Section3">2990&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+            kortsiktig gjeld </p>
+        <p class="Section3"><b>Klasse
+              3: Salgs- og driftsinntekt </b></p>
+        <p class="Section3"><b>30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgsinntekter,
+              avgiftspliktig </b></p>
+
+        <p class="Section3">3000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgsinntekter
+            avgiftspliktig&nbsp; </p>
+        <p class="Section3">3010 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salg
+            materiell pliktig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">3020 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sponsor/samarbeidsavtaler
+            avgiftspliktig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">3021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Barteravtaler
+            avgiftspliktig </p>
+        <p class="Section3">3030&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annonser
+            avgiftspliktig &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgsinntekter,
+              avgiftsfrie&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+
+        <p class="Section3">3110 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salg
+            materiell avgiftsfritt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">3120 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sponsorinntekter
+            avgiftsfrie&nbsp;&nbsp; </p>
+        <p class="Section3">3121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Barteravtaler
+            avgiftsfrie </p>
+
+        <p class="Section3"><b>32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgsinnt.
+              utenfor avgiftsomr.&nbsp; </b></p>
+        <p class="Section3">3200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgsinntekt
+            utenfor avgiftsomr. </p>
+        <p class="Section3"><b>34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Offentlig
+              tilskudd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+
+        <p class="Section3">3400 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Offentlig
+            tilskudd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">3440 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rammetilskudd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">3441&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            tilskudd </p>
+
+        <p class="Section3">3442&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd øremerkede&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">3450&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VO-tilskudd </p>
+        <p class="Section3"><b>36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leieinntekter </b></p>
+        <p class="Section3">3600 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leieinntekter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3"><b>39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+              inntekter </b></p>
+        <p class="Section3">3910 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kursinntekter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">3920&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Årskontingenter </p>
+        <p class="Section3">3930 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lisenser&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">3940&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Overgangsgebyrer&nbsp;&nbsp; </p>
+        <p class="Section3">3960&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bingo/lotto
+            ol.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">3970&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+
+        <p class="Section3">3980&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">3990&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri&nbsp; </p>
+        <p class="Section3">3999&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Diverse
+            inntekter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3"><b>Klasse
+              4: Varekostnad </b></p>
+        <p class="Section3"><b>40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Varekostnad </b></p>
+        <p class="Section3">4200 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Innkjøp
+            av varer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">4230&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rekvisita/kontorutstyr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">4300 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forbruk
+            av varer for videresalg&nbsp;&nbsp; </p>
+        <p class="Section3">4390&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Beholdningsendring&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">4600&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+
+        <p class="Section3">4700&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3">4800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri </p>
+        <p class="Section3"><b>Klasse
+              5: Lønnskostnad </b></p>
+        <p class="Section3"><b>50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lønn
+              ansatte </b></p>
+
+        <p class="Section3">5000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Personalkostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>52 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fordel
+              i arbeidsforhold&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+        <p class="Section3">5200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri
+            bil </p>
+
+        <p class="Section3">5210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri
+            telefon </p>
+        <p class="Section3">5220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri
+            avis </p>
+        <p class="Section3">5230&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fri
+            losji og bolig </p>
+        <p class="Section3">5240&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rentefordel </p>
+
+        <p class="Section3"><b>53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+              oppgavepliktig godtgjørelse </b></p>
+        <p class="Section3">5330&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Godtgjørelse
+            til styret </p>
+        <p class="Section3"><b>54 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arbeidsgiveravgift
+              og pensjonskostnad&nbsp; </b></p>
+        <p class="Section3">5400&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arbeidsgiveravgift&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">5420 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Innberetningspliktig
+            pensjonskostnad </p>
+        <p class="Section3">5500 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+            kostnadsgodtgjørelse&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">5800 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Refusjon
+            sykepenger&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3"><b>59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+              personalkostnad </b></p>
+        <p class="Section3">5900 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gaver
+            til ansatte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">5910&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kantinekostnad </p>
+        <p class="Section3">5920 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Yrkesskadeforsikring&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">5930 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reise
+            og ulykkesforsikring &nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">5990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            personalkostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b><br>
+          Klasse 6 og 7: Annen driftskostnad,</b> <b>av-
+          og nedskriving </b></p>
+
+        <p class="Section3"><b>60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Av-
+              og nedskriving </b></p>
+        <p class="Section3">6000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avskriving
+            på bygninger og annen fast eiendom </p>
+        <p class="Section3">6010&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avskrivning
+            på transportmidler, maskiner og inv. </p>
+        <p class="Section3"><b>61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Frakt
+              og transportkostnad vedr. salg </b></p>
+
+        <p class="Section3">6100 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Frakt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6110 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Toll
+            og avgifter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kostnad
+              lokaler </b></p>
+
+        <p class="Section3">6300 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leie
+            lokaler&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6320 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Renovasjon,
+            vann, avløp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6340&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lys/varme&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">6360 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Renhold&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6390 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            kontorkostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leie
+              maskiner, inventar ol. </b></p>
+
+        <p class="Section3">6400&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leie
+            maskiner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6410 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leie
+            inventar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6420 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leie
+            datautstyr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">6440 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leasing/leie
+            biler&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inventar
+              og driftsmateriale som ikke skal aktiveres </b></p>
+        <p class="Section3">6540 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inventar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3"><b>66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reparasjon
+              og vedlikehold&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+        <p class="Section3">6600&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reparasjon
+            og vedlikehold bygninger </p>
+        <p class="Section3">6620&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reparasjon
+            og vedlikehold utstyr </p>
+        <p class="Section3"><b>67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fremmedtjenester </b></p>
+
+        <p class="Section3">6700&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Revisjonshonorar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; </p>
+        <p class="Section3">6720 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Økonomisk
+            og juridisk bistand&nbsp; </p>
+        <p class="Section3">6730 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Idrettsfaglig
+            bistand&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">6780 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lønn
+            selvstendig næringsdrivende </p>
+        <p class="Section3">6790&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            fremmedtjenester&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kontorkostnad,
+              trykksak ol. </b></p>
+        <p class="Section3">6800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kontorrekvisita&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">6810 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kopiering/trykking&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6820 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trykksaker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6840 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Aviser,
+            tidsskrifter mm.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">6860&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Møter,
+            kurs, oppdatering o.l.&nbsp; </p>
+        <p class="Section3">6890&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+            kontorkostnad </p>
+        <p class="Section3"><b>69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telefon,
+              porto ol.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+
+        <p class="Section3">6900 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Telefon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">6940 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Porto&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kostnad
+              transportmidler&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+
+        <p class="Section3">7000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Drivstoff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7020 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Vedlikehold&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7040 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forsikring&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">7090&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+            kostnad transportmidler </p>
+        <p class="Section3"><b>71 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kostnad
+              og godtgj. for reise, diett ol.&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+        <p class="Section3">7100 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bilgodtgjørelse,
+            oppgavepliktig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">7102 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Passasjertillegg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7130 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reisekostnader
+            - oppgavepliktig&nbsp; </p>
+        <p class="Section3">7140 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reisekostnader
+            - ikke oppg.pl.&nbsp;&nbsp; </p>
+
+        <p class="Section3">7150 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Diettkostnad
+            - oppgavepliktig&nbsp; </p>
+        <p class="Section3">7160 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Diettkostnad
+            - ikke oppg.pl.&nbsp;&nbsp; </p>
+        <p class="Section3">7170-80 </p>
+        <p class="Section3"><b>72&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Provisjonskostnad </b></p>
+
+        <p class="Section3">7200 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sponsorkostnad,
+            oppg.pl.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7210 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sponsorkostnad,
+            ikke oppg.pl.&nbsp; </p>
+        <p class="Section3"><b>73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgs-,
+              reklame- og repr.kostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+
+        <p class="Section3">7300&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salgskostnad </p>
+        <p class="Section3">7320 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reklame/annonser&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7390&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Annen
+            salgskostnad </p>
+        <p class="Section3"><b>74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kontingent
+              og gave </b></p>
+
+        <p class="Section3">7410 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Medlemskontingenter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7420 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gaver/premier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7450 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">7451 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd
+            særforbund&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7452 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd
+            idrettskretser&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7453 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd
+            særkretser&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">7454 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd
+            idrettsråd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7455 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd
+            idrettslag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7460&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tilskudd
+            andre organisasjoner&nbsp; </p>
+
+        <p class="Section3"><b>75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Forsikring </b></p>
+        <p class="Section3">7510 </p>
+        <p class="Section3">7520&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7530 </p>
+        <p class="Section3"><b>77&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+              kostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
+
+        <p class="Section3">7790 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Diverse
+            kostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3"><b>78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tap
+              ol. </b></p>
+        <p class="Section3">7800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tap
+            ved avgang anleggsmidler&nbsp;&nbsp; </p>
+
+        <p class="Section3">7820 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Innkommet
+            på tidligere avskrevne fordringer </p>
+        <p class="Section3">7830 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tap
+            på fordringer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">7900 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Periodiseringskonto&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3"><b>Klasse
+              8: Finansinntekt og –kostnad, ekstraord. inntekter og kostnader </b></p>
+        <p class="Section3">8040 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Renteinntekt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">8060 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Valutagevinst&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">8140 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rentekostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">8160 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Valutatap&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">8170 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Andre
+            finanskostnader og gebyr </p>
+        <p class="Section3">8400 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ekstraordinære
+            inntekter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+
+        <p class="Section3">8500 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ekstraordinære
+            kostnader&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+        <p class="Section3">88-89&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avslutningskontoer </p>
+        <p class="Section3">8800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Årsresultat </p>
+        <p class="Section3">8960&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Overføringer
+            annen egenkapital </p>
+
+        <p class="Section3">8990&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Udekket
+            tap </p>
+              <span class="Section3"><br clear="all" style="page-break-before:always">
+         </span></div>
+      <p><b><font face="Arial" size="2" color="#000080">Forslag
+            til prosjektplan </font></b></p>
+      <p><b><font face="Arial" size="2" color="#000080">Prosjektgrupper&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Navn </font></b></p>
+
+      <p><font face="Arial" size="2" color="#000080">1000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Administrasjon/lønn
+          og annen godtgjørelse </font></p>
+      <p><font face="Arial" size="2" color="#000080">1100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Møter
+          og kostnader vedr. tillitsvalgte </font></p>
+      <p><font face="Arial" size="2" color="#000080">1900&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Egne
+          stevner/arrangementer </font></p>
+      <p><font face="Arial" size="2" color="#000080">2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Deltakelse
+          i andres stevner/serier </font></p>
+
+      <p><font face="Arial" size="2" color="#000080">2100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trening
+          og instruksjon </font></p>
+      <p><font face="Arial" size="2" color="#000080">4000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Utdanning
+          og kurs </font></p>
+      <p><font color="#000080"><font face="Arial" size="2">9000<span style="font-style: normal; font-variant: normal; font-weight: normal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Informasjon
+            og markedsføring</font><span style="font-size:12.0pt;font-family:&quot;Times New Roman&quot;"> </span></font></p></td>
+  </tr>
+
+</table>
+
+{% endblock %}

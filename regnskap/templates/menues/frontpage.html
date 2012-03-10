@@ -25,5 +25,14 @@ Her kan man se på ulike ting
   </li>
 </ul>
 
+<h3>Statiske sider</h3>
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+<ul>
+    {% for page in flatpages %}
+        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+    {% endfor %}
+</ul>
+
 
 {% endblock %}

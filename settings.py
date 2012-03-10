@@ -90,7 +90,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    # ensure all users are loged in
     'django_regnskap.utilities.enforce_login_middleware.EnforceLoginMiddleware',
+    # flatpages wants to be the last middleware
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 ROOT_URLCONF = 'django_regnskap.urls'
@@ -108,6 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
     'django_regnskap.regnskap',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
