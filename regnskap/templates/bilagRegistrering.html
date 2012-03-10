@@ -140,9 +140,9 @@ function balance(){
   update();// ensure the difference warning is removed
 }
 function colorGrid(){
-  var konto = Math.floor(parseInt(this.childNodes[0].value)/100);
+  var konto = parseInt(this.options[this.selectedIndex].text.charAt(0));
   //clear all colors
-  var node = this.nextElementSibling;
+  var node = this.parentNode.nextElementSibling;
   if (konto > 4){
     konto = 4;
   }
@@ -165,7 +165,7 @@ $(document).ready(function(){
       });
   $(".innslag").change(update);
   $(".balance-row").click(balance);
-  $(".kontoSelect").change(colorGrid);
+  $(".kontoSelect > select").change(colorGrid);
   $("#datepicker").datepicker({
     altField:"#id_bilag-dato",
     altFormat:"yy-mm-dd",

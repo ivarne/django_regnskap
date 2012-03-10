@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 
 
-urlpatterns = patterns('django_regnskap.regnskap.views.',
+urlpatterns = patterns('django_regnskap.regnskap.views',
 #    url(r'^$', 'regnskap.views.default'),
     url(r'^registrer$',                     'bilag.registrerBilagForm'),
     url(r'^registrer/externalActorJSON$',   'bilag.ajaxExternalActors'),

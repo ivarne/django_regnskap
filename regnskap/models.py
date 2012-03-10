@@ -22,6 +22,14 @@ class Konto(models.Model):
 
     def __unicode__(self):
         return unicode(self.nummer) +' '+self.tittel
+    def getLoadedDebit(self):
+#        if(self.sum_kredit == None or self.sum_debit == None):
+#            raise ValueError("Konto was not loaded with aggregation")
+        return (self.sum_debit or 0) - (self.sum_kredit or 0)
+    def getLoadedKredit(self):
+#        if(self.sum_kredit == None or self.sum_debit == None):
+#            raise ValueError("Konto was not loaded with aggregation")
+        return (self.sum_kredit or 0) - (self.sum_debit or 0)
 
 class Exteral_Actor(models.Model):
     name = models.CharField(max_length = 256)

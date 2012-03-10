@@ -3,6 +3,44 @@
 
 {% block content %}
 <h2>{{overskrift}}</h2>
+<div>
+  <div style="float:left">
+    <h3>Resultat</h3>
+    <table>
+      <tr>
+        <th colspan="2">Kostnader</th>
+        <th colspan="2">Inntekter</th>
+      </tr>
+      {% for kost, int in resultat %}
+      <tr>
+        <td>{{ kost|default_if_none:"&nbsp;" }}</td>
+        <td>{{ kost.getLoadedDebit }}</td>
+        <td>{{ int|default_if_none:"&nbsp;" }}</td>
+        <td>{{ int.getLoadedKredit }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div style="float:left">
+    <h3>Balanse</h3>
+    <table>
+      <tr>
+        <th colspan="2">Eiendeler</th>
+        <th colspan="2">Egenkapital/gjeld</th>
+      </tr>
+      {% for eie, ege in balanse %}
+      <tr>
+        <td>{{ eie|default_if_none:"&nbsp;" }}</td>
+        <td>{{ eie.getLoadedDebit }}</td>
+        <td>{{ ege|default_if_none:"&nbsp;" }}</td>
+        <td>{{ ege.getLoadedKredit }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+<div style="clear:both"></div>
+<h3>Bilagsliste</h3>
 <table class="BilagListe">
   <tr>
     <th>#</th>
