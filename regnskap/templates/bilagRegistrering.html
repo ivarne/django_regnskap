@@ -52,7 +52,7 @@
     {{ innslag.kredit }}{{ innslag.kredit.errors }}
   </td>
   <td>
-    <button class="balance-row" row="{{buttoncounter.next}}" type="button">Balance</button>
+    <button class="balance-row" row="{{buttoncounter.next}}" type="button" tabindex="-1">Balance</button>
   </td>
 </tr>
 {% endfor %}
@@ -83,7 +83,7 @@ function update(){
   var debit = 0;
   $(".debit > input").each(function(){
     if(this.value){
-      var v = parseFloat(this.value);
+      var v = parseFloat(this.value.replace(",","."));
       debit += v;
       this.value = v.toFixed(2);  
       deactivateTwinField(this,true);
