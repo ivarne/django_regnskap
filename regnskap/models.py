@@ -20,12 +20,17 @@ class BaseProsjektManager(models.Manager):
         return self.filter(prosjekt = prosjekt)
 
 class KontoManager(BaseProsjektManager):
-    def sum_columns(self, *arg, **kwarg):
+    def sum_columns(self, prosjekt, *arg, **kwarg):
         if kwarg.has_key('when'):
             when = kwarg['when']
             del kwarg['when'] # cleanup
         else:
             when = "YEAR(`dato`) = %s"
+        
+        if(prosjekt):
+            ret = self.prosjekt(prosjekt)
+        else:
+            ret = self
         
         subsql = '''SELECT SUM(`i`.`belop`)\
             FROM `%(i)s` as `i`\
@@ -35,7 +40,7 @@ class KontoManager(BaseProsjektManager):
                 AND %(when)s\
                 AND `i`.`type` = %(type)s'''
         
-        return self.extra(
+        ret = ret.extra(
             select = {
                 'sum_debit': subsql % {
                     'b': Bilag._meta.db_table,
@@ -54,20 +59,20 @@ class KontoManager(BaseProsjektManager):
             },
             select_params = arg * 2
             )
+        return ret
     def toOptionGroups(self, prosjekt):
         types = [('','')]
-        #reverse sort to get them out in correct order using pop()
-        kontos  = list(self.prosjekt(prosjekt).order_by('-nummer'))
-        konto   = kontos.pop()
-        try:
-            for i, kategori in Konto.AVAILABLE_KONTO_TYPE:
-                subtypes = []
-                while konto.kontoType == i:
-                    subtypes.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
-                    konto = kontos.pop() #last element
-                types.append([kategori, subtypes])
-        except IndexError: #kontos.pop() when the list is emptpy
-            types.append([kategori, subtypes])
+        kontos = self.prosjekt(prosjekt).order_by('nummer')
+        if not kontos:
+            return types
+        t = kontos[0].kontoType # first konto type
+        subtype = []
+        for konto in kontos:
+            if(konto.kontoType != t):
+                types.append((Konto.AVAILABLE_KONTO_TYPE[t][1],subtype))
+                subtype = []
+                t = konto.kontoType
+            subtype.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
         return types
 
 # Kontoplan

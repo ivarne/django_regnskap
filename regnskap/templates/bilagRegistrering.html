@@ -3,6 +3,7 @@
 {% block title %}Registrering av billag {% endblock %}
 
 {% block content %}
+<h1>Registrer bilag på {{prosjekt.navn}}</h1>
 <form action="{{url}}" method="post">{% csrf_token %}
 {{ bilagform.non_field_errors }}
 
@@ -39,7 +40,7 @@
 </tr>
 {% for innslag in innslagform %}
 <tr class="kontoRow">
-  <td class="kontoSokField"><input class="kontosok" type="text" row="{{searchcounter.next}}" size="5"/></td>
+  <td class="kontoSokField"><input class="kontosok" type="text" row="{{forloop.counter0}}" size="5"/></td>
   <td class="kontoSelect">{{ innslag.kontos }}{{ innslag.kontos.errors }}</td>
   <td></td>
   <td></td>
@@ -52,7 +53,7 @@
     {{ innslag.kredit }}{{ innslag.kredit.errors }}
   </td>
   <td>
-    <button class="balance-row" row="{{buttoncounter.next}}" type="button" tabindex="-1">Balance</button>
+    <button class="balance-row" row="{{forloop.counter0}}" type="button" tabindex="-1">Balance</button>
   </td>
 </tr>
 {% endfor %}
@@ -174,7 +175,7 @@ $(document).ready(function(){
   });
   $("#id_bilag-dato").hide();
   $("#id_external-id").autocompleteFill({
-    'server-url'  : "/regnskap/registrer/externalActorJSON",
+    'server-url'  : "/regnskap/registrer/{{prosjekt.navn}}/externalActorJSON",
     'match_order' : ['name', 'email', 'adress'],
     'prefix'      : "id_external-",
   });

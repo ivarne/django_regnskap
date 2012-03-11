@@ -58,12 +58,10 @@ def registrerBilagForm(request, prosjekt):
         'innslagform'   : innslagform,
         'external_a_form':external_actor,
         'url'           : request.path,
-        'buttoncounter' : iter(xrange(NumberOfInnslag)),
-        'searchcounter' : iter(xrange(NumberOfInnslag)),
         'external_id'   : external_id
     },RequestContext(request))
     
-def ajaxExternalActors(request,prosjekt):
+def ajaxExternalActors(request, prosjekt):
     queryset = Exteral_Actor.objects.prosjekt(prosjekt)
     response = HttpResponse()
     json_serializer = serializers.get_serializer("json")()

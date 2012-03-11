@@ -7,22 +7,27 @@
 Her kan man se på ulike ting
 
 <h3>Registrer bilag</h3>
-<a href="registrer">Her kan du registrere bilag</a>
-
+<ul>
+{% for p in prosjekt %}
+<li>
+  <a href="registrer/{{ p.navn }}">{{ p.navn}}</a>: {{p.beskrivelse}}
+</li>
+{% endfor %}
+</ul>
 <h3>Årsoversikter</h3>
 <ul>
-  <li>2011
-    <a href="rapport/year/2011.html">.html</a>
-    <a href="rapport/year/2011.xls">.xls</a>
+  {% for year in years %}
+  <li>{{year}}
+    <ul>
+    {% for p in prosjekt %}
+    <li>{{p.beskrivelse}}<br>
+    <a href="rapport/{{ p }}/year/{{year}}.html">{{p}}{{year}}.html</a><br>
+    <a href="rapport/{{ p }}/year/{{year}}.xls">{{p}}{{year}}.xls</a>
+    </li>
+    {% endfor%}
+    </ul>
   </li>
-  <li>2012
-    <a href="rapport/year/2012.html">.html</a>
-    <a href="rapport/year/2012.xls">.xls</a>
-  </li>
-  <li>2013
-    <a href="rapport/year/2013.html">.html</a>
-    <a href="rapport/year/2013.xls">.xls</a>
-  </li>
+  {% endfor %}
 </ul>
 
 <h3>Statiske sider</h3>
