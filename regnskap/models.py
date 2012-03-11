@@ -2,24 +2,37 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-
+from django.http import Http404
 
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=256)
     beskrivelse = models.TextField()
+    def __unicode__(self):
+        return self.navn
 
-class ProsjektManager(models.Manager):
-    def project(self, project):
-        return self.filter(project = project)
+class BaseProsjektManager(models.Manager):
+    def prosjekt(self, prosjekt):
+        if not isinstance(prosjekt, Prosjekt):
+            try:
+                prosjekt = Prosjekt.objects.get(navn = prosjekt)
+            except:
+                raise Http404("Det finnes ikke noe projekt med navn \"%s\"" % prosjekt)
+        return self.filter(prosjekt = prosjekt)
 
-class KontoManager(ProsjektManager):
-    def sum(year, when = "YEAR(`dato`) = %(year)s"):
-        subsql = '''SELECT SUM(`i`.`belop`)
-            FROM `%(i)s` as `i`
-            LEFT JOIN `%(b)s` as `b`
-            ON `b`.`id` = `i`.`bilag_id`
-            WHERE `i`.`konto_id` = `%(k)s`.`id`
-                AND %(when)s
+class KontoManager(BaseProsjektManager):
+    def sum_columns(self, *arg, **kwarg):
+        if kwarg.has_key('when'):
+            when = kwarg['when']
+            del kwarg['when'] # cleanup
+        else:
+            when = "YEAR(`dato`) = %s"
+        
+        subsql = '''SELECT SUM(`i`.`belop`)\
+            FROM `%(i)s` as `i`\
+            LEFT JOIN `%(b)s` as `b`\
+            ON `b`.`id` = `i`.`bilag_id`\
+            WHERE `i`.`konto_id` = `%(k)s`.`id`\
+                AND %(when)s\
                 AND `i`.`type` = %(type)s'''
         
         return self.extra(
@@ -29,7 +42,6 @@ class KontoManager(ProsjektManager):
                     'i': Innslag._meta.db_table,
                     'k': Konto._meta.db_table,
                     'when': when,
-                    'kontoType': kontoType,
                     'type' : 0
                     },
                 'sum_kredit': subsql % {
@@ -37,12 +49,26 @@ class KontoManager(ProsjektManager):
                     'i': Innslag._meta.db_table,
                     'k': Konto._meta.db_table,
                     'when': when,
-                    'kontoType': kontoType,
-                    'type' : 0
+                    'type' : 1
                     },
             },
-            select_params = (arg,arg)
+            select_params = arg * 2
             )
+    def toOptionGroups(self, prosjekt):
+        types = [('','')]
+        #reverse sort to get them out in correct order using pop()
+        kontos  = list(self.prosjekt(prosjekt).order_by('-nummer'))
+        konto   = kontos.pop()
+        try:
+            for i, kategori in Konto.AVAILABLE_KONTO_TYPE:
+                subtypes = []
+                while konto.kontoType == i:
+                    subtypes.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
+                    konto = kontos.pop() #last element
+                types.append([kategori, subtypes])
+        except IndexError: #kontos.pop() when the list is emptpy
+            types.append([kategori, subtypes])
+        return types
 
 # Kontoplan
 class Konto(models.Model):
@@ -79,7 +105,7 @@ class Exteral_Actor(models.Model):
     org_nr = models.CharField(blank = True, max_length = 100)
     archived = models.DateField(editable = False, blank=True, null=True)
     prosjekt = models.ForeignKey(Prosjekt)
-    objects = ProsjektManager()
+    objects = BaseProsjektManager()
 
     def __unicode__(self):
         return self.name + ( " (%d)" % self.id )
@@ -91,7 +117,7 @@ class Bilag(models.Model):
     beskrivelse = models.CharField(max_length=256)
     external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True)
     prosjekt = models.ForeignKey(Prosjekt)
-    objects = ProsjektManager()
+    objects = BaseProsjektManager()
     def _getKredit(self):
         self.innslag.filter(type=0)
     def _getDebit(self):
@@ -144,39 +170,3 @@ class Innslag(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     dropbox_token = models.CharField(max_length=256)
-    
-def getKontoaggregation(when = "YEAR(`dato`) = %(year)s", kontoType = None, **params):
-    """
-    In default case this should be called with
-    getKontoaggregation(year = 2012, kontoType = '4,5,6,7,8')
-    for expences and
-    getKontoaggregation(year = 2012, kontoType = 3)
-    for income
-    """
-    result_query = """SELECT *,
-    (SELECT SUM(`i`.`belop`)
-        FROM `%(i)s` as `i`
-        LEFT JOIN `%(b)s` as `b`
-        ON `b`.`id` = `i`.`bilag_id`
-        WHERE `i`.`konto_id` = `k`.`id`
-            AND %(when)s
-            AND `i`.`type` = 0
-    ) as `sum_debit`,
-    (SELECT sum(`i`.`belop`)
-        FROM `%(i)s` as `i`
-        LEFT JOIN `%(b)s` AS `b`
-        ON `b`.`id` = `i`.`bilag_id`
-        WHERE `i`.`konto_id` = `k`.`id`
-            AND %(when)s
-            AND `i`.`type` = 1
-    ) AS `sum_kredit`
-    FROM `%(k)s` as `k` 
-    WHERE `k`.`kontoType` IN (%(kontoType)s)
-    ORDER BY `k`.`nummer`""" % {
-        'k': Konto._meta.db_table,
-        'b': Bilag._meta.db_table,
-        'i': Innslag._meta.db_table,
-        'when': when,
-        'kontoType': kontoType,
-    }
-    return Konto.objects.raw(result_query, params)

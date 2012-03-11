@@ -9,6 +9,7 @@ from decimal import *
 class BilagForm(forms.ModelForm):
     class Meta:
         model = Bilag
+        exclude = ('prosjekt',)
 
 class External_ActorForm(forms.ModelForm):
     class Meta:
@@ -16,28 +17,30 @@ class External_ActorForm(forms.ModelForm):
         widgets = {
             'adress': forms.Textarea(attrs={'cols': 20, 'rows': 4}),
         }
+        exclude = ('prosjekt',)
 
-class _kontoFilterToChoice(object):
-    def __iter__(self):
-        types = [('','')]
-        #reverse sort to get them out in correct order using pop()
-        kontos  = list(Konto.objects.order_by('-nummer').all())
-        konto   = kontos.pop()
-        try:
-            for i, kategori in Konto.AVAILABLE_KONTO_TYPE:
-                subtypes = []
-                while konto.kontoType == i:
-                    subtypes.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
-                    konto = kontos.pop() #last element
-                types.append([kategori, subtypes])
-        except IndexError: #kontos.pop() when the list is emptpy
-            types.append([kategori, subtypes])
-        return iter(types)
+class BaseInnslagForm(forms.Form):
+    #form fields gets added by the inslag_form_factory
+    #Validation:
+    def clean(self):
+        cleaned_data = super(BaseInnslagForm, self).clean()
+        ##Maks en verdi i kredit og debit
+        debit = cleaned_data.get("debit")
+        kredit = cleaned_data.get("kredit")
+        if debit and kredit:
+            #Begge feltene er gyldige formateringsmessig - la oss sjekke at maks ett er satt
+            if debit!=None and kredit !=None:
+                msg = u"Enten debit eller kredit kan inneholde verdi."
+                self._errors["debit"] = self.error_class([msg])
+                self._errors["kredit"] = self.error_class([msg])
+                del cleaned_data["kredit"]
+                del cleaned_data["debit"]
+        return cleaned_data
 
-class InnslagForm(forms.Form):
+def innslag_form_factory(prosjekt):
     kontos = forms.TypedChoiceField(
         coerce = lambda id: Konto.objects.get(id=id),
-        choices = _kontoFilterToChoice(),
+        choices = Konto.objects.toOptionGroups(prosjekt),
         empty_value = None,
         widget = forms.Select(attrs={'tabindex':'-1'})
     )
@@ -55,24 +58,14 @@ class InnslagForm(forms.Form):
         widget=forms.TextInput(attrs={'size':'10'}),
         required=False, # one of debit/kredit required(not both)
     )
-    
-    #Validation:
-    def clean(self):
-        cleaned_data = super(InnslagForm, self).clean()
-        ##Maks en verdi i kredit og debit
-        debit = cleaned_data.get("debit")
-        kredit = cleaned_data.get("kredit")
-        if debit and kredit:
-            #Begge feltene er gyldige formateringsmessig - la oss sjekke at maks ett er satt
-            if debit!=None and kredit !=None:
-                msg = u"Enten debit eller kredit kan inneholde verdi."
-                self._errors["debit"] = self.error_class([msg])
-                self._errors["kredit"] = self.error_class([msg])
-                del cleaned_data["kredit"]
-                del cleaned_data["debit"]
-        return cleaned_data
+    return type(str(prosjekt) + "InnslagForm", (BaseInnslagForm,), {
+        'kontos' : kontos,
+        'debit'  : debit,
+        'kredit' : kredit,
+    })
 
 class BaseInnslagFormSet(forms.formsets.BaseFormSet):
+    
     def clean(self):
         """Checks that no two articles have the same title."""
         if any(self.errors):

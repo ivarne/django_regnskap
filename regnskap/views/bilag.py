@@ -13,8 +13,10 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 from django.core import serializers
 
-def registrerBilagForm(request):
+def registrerBilagForm(request, prosjekt):
     NumberOfInnslag = 5
+    prosjekt = Prosjekt.objects.get(navn = prosjekt)
+    InnslagForm = innslag_form_factory(prosjekt)
     InnslagFormSet = formset_factory(InnslagForm, extra = NumberOfInnslag, formset=BaseInnslagFormSet)
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
@@ -25,9 +27,11 @@ def registrerBilagForm(request):
             inst = None
         external_actor = External_ActorForm(request.POST, prefix="external", instance = inst)
         if bilagform.is_valid() and innslagform.is_valid():
+            b = bilagform.instance
+            b.prosjekt = prosjekt
             if(external_actor.is_valid()):
+                external_actor.instance.prosjekt = prosjekt
                 external_actor.save()
-                b = bilagform.instance
                 b.external_actor = external_actor.instance
             bilagform.save()
             for innslag in innslagform:
@@ -49,6 +53,7 @@ def registrerBilagForm(request):
         external_actor = External_ActorForm(prefix="external")
         external_id = '';
     return render_to_response('bilagRegistrering.html', {
+        'prosjekt'      : prosjekt,
         'bilagform'     : bilagform,
         'innslagform'   : innslagform,
         'external_a_form':external_actor,
@@ -58,8 +63,8 @@ def registrerBilagForm(request):
         'external_id'   : external_id
     },RequestContext(request))
     
-def ajaxExternalActors(request):
-    queryset = Exteral_Actor.objects.all()
+def ajaxExternalActors(request,prosjekt):
+    queryset = Exteral_Actor.objects.prosjekt(prosjekt)
     response = HttpResponse()
     json_serializer = serializers.get_serializer("json")()
     json_serializer.serialize(queryset, ensure_ascii=False, stream=response)
