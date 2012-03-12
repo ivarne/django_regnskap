@@ -17,7 +17,7 @@ class BaseProsjektManager(models.Manager):
                 prosjekt = Prosjekt.objects.get(navn = prosjekt)
             except:
                 raise Http404("Det finnes ikke noe projekt med navn \"%s\"" % prosjekt)
-        return self.filter(prosjekt = prosjekt)
+        return self.extra(where = ["(prosjekt_id=%s OR prosjekt_id IS NULL)" % prosjekt.id])
 
 class KontoManager(BaseProsjektManager):
     def sum_columns(self, prosjekt, *arg, **kwarg):
@@ -77,6 +77,8 @@ class KontoManager(BaseProsjektManager):
 
 # Kontoplan
 class Konto(models.Model):
+    class Meta:
+        ordering = ["nummer"]
     AVAILABLE_KONTO_TYPE = (
       (1,'Eiendeler'),
       (2,'Egenkapital og gjeld'),
@@ -92,7 +94,7 @@ class Konto(models.Model):
     kontoType = models.IntegerField(choices=AVAILABLE_KONTO_TYPE)
     nummer = models.IntegerField(unique=True)
     tittel = models.CharField(max_length=256)
-    prosjekt = models.ForeignKey(Prosjekt)
+    prosjekt = models.ForeignKey(Prosjekt, blank=True, null=True)
     objects = KontoManager()
     
     def __unicode__(self):

@@ -21,7 +21,7 @@ def showYear(request, prosjekt, year):
     # adjust the lists so that they get equal lenght
     l = max(eiendelKonto, finansKonto, key=len)
     s = min(eiendelKonto, finansKonto, key=len)
-    s.extend(None for asdf in range(len(l) - len(s)))
+    s.extend(None for _ in range(len(l) - len(s)))
     balanse = zip(eiendelKonto, finansKonto)
     
     return render_to_response('showYear.html', {
