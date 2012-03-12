@@ -39,7 +39,7 @@ ul.messages > li.error{
 }
 
 /*Bilagsliste*/
-.BilagListe{
+table{
    border-collapse:collapse
 }
 .BilagListe .topBorder{
@@ -50,3 +50,14 @@ ul.messages > li.error{
    border-left: 1px dashed black;
    border-right: 1px dashed black;
 }
+.rowTable {
+   margin: 20px;
+   margin-top:0px;
+}
+.rowTable td{
+   padding: 2px;
+   padding-right: 5px;
+}
+.rowTable td:nth-child(3){
+   border-left: 1px solid black;
+} 

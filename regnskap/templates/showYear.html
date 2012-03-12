@@ -5,8 +5,8 @@
 <h2>{{overskrift}}</h2>
 <div>
   <div style="float:left">
-    <h3>Resultat</h3>
-    <table>
+    <h3 style="text-align:center">Resultat</h3>
+    <table class="rowTable">
       <tr>
         <th colspan="2">Kostnader</th>
         <th colspan="2">Inntekter</th>
@@ -14,16 +14,22 @@
       {% for kost, int in resultat %}
       <tr>
         <td>{{ kost|default_if_none:"&nbsp;" }}</td>
-        <td>{{ kost.getLoadedDebit }}</td>
+        <td style="text-align:right">{{ kost.getLoadedDebit }}</td>
         <td>{{ int|default_if_none:"&nbsp;" }}</td>
-        <td>{{ int.getLoadedKredit }}</td>
+        <td style="text-align:right">{{ int.getLoadedKredit }}</td>
       </tr>
       {% endfor %}
+      <tr>
+        <td>Sum:</td>
+        <td>{{totalKost}}</td>
+        <td>Sum:</td>
+        <td>{{totalInt}}</td>
+      </tr>
     </table>
   </div>
   <div style="float:left">
-    <h3>Balanse</h3>
-    <table>
+    <h3 style="text-align:center">Balanse</h3>
+    <table class="rowTable">
       <tr>
         <th colspan="2">Eiendeler</th>
         <th colspan="2">Egenkapital/gjeld</th>
@@ -31,11 +37,17 @@
       {% for eie, ege in balanse %}
       <tr>
         <td>{{ eie|default_if_none:"&nbsp;" }}</td>
-        <td>{{ eie.getLoadedDebit }}</td>
+        <td style="text-align:right;" class="rightborder">{{ eie.getLoadedDebit }}</td>
         <td>{{ ege|default_if_none:"&nbsp;" }}</td>
-        <td>{{ ege.getLoadedKredit }}</td>
+        <td style="text-align:right">{{ ege.getLoadedKredit }}</td>
       </tr>
       {% endfor %}
+      <tr>
+        <td>Sum:</td>
+        <td>{{totalEie}}</td>
+        <td>Sum:</td>
+        <td>{{totalFinans}}</td>
+      </tr>
     </table>
   </div>
 </div>
