@@ -6,7 +6,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 
 def showYear(request, prosjekt, year):
-    bilagYear = Bilag.objects.prosjekt(prosjekt).filter(dato__year = year).order_by('dato')
+    bilagYear = Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato')
     
     kostKonto= list(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType__in = (4,5,6,7,8,9)))
     intKonto = list(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType = 3 ))

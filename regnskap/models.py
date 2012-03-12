@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import Q
 
 from django.contrib.auth.models import User
 from django.http import Http404
 
 class Prosjekt(models.Model):
-    navn = models.CharField(max_length=256)
+    navn = models.CharField(max_length=60)
     beskrivelse = models.TextField()
     def __unicode__(self):
         return self.navn
@@ -17,7 +18,7 @@ class BaseProsjektManager(models.Manager):
                 prosjekt = Prosjekt.objects.get(navn = prosjekt)
             except:
                 raise Http404("Det finnes ikke noe projekt med navn \"%s\"" % prosjekt)
-        return self.extra(where = ["(prosjekt_id=%s OR prosjekt_id IS NULL)" % prosjekt.id])
+        return self.filter(Q(prosjekt = prosjekt) | Q(prosjekt = None))
 
 class KontoManager(BaseProsjektManager):
     def sum_columns(self, prosjekt, *arg, **kwarg):
