@@ -1,0 +1,39 @@
+This is a simple module for use with django to make a per user
+dropbox access simple
+
+Requirements:
+* standard django authentication
+* dropbox python api
+>> easy_install dropbox
+
+To use this dropbox module you have to add the following configuration to your
+settings.py file
+
+DROPBOX_SETTINGS = {
+  'app_key'    : "insert key",
+  'app_secret' : "insert secret",
+  'type'       : "app_folder",
+}
+
+and of course to include it in INSTALLED_APPS
+
+INSTALLED_APPS = (
+...,
+'django_dropbox',
+)
+
+to make a table to store personal access tokens for your users run
+
+>> python manage.py syncdb
+
+
+In your views you can import the dropbox_user_required decorator
+to mark views that should recive the named parameter dropbox_client
+
+from django_dropbox.decorator import dropbox_user_required
+
+@dropbox_user_required
+def myViewFunk(request, ..., dropbox_client):
+    file = ...
+    dropbox_client.put_file(file)
+    

@@ -9,28 +9,28 @@ import datetime
 class ExelYearView(object):
     """Exporter regnskapet i excel format for year"""
     
-    def __init__(self, template = None):
+    def __init__(self, year, wb = None):
         """
         Initialize an excel export for year an using an excel file as a template
         """
-        if(template):
-            self._wb = openpyxl.load_workbook(template)
-            """Internal variable to hold the openpyxl workbook"""
-        else:
-            self._wb = openpyxl.Workbook()
-            self._wb.properties.creator = "Django_regnskap, av Trondheim Kristne Studentlag"
-            self._wb.worksheets[0].title = "Transaksjonsoversikt"
-            self._wb.create_sheet(1,"Resultatregnskap")
-            self._wb.create_sheet(2,"Balanse")
+        self._year = year
+        self._wb = wb or openpyxl.Workbook()
+        self._setWbProperties()
+    
+    def _setWbProperties(self):
         # set metadata
         p = self._wb.properties
         p.creator = "Django_regnskap, av Trondheim Kristne Studentlag"
         p.last_modified_by = "Django_regnskap, av Trondheim Kristne Studentlag"
+        p.title = "Regnskap for %d" % self._year
+        p.description = "Autogenerert regnskap for %d\nEksportert :%Y-%m-%d %H:%M:%S".format(self._year, datetime.datetime.now())
+    
+    def _generateProsjekt(self,prosjekt):
+        pass
     
     def generateYear(self,year):
         p = self._wb.properties
-        p.title = "Regnskap for %d" % year
-        p.description = "Autogenerert regnskap for %d\nEksportert :%Y-%m-%d %H:%M:%S".format(year, datetime.datetime.now())
+        
         kontoList = list(Konto.objects.all().order_by('nummer'))
         bilagList = Bilag.objects.filter(dato__year = year).order_by('bilagsnummer')
         self._generateRegnskapArk(kontoList,bilagList)
