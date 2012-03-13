@@ -60,4 +60,13 @@ table{
 }
 .rowTable td:nth-child(3){
    border-left: 1px solid black;
-} 
+}
+.rowTable th:last-child{
+   border-left: 1px solid black;
+}
+.rowTable tr:last-child{
+   border-top: 2px solid black;
+}
+.rowTable tr:first-child{
+   border-bottom: 2px solid black;
+}

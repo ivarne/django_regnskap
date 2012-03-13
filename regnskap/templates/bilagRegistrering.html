@@ -27,7 +27,8 @@
 
 {{ bilagform.beskrivelse.label }} {{ bilagform.beskrivelse }}{{ bilagform.beskrivelse.errors }}<br/>
 
-<table>{{ innslagform.management_form }}
+{{ innslagform.management_form }}
+<table>
 <tr>
     <th>S&oslash;k</th>
     <th>Konto</th>
@@ -173,6 +174,15 @@ $(document).ready(function(){
     changeMonth: true,
     changeYear: true,
   });
+  // ugly hack to remove default date
+  var d = new Date();
+  var m = ((d.getMonth()+1) > 9) ? (d.getMonth()+1) : '0' + (d.getMonth()+1).toString();
+  var da = (d.getDate() > 9) ? d.getDate() : '0' + (d.getDate()+1).toString();
+  var a = d.getFullYear() + '-' + m + '-' + da;
+  
+  if($("#id_bilag-dato").val() == a){
+    $("#id_bilag-dato").val("")
+  }
   $("#id_bilag-dato").hide();
   $("#id_external-id").autocompleteFill({
     'server-url'  : "/regnskap/registrer/{{prosjekt.navn}}/externalActorJSON",

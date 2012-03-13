@@ -9,7 +9,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-AUTH_PROFILE_MODULE = 'djaong_regnskap.regnskap.UserProfile'
+#AUTH_PROFILE_MODULE = 'regnskap.UserProfile'
 
 
 # Local time zone for this installation. Choices can be found here:

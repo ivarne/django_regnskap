@@ -173,8 +173,3 @@ class Innslag(models.Model):
             return None
     debit = property(_debitValue)
     kredit = property(_kreditValue)
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-    dropbox_token = models.CharField(max_length=256)

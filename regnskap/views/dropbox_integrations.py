@@ -13,8 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 
-from django_regnskap.regnskap.models import UserProfile
-
+from django_regnskap.django_dropbox.models import DropboxExtra
 from pprint import pprint
 
 #helper functions
