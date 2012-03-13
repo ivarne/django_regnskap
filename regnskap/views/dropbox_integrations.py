@@ -13,14 +13,14 @@ from django_dropbox.decorator import dropbox_user_required
 def saveBackup(request, year, dropbox_client):
     year = int(year)
     # import localy so that openpyxl is only required if needed.
+    e = ExelYearView(year)
     
-    e = open('regnskap/views/bilag.py')
-    filename = "bilag.py"
+    filename = "regnskap/%d-regnskap.xlsx"%year
     try:
         metadata = dropbox_client.metadata(filename)['rev'];
     except Exception:
         metadata = None
-    ret = dropbox_client.put_file(filename,e ,parent_rev=metadata)
+    ret = dropbox_client.put_file(filename,e.getExcelFileStream(),parent_rev=metadata)
     print ret
     return HttpResponse(str(ret))
     
