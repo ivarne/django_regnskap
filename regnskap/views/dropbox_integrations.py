@@ -6,7 +6,7 @@ from django_regnskap.regnskap.lib.export import ExelYearView
 
 from django.http import HttpResponse
 
-from django_dropbox.decorator import dropbox_user_required
+from django_regnskap.django_dropbox.decorator import dropbox_user_required
 
 
 @dropbox_user_required
