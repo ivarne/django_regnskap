@@ -15,7 +15,7 @@ from django.http import HttpResponse
 
 from models import DropboxExtra
 
-_keys = settings.DROPBOX_SETTINGS
+
 DROPBOX_REQUEST_SESSION_KEY = 'dropbox_request_token3' # random temp storage name
 
 def _saveUserToken(user, token):
@@ -37,6 +37,7 @@ def _dropboxConnect(request,sess):
 def dropbox_user_required(funk):
     @login_required
     def _dropbox_wrap(request, *args, **kwargs):
+        _keys = settings.DROPBOX_SETTINGS
         sess = session.DropboxSession(_keys['app_key'], _keys['app_secret'],_keys['type'])
         try:
             if request.session.has_key(DROPBOX_REQUEST_SESSION_KEY):

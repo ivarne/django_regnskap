@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 """
 Collection of exportation routines
 """
+
 from django_regnskap.regnskap.models import *
 import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
@@ -16,6 +18,10 @@ class ExelYearView(object):
         self._year = year
         self._wb = wb or openpyxl.Workbook()
         self._setWbProperties()
+        self._generateMainSheet( year, self._wb.worksheets[0] )
+        for prosjekt in Prosjekt.objects.all():
+            sheet = self._wb.create_sheet( 1, str(prosjekt) )
+            self._generateProjectSheet( prosjekt, year, sheet )
     
     def _setWbProperties(self):
         # set metadata
@@ -25,17 +31,42 @@ class ExelYearView(object):
         p.title = "Regnskap for %d" % self._year
         p.description = "Autogenerert regnskap for %d\nEksportert :%Y-%m-%d %H:%M:%S".format(self._year, datetime.datetime.now())
     
-    def _generateProsjekt(self,prosjekt):
-        pass
-    
-    def generateYear(self,year):
-        p = self._wb.properties
+    def _generateMainSheet(self,year, sheet):
+        sheet.title = "Oversikt"
         
-        kontoList = list(Konto.objects.all().order_by('nummer'))
-        bilagList = Bilag.objects.filter(dato__year = year).order_by('bilagsnummer')
-        self._generateRegnskapArk(kontoList,bilagList)
-        self._generateResultArk(year)
-        self._generateBalanseArk(year)
+    
+    def _generateProjectSheet(self, prosjekt, year, sheet):
+        kontoList = list(Konto.objects.prosjekt(prosjekt))
+        bilagList = Bilag.objects.prosjekt(prosjekt).filter(dato__year = year).order_by('bilagsnummer')
+        sheet.cell("A1").value = "Bilag"
+        sheet.cell("A2").value = "#"
+        sheet.cell("B1").value = "Regnskaps"
+        sheet.cell("B2").value = "Dato"
+        sheet.cell("C1").value = "Beskrivelse"
+        sheet.cell("C2").value = ""
+        sheet.cell("D1").value = "Hvem?"
+        sheet.cell("D2").value = ""
+        #write konto numbers and labels (first two lines)
+        kontoIndex = {} # kontonummer -> column pos
+        for i, konto in enumerate(kontoList):
+            sheet.cell(row=0,column=i+4).value = konto.tittel
+            sheet.cell(row=1,column=i+4).value = konto.nummer
+            kontoIndex[konto.nummer] = i+4;
+        #write all bilag
+        for i, bilag in enumerate(bilagList):
+            sheet.cell(row=i+2, column=0).value = bilag.bilagsnummer
+            sheet.cell(row=i+2, column=1).value = bilag.dato
+            sheet.cell(row=i+2, column=2).value = bilag.beskrivelse
+            sheet.cell(row=i+2, column=3).value = unicode(bilag.external_actor) or ""
+            try:
+                for innslag in bilag.innslag.all():
+                    c = kontoIndex[innslag.konto.nummer]
+                    if(innslag.isDebit):
+                        sheet.cell(row=i+2, column = c).value = innslag.belop
+                    else: #negativ for kredit
+                        sheet.cell(row=i+2, column = c).value = -innslag.belop
+            except KeyError:
+                sheet.cell(row=i+2, column = 4).value = "ERROR: innslag registrert pa konto som ikke er del av dette prosjketet"
     
     def getExcelFileStream(self):
         return save_virtual_workbook(self._wb)
@@ -43,35 +74,7 @@ class ExelYearView(object):
     def save(self, filename):
         return self._wb.save(filename)
     
-    def _generateRegnskapArk(self, kontoList, bilagList):
-        ra = self._wb.worksheets[0]
-        #write column headers
-        ra.cell("A1").value = "Bilag"
-        ra.cell("A2").value = "#"
-        ra.cell("B1").value = "Regnskaps"
-        ra.cell("B2").value = "Dato"
-        ra.cell("C1").value = "Beskrivelse"
-        ra.cell("C2").value = ""
-        ra.cell("D1").value = "Hvem?"
-        ra.cell("D2").value = ""
-        #write konto numbers and labels (first two lines)
-        kontoIndex = {} # kontonummer -> column pos
-        for i, konto in enumerate(kontoList):
-            ra.cell(row=0,column=i+4).value = konto.tittel
-            ra.cell(row=1,column=i+4).value = konto.nummer
-            kontoIndex[konto.nummer] = i+4;
-        #write all bilag
-        for i, bilag in enumerate(bilagList):
-            ra.cell(row=i+2, column=0).value = bilag.bilagsnummer
-            ra.cell(row=i+2, column=1).value = bilag.dato
-            ra.cell(row=i+2, column=2).value = bilag.beskrivelse
-            ra.cell(row=i+2, column=3).value = unicode(bilag.external_actor) or ""
-            for innslag in bilag.innslag.all():
-                c = kontoIndex[innslag.konto.nummer]
-                if(innslag.isDebit):
-                    ra.cell(row=i+2, column = c).value = innslag.belop
-                else: #negativ for kredit
-                    ra.cell(row=i+2, column = c).value = -innslag.belop
+
     
     def _generateResultArk(self, year):
         ra = self._wb.worksheets[1]
@@ -110,7 +113,3 @@ class ExelYearView(object):
         ba.cell(row=maxLen+3,column=2).value = "Sum:"
         ba.cell(row=maxLen+3,column=1).value = "=SUM(B4:B%d)" % (maxLen+3)
         ba.cell(row=maxLen+3,column=3).value = "=SUM(D4:D%d)" % (maxLen+3)
-
-if __name__ == '__main__':
-    excel = ExcelYearView(2011)
-    excel.save('test.xlsx')
