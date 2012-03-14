@@ -20,8 +20,10 @@ class ExelYearView(object):
         self._setWbProperties()
         self._generateMainSheet( year, self._wb.worksheets[0] )
         for prosjekt in Prosjekt.objects.all():
-            sheet = self._wb.create_sheet( 1, str(prosjekt) )
+            sheet = self._wb.create_sheet()
             self._generateProjectSheet( prosjekt, year, sheet )
+        self._generateFullBilagSheet(year)
+        
     
     def _setWbProperties(self):
         # set metadata
@@ -36,8 +38,18 @@ class ExelYearView(object):
         
     
     def _generateProjectSheet(self, prosjekt, year, sheet):
+        sheet.title = "Bilag %s" % str(prosjekt)
         kontoList = list(Konto.objects.prosjekt(prosjekt))
         bilagList = Bilag.objects.prosjekt(prosjekt).filter(dato__year = year).order_by('bilagsnummer')
+        self._generateBilagSheet(self,kontoList,bilagList,year,prosjekt, sheet)
+    
+    def _generateFullSheet(self, year, sheet):
+        sheet.title = "Alle bilag"
+        kontoList = list(Konto.objects.all())
+        bilagList = Bilag.objects.filter(dato__year = year).order_by('bilagsnummer')
+        self._generateBilagSheet(self,kontoList,bilagList,sheet)
+    
+    def _generateBilagSheet(self,kontoList,bilagList,sheet):
         sheet.cell("A1").value = "Bilag"
         sheet.cell("A2").value = "#"
         sheet.cell("B1").value = "Regnskaps"

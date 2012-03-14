@@ -41,11 +41,11 @@ def dropbox_user_required(funk):
         sess = session.DropboxSession(_keys['app_key'], _keys['app_secret'],_keys['type'])
         try:
             if request.session.has_key(DROPBOX_REQUEST_SESSION_KEY):
-                token = sess.obtain_access_token(request.session.pop(DROPBOX_REQUEST_SESSION_KEY))
-                _saveUserToken( request.user, token )
+                sess.token = sess.obtain_access_token(request.session.pop(DROPBOX_REQUEST_SESSION_KEY))
+                _saveUserToken( request.user, sess.token )
             else:
                 token = request.user.django_dropbox.dropbox_token
-            sess.token =  OAuthToken.from_string(token)
+                sess.token =  OAuthToken.from_string(token)
             c = client.DropboxClient(sess)
         except ObjectDoesNotExist:
             return _dropboxConnect(request, sess)
