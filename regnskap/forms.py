@@ -79,3 +79,11 @@ class BaseInnslagFormSet(forms.formsets.BaseFormSet):
                 kredit += form.cleaned_data['kredit'] or 0
         if debit != kredit:
             raise forms.ValidationError(u"Kredit og debit må summere til samme tall")
+
+class BilagFileForm(forms.ModelForm):
+    class Meta:
+        model = BilagFile
+        exclude = ('bilag',)
+
+def bilag_file_form_factory(client):
+    return type()

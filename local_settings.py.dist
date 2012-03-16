@@ -16,3 +16,5 @@ DROPBOX_SETTINGS = {
   'app_secret' : "insert secret",
   'type'       : "app_folder",
 }
+
+MEDIA_ROOT = ""

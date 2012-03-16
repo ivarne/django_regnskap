@@ -142,6 +142,13 @@ class Bilag(models.Model):
     def __unicode__(self):
         return "%s-%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse)
 
+def _bilag_upload_to(instance, filename):
+    return "bilag/%s/%s-%s" % (instance.dato.year, instance.bilag.id, filename)
+
+class BilagFile(models.Model):
+    bilag = models.ForeignKey(Bilag, related_name="files")
+    file = models.FileField(upload_to=_bilag_upload_to,)
+
 class Innslag(models.Model):
     AVAILABLE_TYPE = (
       (0,'Debit'),
