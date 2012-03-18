@@ -226,11 +226,11 @@ $(document).ready(function(){
     if(tmp.get("pluginTypeFound")){
       ul.find("a").click(function(e){
         var t = e.target;
-        if(t.attributes['xmimetype'] != 'application/pdf'){
+        if(t.attributes['xmimetype'].value != 'application/pdf'){
           return true; // do not change non pdf links
         }
         var pObj = new PDFObject({ 
-          url: t.attributes['href'],
+          url: t.attributes['href'].value,
           pdfOpenParams: {
             navpanes: 0,
             toolbar: 0,
