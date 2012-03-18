@@ -4,7 +4,7 @@ import os
 ## my files import
 from django_regnskap.regnskap.models import *
 from django_regnskap.regnskap.forms import *
-from django_dropbox.decorator import dropbox_user_required
+from django_regnskap.django_dropbox.decorator import get_dropbox,dropbox_user_required
 ## django import
 from django.shortcuts import render_to_response, render
 from django.forms.formsets import formset_factory
@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 
-from django_regnskap.django_dropbox.decorator import get_dropbox
+
 
 from django.core import serializers
 
