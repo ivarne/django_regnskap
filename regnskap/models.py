@@ -4,6 +4,7 @@ from django.db.models import Q
 
 from django.contrib.auth.models import User
 from django.http import Http404
+from django.conf import settings
 
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=60)
@@ -61,6 +62,7 @@ class KontoManager(BaseProsjektManager):
             select_params = arg * 2
             )
         return ret
+    
     def toOptionGroups(self, prosjekt):
         types = [('','')]
         kontos = self.prosjekt(prosjekt).order_by('nummer')
@@ -70,7 +72,7 @@ class KontoManager(BaseProsjektManager):
         subtype = []
         for konto in kontos:
             if(konto.kontoType != t):
-                types.append((Konto.AVAILABLE_KONTO_TYPE[t][1],subtype))
+                types.append((Konto.AVAILABLE_KONTO_TYPE[t-1][1],subtype))
                 subtype = []
                 t = konto.kontoType
             subtype.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
@@ -141,6 +143,15 @@ class Bilag(models.Model):
         return self.bilagsnummer
     def __unicode__(self):
         return "%s-%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse)
+
+def _bilag_upload_to(instance, filename):
+    return "bilag/%s/%s-%s" % (instance.dato.year, instance.bilag.id, filename)
+
+class BilagFile(models.Model):
+    bilag = models.ForeignKey(Bilag, related_name="files")
+    file = models.CharField(max_length=100)
+    def url(self):
+        return settings.MEDIA_URL + self.file
 
 class Innslag(models.Model):
     AVAILABLE_TYPE = (
