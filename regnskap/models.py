@@ -4,6 +4,7 @@ from django.db.models import Q
 
 from django.contrib.auth.models import User
 from django.http import Http404
+from django.conf import settings
 
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=60)
@@ -148,7 +149,9 @@ def _bilag_upload_to(instance, filename):
 
 class BilagFile(models.Model):
     bilag = models.ForeignKey(Bilag, related_name="files")
-    file = models.FileField(upload_to=_bilag_upload_to,)
+    file = models.CharField(max_length=100)
+    def url(self):
+        return settings.MEDIA_URL + self.file
 
 class Innslag(models.Model):
     AVAILABLE_TYPE = (

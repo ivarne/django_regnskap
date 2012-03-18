@@ -23,7 +23,7 @@ slik ser datastrukturen ut
 
 {% for f in files %}
 <li>
-  <input class="drobox_checkbox" type="checkbox" value="{{f.path}}"/>
+  <input class="drobox_checkbox" type="checkbox" value="{{f.file}}"/>
   {{f.file}}
   <a href="{{ f.url }}" target="blank" xmimetype="{{f.mime_type}}">open</a>
   <img src="/static/dropboxicons/{{f.icon}}.gif"/>

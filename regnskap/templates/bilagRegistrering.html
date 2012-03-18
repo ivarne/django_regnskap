@@ -15,7 +15,7 @@
         <label for="id_external-id">Id:</label>
       </th>
       <td>
-        <input id="id_external-id" type="text" maxlenght="100" name="external-id" value="{{ external_id }}"/> (Søk etter eksisterende kontakter her)
+        <input id="id_external-id" type="text" maxlength="100" name="external-id" value="{{ external_id }}"/> (Søk etter eksisterende kontakter her)
       </td>
     </tr>
     {{ external_a_form }}
@@ -203,7 +203,7 @@ $(document).ready(function(){
   var ul = $("#dropbox-file-list");
   var form = $("#id_files-dropbox")[0];
   ul.load("/regnskap/registrer/uploadsJSON",function(){
-    form.disabled = true;
+    var values = form.value.split(";");
     form.value = "";
     var update = function(e){
       var t = e.target;
@@ -214,11 +214,17 @@ $(document).ready(function(){
       if(t.checked){
         v.push(t.defaultValue)
       }else{
-        v.splice(v.indexOf(t.defaultValue),1);
+        var index = v.indexOf(t.defaultValue);
+        if(index != -1){
+          v.splice(index,1);
+        }
       }
       form.value = v.join(";");
     }
     ul.find("input").each(function(){
+      if(values.indexOf(this.defaultValue) != -1){
+        this.checked = true;
+      }
       update({'target':this});
     });
     ul.change(update)

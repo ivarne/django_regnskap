@@ -19,7 +19,7 @@ def showYear(request, prosjekt, year):
     totalInt = Decimal(0);
     for i in intKonto:
         totalInt += i.getLoadedKredit()
-    # adjust the lists so that they get equal lenght
+    # adjust the lists so that they get equal length
     l = max(intKonto, kostKonto, key=len)
     s = min(intKonto, kostKonto, key=len)
     s.extend(None for asdf in range(len(l) - len(s)))
@@ -33,7 +33,7 @@ def showYear(request, prosjekt, year):
     totalFinans = Decimal(0);
     for e in finansKonto:
         totalFinans += e.getLoadedKredit()
-    # adjust the lists so that they get equal lenght
+    # adjust the lists so that they get equal length
     l = max(eiendelKonto, finansKonto, key=len)
     s = min(eiendelKonto, finansKonto, key=len)
     s.extend(None for _ in range(len(l) - len(s)))

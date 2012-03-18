@@ -51,6 +51,10 @@ def registrerBilagForm(request, prosjekt):
                     inn.belop = cd["debit"] or cd["kredit"]
                     inn.type = not cd["debit"] or 0
                     inn.save()
+            #try:
+            bilag_file_form.save(b,get_dropbox(request))
+            #except Exception, e:
+            #    messages.add_message(request, messages.ERROR, "Det skjedde en feil med lagring av filer (%s)" % e)
             messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %d-%d.' % (bilagform.instance.dato.year , bilagform.instance.bilagsnummer))
             return HttpResponseRedirect(request.path)
         external_id = request.POST['external-id']

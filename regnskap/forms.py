@@ -2,10 +2,11 @@
 from models import *
 
 from django import forms
+from django.conf import settings
 
 from decimal import *
+import os
 
-from django_regnskap.django_dropbox.decorator import get_dropbox
 
 class BilagForm(forms.ModelForm):
     class Meta:
@@ -85,9 +86,38 @@ class BaseInnslagFormSet(forms.formsets.BaseFormSet):
             raise forms.ValidationError(u"Kredit og debit må summere til samme tall")
     
 
-class BilagFileForm(forms.ModelForm):
-    dropbox = forms.CharField()
-    class Meta:
-        model = BilagFile
-        exclude = ('bilag',)
+class BilagFileForm(forms.Form):
+    file = forms.FileField(required =False)
+    dropbox = forms.CharField(required =False)
+    def save(self,bilag,client):
+        if not self.is_valid():# ignore files if validation fails
+            raise Exception("Ugyldig form")
+        for f in self._saveFiles(bilag,client):
+            b = BilagFile(bilag = bilag, file = f)
+            b.save()
+    def _saveFiles(self, bilag, client):
+        def prepareSave(fname):
+            newname = os.path.join(str(bilag.dato.year),"%d-%s" % (bilag.bilagsnummer, fname))
+            f = os.path.join(settings.MEDIA_ROOT,newname)
+            return (newname, open(f,'wb+'))
+        fnames = []
+        # save files from dropbox
+        for dname in self.cleaned_data['dropbox'].split(";"):
+            if len(dname): # spilt returns [''] if string is empty
+                newname, newfile = prepareSave(dname)
+                fnames.append(newname)
+                f = client.get_file("upload/" + dname)
+                newfile.write(f.read())
+                f.close()
+                newfile.close()
+                client.file_delete("upload/" + dname)
+        # save file from upload field
+        if self.cleaned_data['file']:
+            newname, newfile = prepareSave(self.cleaned_data['file'].name)
+            fnames.append(newname)
+            for chunk in self.cleaned_data['file'].chunks():
+                newfile.write(chunk)
+            newfile.close()
+        return fnames
+    
 
