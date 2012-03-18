@@ -1,6 +1,6 @@
 from django.core.files.storage import Storage
 from dropbox.rest import ErrorResponse
-import datetime
+from datetime import datetime
 
 class DropboxStorage(Storage):
     """
@@ -69,4 +69,4 @@ class DropboxStorage(Storage):
     def modified_time(self, name):
         if not name in self.metaCache:
             self.meataCache[name] = client.metadata(name, False)
-        return datetime.strptime(self.metaCache[name]["modified"],"%a, %d %b %Y %H:%M:%S %z")
+        return datetime.strptime(self.metaCache[name]["modified"],"%a, %d %b %Y %H:%M:%S +0000")

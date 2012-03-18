@@ -61,6 +61,7 @@ class KontoManager(BaseProsjektManager):
             select_params = arg * 2
             )
         return ret
+    
     def toOptionGroups(self, prosjekt):
         types = [('','')]
         kontos = self.prosjekt(prosjekt).order_by('nummer')
@@ -70,7 +71,7 @@ class KontoManager(BaseProsjektManager):
         subtype = []
         for konto in kontos:
             if(konto.kontoType != t):
-                types.append((Konto.AVAILABLE_KONTO_TYPE[t][1],subtype))
+                types.append((Konto.AVAILABLE_KONTO_TYPE[t-1][1],subtype))
                 subtype = []
                 t = konto.kontoType
             subtype.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))

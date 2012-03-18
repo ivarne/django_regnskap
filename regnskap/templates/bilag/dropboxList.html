@@ -1,0 +1,31 @@
+{% comment %}
+slik ser datastrukturen ut
+[
+  {
+    'size': '272.7 KB',
+    'expires': 'Sat, 17 Mar 2012 22:34:59 +0000',
+    'url': 'https://dl.dropbox.com/0/view/kkmfct25nkyppqw/Apps/django-regnskap/upload/dotguide.pdf',
+    'rev': '5205fa2d18',
+    'thumb_exists': False,
+    'bytes': 279270,
+    'modified': datetimeObject,
+    'path': '/upload/dotguide.pdf',
+    'file': 'dotguide.pdf',
+    'is_dir': False,
+    'icon': 'page_white_acrobat',
+    'root': 'dropbox',
+    'mime_type':'application/pdf',
+    'revision': 82
+  },
+  ...
+]
+{% endcomment %}
+
+{% for f in files %}
+<li>
+  <input class="drobox_checkbox" type="checkbox" value="{{f.path}}"/>
+  {{f.file}}
+  <a href="{{ f.url }}" target="blank" x-mime-type="{{f.mime_type}}">open</a>
+  <img src="/static/dropboxicons/{{f.icon}}.gif"/>
+</li>
+{% endfor %}

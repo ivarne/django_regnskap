@@ -5,6 +5,7 @@ from django import forms
 
 from decimal import *
 
+from django_regnskap.django_dropbox.decorator import get_dropbox
 
 class BilagForm(forms.ModelForm):
     class Meta:
@@ -20,6 +21,21 @@ class External_ActorForm(forms.ModelForm):
         exclude = ('prosjekt',)
 
 class BaseInnslagForm(forms.Form):
+#    kontos = None #Set kontos with choices in innslag_form_factory
+    debit = forms.DecimalField(
+        min_value = 0,
+        max_value = 10000000, # Ti milioner
+        decimal_places = 2,
+        widget=forms.TextInput(attrs={'size':'10'}),
+        required=False, # one of debit/kredit required(not both)
+    )
+    kredit = forms.DecimalField(
+        min_value = 0,
+        max_value = 10000000, # Ti milioner
+        decimal_places = 2,
+        widget=forms.TextInput(attrs={'size':'10'}),
+        required=False, # one of debit/kredit required(not both)
+    )
     #form fields gets added by the inslag_form_factory
     #Validation:
     def clean(self):
@@ -44,24 +60,8 @@ def innslag_form_factory(prosjekt):
         empty_value = None,
         widget = forms.Select(attrs={'tabindex':'-1'})
     )
-    debit = forms.DecimalField(
-        min_value = 0,
-        max_value = 10000000, # Ti milioner
-        decimal_places = 2,
-        widget=forms.TextInput(attrs={'size':'10'}),
-        required=False, # one of debit/kredit required(not both)
-    )
-    kredit = forms.DecimalField(
-        min_value = 0,
-        max_value = 10000000, # Ti milioner
-        decimal_places = 2,
-        widget=forms.TextInput(attrs={'size':'10'}),
-        required=False, # one of debit/kredit required(not both)
-    )
     return type(str(prosjekt) + "InnslagForm", (BaseInnslagForm,), {
         'kontos' : kontos,
-        'debit'  : debit,
-        'kredit' : kredit,
     })
 
 class BaseInnslagFormSet(forms.formsets.BaseFormSet):
@@ -73,17 +73,21 @@ class BaseInnslagFormSet(forms.formsets.BaseFormSet):
             return
         debit = Decimal(0) # datatype with exact decimal fractions
         kredit = Decimal(0)
+        i = 0
         for form in self.forms:
             if form.cleaned_data:
+                i+=1
                 debit += form.cleaned_data['debit'] or 0
                 kredit += form.cleaned_data['kredit'] or 0
+        if i == 0:
+            raise forms.ValidationError(u"Det må være minst to innslag på et bilag")
         if debit != kredit:
             raise forms.ValidationError(u"Kredit og debit må summere til samme tall")
+    
 
 class BilagFileForm(forms.ModelForm):
+    dropbox = forms.CharField()
     class Meta:
         model = BilagFile
         exclude = ('bilag',)
 
-def bilag_file_form_factory(client):
-    return type()

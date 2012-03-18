@@ -4,11 +4,10 @@
 
 {% block content %}
 <h1>Registrer bilag på {{prosjekt.navn}}</h1>
-<form action="{{url}}" method="post">{% csrf_token %}
+<form action="{{url}}" enctype="multipart/form-data" method="post">{% csrf_token %}
 {{ bilagform.non_field_errors }}
 
-{{ bilagform.dato }}<div id="datepicker"></div>{{ bilagsform.dato.errors }}
-<div>
+<div style="float:right">
   <h3>Hvem?</h3>
   <table>
     <tr>
@@ -23,12 +22,14 @@
   </table>
 </div>
 
-<div style="clear:both;"></div>
-
-{{ bilagform.beskrivelse.label }} {{ bilagform.beskrivelse }}{{ bilagform.beskrivelse.errors }}<br/>
+<table>
+{{ bilagform }}
+</table>
 
 {{ innslagform.management_form }}
-<table>
+{{ innslagform.formset.non_form_errors }}
+
+<table style="float:left">
 <tr>
     <th>S&oslash;k</th>
     <th>Konto</th>
@@ -77,7 +78,25 @@
   <td colspan="2"><span id="diffDebitkredit"></span></td>
 </tr>
 </table>
+
+
+
+<div style="clear:both;"></div>
+
 <input type="submit" value="Submit" />
+
+<div style="float:left;width:300px;height:300px">
+  <table>
+  {{bilag_file_form}}
+  </table>
+  <ul id="dropbox-file-list"></ul>
+</div>
+
+<div id="pdf_div" style="float:left;width:600px;height:300"></div>
+
+
+
+
 </form>
 
 <script>
@@ -168,26 +187,62 @@ $(document).ready(function(){
   $(".innslag").change(update);
   $(".balance-row").click(balance);
   $(".kontoSelect > select").change(colorGrid);
-  $("#datepicker").datepicker({
+  $("#id_bilag-dato").datepicker({
     altField:"#id_bilag-dato",
     altFormat:"yy-mm-dd",
     changeMonth: true,
     changeYear: true,
   });
-  // ugly hack to remove default date
-  var d = new Date();
-  var m = ((d.getMonth()+1) > 9) ? (d.getMonth()+1) : '0' + (d.getMonth()+1).toString();
-  var da = (d.getDate() > 9) ? d.getDate() : '0' + (d.getDate()+1).toString();
-  var a = d.getFullYear() + '-' + m + '-' + da;
-  
-  if($("#id_bilag-dato").val() == a){
-    $("#id_bilag-dato").val("")
-  }
-  $("#id_bilag-dato").hide();
+
   $("#id_external-id").autocompleteFill({
     'server-url'  : "/regnskap/registrer/{{prosjekt.navn}}/externalActorJSON",
     'match_order' : ['name', 'email', 'adress'],
     'prefix'      : "id_external-",
+  });
+
+  var ul = $("#dropbox-file-list");
+  var form = $("#id_files-dropbox")[0];
+  ul.load("/regnskap/registrer/uploadsJSON",function(){
+    form.disabled = true;
+    form.value = "";
+    var update = function(e){
+      var t = e.target;
+      var v = form.value.split(";");
+      if(v[0] == ""){
+        v.shift();//remove first element
+      }
+      if(t.checked){
+        v.push(t.defaultValue)
+      }else{
+        v.splice(v.indexOf(t.defaultValue),1);
+      }
+      form.value = v.join(";");
+    }
+    ul.find("input").each(function(){
+      update({'target':this});
+    });
+    ul.change(update)
+    var tmp = new PDFObject({'url':'ehm-not inn use'});
+    if(tmp.get("pluginTypeFound")){
+      ul.find("a").click(function(e){
+        var t = e.target;
+        if(t.attributes['x-mime-type'] != 'application/pdf'){
+          return true; // do not change non pdf links
+        }
+        var pObj = new PDFObject({ 
+          url: t.attributes['href'],
+          pdfOpenParams: {
+            navpanes: 0,
+            toolbar: 0,
+            statusbar: 0,
+            view: "FitV"
+          }
+        });
+        pObj.embed("pdf_div")
+        
+        return false;
+      });
+    }
   });
 });
   
