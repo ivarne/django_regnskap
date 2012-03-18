@@ -226,7 +226,7 @@ $(document).ready(function(){
     if(tmp.get("pluginTypeFound")){
       ul.find("a").click(function(e){
         var t = e.target;
-        if(t.attributes['x-mime-type'] != 'application/pdf'){
+        if(t.attributes['xmimetype'] != 'application/pdf'){
           return true; // do not change non pdf links
         }
         var pObj = new PDFObject({ 
