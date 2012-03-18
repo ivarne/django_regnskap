@@ -23,4 +23,11 @@ def saveBackup(request, year, dropbox_client):
     ret = dropbox_client.put_file(filename,e.getExcelFileStream(),parent_rev=metadata)
     print ret
     return HttpResponse(str(ret))
-    
+
+@dropbox_user_required
+def test(request,dropbox_client):
+    ret = dropbox_client.metadata('upload')['contents']
+    for f in ret:
+        print dropbox_client.media(f['path'])
+    print ret
+    return HttpResponse(str(ret))

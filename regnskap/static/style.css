@@ -1,3 +1,8 @@
+/* general reset */
+img{
+   border:0;
+}
+
 /* Special stylings for django messages */
 ul.messages > li{
 	padding:5px;
@@ -37,6 +42,20 @@ ul.messages > li.error{
    position: absolute;
    background-color: wheat;
 }
+
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+}
+.errorlist li {
+    background-color: red;
+    color: white;
+    display: block;
+    font-size: 10px;
+    margin: 0 0 3px;
+    padding: 4px 5px;
+}
+
 
 /*Bilagsliste*/
 table{
