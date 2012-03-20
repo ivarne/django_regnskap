@@ -33,9 +33,10 @@ def _dropboxConnect(request,sess):
     url = sess.build_authorize_url(request_token,request.build_absolute_uri())
     return HttpResponseRedirect(url)
 
-def get_dropbox(request):
+def get_dropbox(request, sess = None):
     _keys = settings.DROPBOX_SETTINGS
-    sess = session.DropboxSession(_keys['app_key'], _keys['app_secret'],_keys['type'])
+    if not sess:
+        sess = session.DropboxSession(_keys['app_key'], _keys['app_secret'],_keys['type'])
     token = request.user.django_dropbox.dropbox_token
     sess.token =  OAuthToken.from_string(token)
     return client.DropboxClient(sess)
@@ -43,11 +44,12 @@ def get_dropbox(request):
 def dropbox_user_required(funk):
     @login_required
     def _dropbox_wrap(request, *args, **kwargs):
+        sess = session.DropboxSession(_keys['app_key'], _keys['app_secret'],_keys['type'])
         if request.session.has_key(DROPBOX_REQUEST_SESSION_KEY):
             sess.token = sess.obtain_access_token(request.session.pop(DROPBOX_REQUEST_SESSION_KEY))
             _saveUserToken( request.user, sess.token )
         try:
-            c = get_dropbox(request)
+            c = get_dropbox(request, sess)
         except ObjectDoesNotExist:
             return _dropboxConnect(request, sess)
         try:
