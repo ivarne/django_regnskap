@@ -22,7 +22,7 @@ class ExelYearView(object):
         for prosjekt in Prosjekt.objects.all():
             sheet = self._wb.create_sheet()
             self._generateProjectSheet( prosjekt, year, sheet )
-        self._generateFullBilagSheet(year)
+        self._generateFullBilagSheet(year,self._wb.create_sheet())
         
     
     def _setWbProperties(self):
@@ -41,15 +41,15 @@ class ExelYearView(object):
         sheet.title = "Bilag %s" % str(prosjekt)
         kontoList = list(Konto.objects.prosjekt(prosjekt))
         bilagList = Bilag.objects.prosjekt(prosjekt).filter(dato__year = year).order_by('bilagsnummer')
-        self._generateBilagSheet(self,kontoList,bilagList,year,prosjekt, sheet)
+        self._generateBilagSheet(kontoList,bilagList,year,prosjekt, sheet)
     
-    def _generateFullSheet(self, year, sheet):
+    def _generateFullBilagSheet(self, year, sheet):
         sheet.title = "Alle bilag"
         kontoList = list(Konto.objects.all())
         bilagList = Bilag.objects.filter(dato__year = year).order_by('bilagsnummer')
-        self._generateBilagSheet(self,kontoList,bilagList,sheet)
+        self._generateBilagSheet(kontoList,bilagList,year,"Alle",sheet)
     
-    def _generateBilagSheet(self,kontoList,bilagList,sheet):
+    def _generateBilagSheet(self,kontoList,bilagList,year,prosjekt,sheet):
         sheet.cell("A1").value = "Bilag"
         sheet.cell("A2").value = "#"
         sheet.cell("B1").value = "Regnskaps"
