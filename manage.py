@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+try:
+    import sys
+    sys.path.append("/Users/ivarne/django/Django-1.3.1")
+except:
+    pass
+
+
 from django.core.management import execute_manager
 import imp
 try:

@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.views.generic.simple import redirect_to
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -17,5 +18,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^regnskap/', include('django_regnskap.regnskap.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+	url(r'^$', redirect_to, {'url': "/regnskap"} )
     
 )

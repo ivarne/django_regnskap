@@ -13,9 +13,17 @@
       </tr>
       {% for kost, int in resultat %}
       <tr>
-        <td>{{ kost|default_if_none:"&nbsp;" }}</td>
+        {% if kost %}
+        <td title="{{ kost.beskrivelse }}">{{ kost }}</td>
+        {% else %}
+        <td>&nbsp;</td>
+        {% endif %}
         <td style="text-align:right">{{ kost.getLoadedDebit }}</td>
-        <td>{{ int|default_if_none:"&nbsp;" }}</td>
+        {% if int %}
+        <td title="{{ int.beskrivelse }}">{{ int }}</td>
+        {% else %}
+        <td>&nbsp;</td>
+        {% endif %}
         <td style="text-align:right">{{ int.getLoadedKredit }}</td>
       </tr>
       {% endfor %}
@@ -36,9 +44,17 @@
       </tr>
       {% for eie, ege in balanse %}
       <tr>
-        <td>{{ eie|default_if_none:"&nbsp;" }}</td>
+        {% if eie %}
+        <td title="{{ eie.beskrivelse }}">{{ eie }}</td>
+        {% else %}
+        <td>&nbsp;</td>
+        {% endif %}
         <td style="text-align:right;" class="rightborder">{{ eie.getLoadedDebit }}</td>
-        <td>{{ ege|default_if_none:"&nbsp;" }}</td>
+        {% if ege %}
+        <td title="{{ ege.beskrivelse }}">{{ ege }}</td>
+        {% else %}
+        <td>&nbsp;</td>
+        {% endif %}
         <td style="text-align:right">{{ ege.getLoadedKredit }}</td>
       </tr>
       {% endfor %}

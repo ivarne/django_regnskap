@@ -42,6 +42,9 @@ ul.messages > li.error{
    position: absolute;
    background-color: wheat;
 }
+.search-div > div:hover{
+   background-color: yellow;
+}
 
 ul.errorlist {
     margin: 0;

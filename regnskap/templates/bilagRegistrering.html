@@ -15,7 +15,7 @@
         <label for="id_external-id">Id:</label>
       </th>
       <td>
-        <input id="id_external-id" type="text" maxlength="100" name="external-id" value="{{ external_id }}"/> (Søk etter eksisterende kontakter her)
+        <input id="id_external-id" type="text" maxlength="100" name="external-id" value="{{ external_id }}"/> (Søk)
       </td>
     </tr>
     {{ external_a_form }}
@@ -196,7 +196,7 @@ $(document).ready(function(){
 
   $("#id_external-id").autocompleteFill({
     'server-url'  : "/regnskap/registrer/{{prosjekt.navn}}/externalActorJSON",
-    'match_order' : ['name', 'email', 'adress'],
+    'match_order' : ['id','name', 'email', 'adress','org_nr'],
     'prefix'      : "id_external-",
   });
 
