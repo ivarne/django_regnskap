@@ -40,7 +40,7 @@ class ExelYearView(object):
     def _generateProjectSheet(self, prosjekt, year, sheet):
         sheet.title = "Bilag %s" % str(prosjekt)
         kontoList = list(Konto.objects.prosjekt(prosjekt))
-        bilagList = Bilag.objects.prosjekt(prosjekt).filter(dato__year = year).order_by('bilagsnummer')
+        bilagList = Bilag.objects.prosjekt(prosjekt).filter(dato__year = year).order_by('dato')
         self._generateBilagSheet(kontoList,bilagList,year,prosjekt, sheet)
     
     def _generateFullBilagSheet(self, year, sheet):

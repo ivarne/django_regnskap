@@ -76,6 +76,7 @@ class KontoManager(BaseProsjektManager):
                 subtype = []
                 t = konto.kontoType
             subtype.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
+        types.append((Konto.AVAILABLE_KONTO_TYPE[t-1][1],subtype))
         return types
 
 # Kontoplan
@@ -90,13 +91,13 @@ class Konto(models.Model):
       (5,'Lonnskonstnad'),
       (6,'Annen driftskostnad'),
       (7,'Av- og nedskrivninger'),
-      (8,'Finans'),
-      (9,u'Oppgjørskontoer')
+      (8,u'Finans, ekstra og oppgjør')
     )
     id = models.AutoField(primary_key=True)
     kontoType = models.IntegerField(choices=AVAILABLE_KONTO_TYPE)
     nummer = models.IntegerField(unique=True)
     tittel = models.CharField(max_length=256)
+    beskrivelse = models.TextField(blank = True)
     prosjekt = models.ForeignKey(Prosjekt, blank=True, null=True)
     objects = KontoManager()
     

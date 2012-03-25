@@ -14,7 +14,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 
 
-from django.core import serializers
+import json
 
 from operator import itemgetter
 
@@ -76,11 +76,11 @@ def registrerBilagForm(request, prosjekt):
     },RequestContext(request))
     
 def ajaxExternalActors(request, prosjekt):
-    queryset = Exteral_Actor.objects.prosjekt(prosjekt)
-    response = HttpResponse()
-    json_serializer = serializers.get_serializer("json")()
-    json_serializer.serialize(queryset, ensure_ascii=False, stream=response)
-    return response
+    actors = Exteral_Actor.objects.prosjekt(prosjekt)
+    ret = []
+    for a in actors:
+        ret.append( {'id': a.id, 'name': a.name, 'email': a.email, 'adress': a.adress,'org_nr': a.org_nr})
+    return HttpResponse(json.dumps(ret,sort_keys=True))
 
 @dropbox_user_required
 def ajaxDropboxUploads(request,dropbox_client):

@@ -9,22 +9,28 @@
       'server-search' : false, // if set to a property
       'server-url'    : null,
       'match_order'   : null,
-      'num'           : 10,
+      'num'           : 10
     },options);
     // add event to search
     var searchdiv = $("<div>").addClass('search-div');
     searchdiv.hide()
     this.after(searchdiv);
-    
-    var contacts = [];
+    var searchField = this;
+    var contacts = {};
+    var contactList = [];
     $.getJSON(settings["server-url"], function(c) {
-      //restructure json (the default django export does not suit my needs)
-      for(var i in c){
-        var con = c[i];
-        con.fields["id"] = con.pk.toString();
-        contacts.push(con.fields);
+      contactList = c;
+      for(var key in c){
+          contacts[c[key]['id']] = c[key];
       }
-     });
+    });
+    var setExternal = function(id){
+      for(var key in settings.match_order ){
+        key = settings.match_order[key];
+        $("#" + settings.prefix + key ).val(contacts[id][key]);
+      }
+    };
+    
     this.focusin(function(){
       searchdiv.show()
       for(var key in settings.match_order ){
@@ -32,6 +38,7 @@
         $("#" + settings.prefix + key ).val(null);
       }
     });
+    
     this.focusout(function(){
       setTimeout(function(){
         searchdiv.hide();
@@ -43,9 +50,13 @@
       }
       this.value = v;
     });
+    
+    searchdiv.mousedown(function(e){
+      setExternal( e.target.attributes['ext_id']);
+    });
     this.keyup(function(){
       var reg = new RegExp(this.value,"i");
-      var local_contact = contacts.slice(0); // take a copy
+      var local_contact = contactList.slice(0); // take a copy
       var match = [];
       
       searchdiv.empty();
@@ -55,7 +66,7 @@
         key = settings.match_order[key];
         for (var id = 0; id < local_contact.length; id++){
           var c = local_contact[id];
-          if(c[key].match(reg)){
+          if(c[key].toString().match(reg)){
             match.push(c);
             local_contact.splice(id,1);
             id--;
@@ -68,16 +79,13 @@
       // now I have an orderd list of matches
       if(match.length == 1){
         $(this).blur();
-        for(var key in settings.match_order ){
-          key = settings.match_order[key];
-          $("#" + settings.prefix + key ).val(match[0][key]);
-        }
-        this.value = match[0].id;
-        return
+        return setExternal(match[0]['id']);
       }
       for(var i = 0; i < match.length; i++){
         //TODO: some fancy styling
-        $("<div>").text(match[i].name).appendTo(searchdiv);
+        var tmp = $("<div>").text(match[i].name);
+        tmp[0].attributes['ext_id'] = match[i].id;
+        tmp.appendTo(searchdiv);
       }
     });
   };
