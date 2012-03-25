@@ -20,8 +20,8 @@ from operator import itemgetter
 
 from datetime import datetime
 
-def registrerBilagForm(request, prosjekt):
-    NumberOfInnslag = 5
+def registrerBilagForm(request, prosjekt, extra):
+    NumberOfInnslag = int(extra or 5)
     prosjekt = Prosjekt.objects.get(navn = prosjekt)
     InnslagForm = innslag_form_factory(prosjekt)
     InnslagFormSet = formset_factory(InnslagForm, extra = NumberOfInnslag, formset=BaseInnslagFormSet)
