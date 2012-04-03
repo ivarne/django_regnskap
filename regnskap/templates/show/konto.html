@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Konto {{konto}}{% endblock %}
+
+{% block content %}
+<h1>Konto {{konto}}</h1>
+{% for innslag in innslags %}
+<p>
+{{innslag}}
+</p>{% endfor %}
+{% endblock %}

@@ -18,6 +18,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^regnskap/', include('django_regnskap.regnskap.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
-	url(r'^$', redirect_to, {'url': "/regnskap"} )
-    
+    url(r'^$', redirect_to, {'url': "/regnskap"} )
 )

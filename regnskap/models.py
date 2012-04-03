@@ -160,7 +160,7 @@ class Innslag(models.Model):
       (1,'Kredit')
     )
     bilag = models.ForeignKey(Bilag, related_name='innslag')
-    konto = models.ForeignKey(Konto)
+    konto = models.ForeignKey(Konto, related_name='innslag')
     
     belop = models.DecimalField(max_digits=16,decimal_places=2, blank=True, null=True)
     type = models.IntegerField(choices=AVAILABLE_TYPE)
