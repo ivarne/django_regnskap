@@ -72,15 +72,14 @@ balanse = (
     )),
 )
 
-for overskrift, b in balanse:
-    print overskrift #h2
-    for hovedgrupe, h in b:
-        print "\t", hovedgrupe #h3
-        for undergruppe, u in h:
-            print "\t\t", undergruppe #h4
-            for kategori, key in u:
-                print "\t\t\t", kategori , ': ' , key
-                
+#for overskrift, b in balanse:
+#    print overskrift #h2
+#    for hovedgrupe, h in b:
+#        print "\t", hovedgrupe #h3
+#        for undergruppe, u in h:
+#            print "\t\t", undergruppe #h4
+#            for kategori, key in u:
+#                print "\t\t\t", kategori , ': ' , key
 
 resultat = (
     u'Inntekter',(

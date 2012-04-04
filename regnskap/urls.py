@@ -11,7 +11,7 @@ urlpatterns = patterns('django_regnskap.regnskap.views',
     url(r'^rapport/year/(\w+)(\d{4})res.html$', 'rapport.offisielltRegnskap'),
     url(r'^rapport/year/(\d{4}).xls$',          'excel.export'),
     url(r'^show/bilag/(\d+)$',                  'show.bilag'),
-    url(r'^show/external_actor/(\d+)$',         'show.externla_actor'),
+    url(r'^show/external_actor/(\d+)$',         'show.external_actor'),
     url(r'^show/konto/(\d+)$',                  'show.konto'),
     url(r'^$',                                  'menues.frontpage'),
 )

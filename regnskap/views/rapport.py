@@ -45,7 +45,7 @@ def offisielltRegnskap(request, prosjekt, year):
                     for kategori, key in u:
                         ksum = Decimal(0)
                         while str(konto.nummer).startswith(key):
-                            print kategori, ': ', konto
+#                            print kategori, ': ', konto
                             if str(konto.nummer).startswith('1'):
                                 ksum += konto.getLoadedDebit()
                             else:
