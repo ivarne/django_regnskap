@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Bilag {{bilag.bilagsnummer}} {{bilag.dato}}{% endblock %}
+
+{% block content %}
+<h1>Bilag {{bilag.bilagsnummer}} {{bilag.dato}}</h1>
+<p>{{bilag.beskrivelse}}</p>
+{% endblock %}

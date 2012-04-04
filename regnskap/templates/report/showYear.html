@@ -69,34 +69,5 @@
 </div>
 <div style="clear:both"></div>
 <h3>Bilagsliste</h3>
-<table class="BilagListe">
-  <tr>
-    <th>#</th>
-    <th>Dato</th>
-    <th>Beskrivelse</th>
-    <th>Hvem?</th>
-    <th>Konto</th>
-    <th>Debet</th>
-    <th>Kredit</th>
-  </tr>
-  {% for bilag in bilagYear %}
-  {% for innslag in bilag.innslag.all %}
-  <tr>
-    {% ifchanged bilag %}
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.bilagsnummer|default:"&nbsp;"}}</td>
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.beskrivelse|default:"&nbsp;"}}</td>
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.external_actor|default:"&nbsp;"}}</td>
-    <td class="topBorder">{{innslag.konto|default:"&nbsp;"}}</td>
-    <td class="topBorder">{{innslag.debit|default_if_none:"&nbsp;"}}</td>
-    <td class="topBorder">{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
-    {% else %}
-    <td>{{innslag.konto|default:"&nbsp;"}}</td>
-    <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
-    <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
-    {% endifchanged %}
-  </tr>
-  {% endfor %}
-  {% endfor %}
-</table>
+{% include "include/bilagTable.html" with bilags=bilagYear %}
 {% endblock %}

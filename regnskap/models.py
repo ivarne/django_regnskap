@@ -108,6 +108,8 @@ class Konto(models.Model):
         return (self.sum_debit or 0) - (self.sum_kredit or 0)
     def getLoadedKredit(self):
         return (self.sum_kredit or 0) - (self.sum_debit or 0)
+    def get_absolute_url(self):
+        return "/regnskap/show/konto/%d" % self.id
 
 class Exteral_Actor(models.Model):
     name = models.CharField(max_length = 256)
@@ -120,13 +122,15 @@ class Exteral_Actor(models.Model):
 
     def __unicode__(self):
         return self.name + ( " (%d)" % self.id )
+    def get_absolute_url(self):
+        return "/regnskap/show/external_actor/%d" % self.id
 
 class Bilag(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable = False)
     bilagsnummer = models.IntegerField(editable = False) #Automatic?
     dato = models.DateField()
     beskrivelse = models.CharField(max_length=256)
-    external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True)
+    external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True, related_name="bilag")
     prosjekt = models.ForeignKey(Prosjekt)
     objects = BaseProsjektManager()
     def _getKredit(self):
@@ -144,6 +148,8 @@ class Bilag(models.Model):
         return self.bilagsnummer
     def __unicode__(self):
         return "%s-%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse)
+    def get_absolute_url(self):
+        return "/regnskap/show/bilag/%d" % self.id
 
 def _bilag_upload_to(instance, filename):
     return "bilag/%s/%s-%s" % (instance.dato.year, instance.bilag.id, filename)
@@ -160,7 +166,7 @@ class Innslag(models.Model):
       (1,'Kredit')
     )
     bilag = models.ForeignKey(Bilag, related_name='innslag')
-    konto = models.ForeignKey(Konto)
+    konto = models.ForeignKey(Konto, related_name='innslag')
     
     belop = models.DecimalField(max_digits=16,decimal_places=2, blank=True, null=True)
     type = models.IntegerField(choices=AVAILABLE_TYPE)
@@ -183,5 +189,10 @@ class Innslag(models.Model):
             return self.belop
         else:
             return None
+    def _value(self):
+        if self.type == 0:
+            return self.belop
+        return -self.belop
     debit = property(_debitValue)
     kredit = property(_kreditValue)
+    value = property(_value)

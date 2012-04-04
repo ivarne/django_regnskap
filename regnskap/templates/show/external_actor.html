@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Ekstern kontakt{% endblock %}
+
+{% block content %}
+<h1>{{external_actor}}</h1>
+<table>
+  <tr>
+    <th>Id:</th>
+    <td>{{external_actor.id}}</td>
+  </tr>
+  <tr>
+    <th>Navn:</th>
+    <td>{{external_actor.name}}</td>
+  </tr>
+  <tr>
+    <th>Epost:</th>
+    <td>{{external_actor.email}}</td>
+  </tr>
+  <tr>
+    <th>Adresse:</th>
+    <td>{{external_actor.adress|linebreaks}}</td>
+  </tr>
+  <tr>
+    <th>Org. nr:</th>
+    <td>{{external_actor.org_nr}}</td>
+  </tr>
+  <tr>
+    <th>Prosjekt:</th>
+    <td>{{external_actor.prosjekt|default_if_none:"Generell (vises i alle prosjekter)"}}</td>
+  </tr>
+</table>
+
+<h2>Sisste bilag</h2>
+{% include "include/bilagTable.html" with bilags=bilags%}
+
+{% endblock %}
