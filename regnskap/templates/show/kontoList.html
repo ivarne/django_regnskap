@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Kontoliste {{prosjekt}}{% endblock %}
+
+{% block content %}
+<h1>{{konto}}</h1>
+<h2>Sisste bilag</h2>
+<ul>
+{% for konto in kontos %}
+  <li>
+    <a href="{{konto.get_absolute_url}}">{{konto.nummer}}</a>
+    {{konto.tittel}}
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}

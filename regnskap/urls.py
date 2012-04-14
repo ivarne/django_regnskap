@@ -13,5 +13,7 @@ urlpatterns = patterns('django_regnskap.regnskap.views',
     url(r'^show/bilag/(\d+)$',                  'show.bilag'),
     url(r'^show/external_actor/(\d+)$',         'show.external_actor'),
     url(r'^show/konto/(\d+)$',                  'show.konto'),
+    url(r'^show/konto_graph/(\d{4})/(\d+).png', 'show.konto_graph'),
+    url(r'^show/kontoList/(\w*)',               'show.kontoList'),
     url(r'^$',                                  'menues.frontpage'),
 )

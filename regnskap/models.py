@@ -102,7 +102,7 @@ class Konto(models.Model):
     objects = KontoManager()
     
     def __unicode__(self):
-        return unicode(self.nummer) +' '+self.tittel
+        return u"%s %s/%s" %(self.nummer, self.prosjekt.navn, self.tittel)
     # views can not do calculations
     def getLoadedDebit(self):
         return (self.sum_debit or 0) - (self.sum_kredit or 0)
