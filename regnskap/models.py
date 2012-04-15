@@ -14,6 +14,8 @@ class Prosjekt(models.Model):
 
 class BaseProsjektManager(models.Manager):
     def prosjekt(self, prosjekt):
+        if prosjekt == '':
+            return self
         if not isinstance(prosjekt, Prosjekt):
             try:
                 prosjekt = Prosjekt.objects.get(navn = prosjekt)

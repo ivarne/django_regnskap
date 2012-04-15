@@ -21,11 +21,14 @@ Her kan man se på ulike ting
     <ul>
     {% for p in prosjekt %}
     <li>{{p.beskrivelse}}<br>
-      <a href="rapport/year/{{ p }}{{year}}.html">{{p}}{{year}}.html</a><br>
+      <a href="rapport/year/{{ p }}{{year}}.html">{{p}}{{year}}.html</a>
     </li>
     {% endfor%}
       <li>Excel<br>
         <a href="rapport/year/{{year}}.xls">regnskap{{year}}.xls</a>
+      </li>
+      <li>Konsern<br>
+        <a href="raport/year/{{year}}.html">{{year}}.html</a>
       </li>
     </ul>
   </li>
