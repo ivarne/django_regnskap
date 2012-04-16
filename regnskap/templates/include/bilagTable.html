@@ -12,7 +12,7 @@
   {% for innslag in bilag.innslag.all %}
   <tr>
     {% ifchanged bilag %}
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.bilagsnummer|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.innslag.count}}" class="topBorder"><a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a></td>
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.beskrivelse|default:"&nbsp;"}}</td>
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">
