@@ -104,6 +104,7 @@ def showYear(request, prosjekt, year):
         'year'       : year,
         'bilagYear'  : bilagYear,
         'overskrift' : u"Årsoversikt %s" % year,
+        'prosjekt'   : prosjekt,
         
         'resultat'     : resultat,
         'balanse'      : balanse,

@@ -14,13 +14,27 @@
       {% for kost, int in resultat %}
       <tr>
         {% if kost %}
-        <td title="{{ kost.beskrivelse }}">{{ kost }}</td>
+        <td title="{{ kost.beskrivelse }}">
+          <a href="/regnskap/show/konto/{{kost.id}}">{{kost.nummer}}</a>
+          {% if prosjekt %}
+            {{ kost.tittel }}
+          {% else %}
+            {{ kost.prosjekt }}/{{ kost.tittel }}
+          {% endif %}
+        </td>
         {% else %}
         <td>&nbsp;</td>
         {% endif %}
         <td style="text-align:right">{{ kost.getLoadedDebit }}</td>
         {% if int %}
-        <td title="{{ int.beskrivelse }}">{{ int }}</td>
+        <td title="{{ int.beskrivelse }}">
+          <a href="/regnskap/show/konto/{{int.id}}">{{int.nummer}}</a>
+          {% if prosjekt %}
+            {{ int.tittel }}
+          {% else %}
+            {{ int.prosjekt }}/{{ int.tittel }}
+          {% endif %}
+        </td>
         {% else %}
         <td>&nbsp;</td>
         {% endif %}
@@ -45,13 +59,27 @@
       {% for eie, ege in balanse %}
       <tr>
         {% if eie %}
-        <td title="{{ eie.beskrivelse }}">{{ eie }}</td>
+        <td title="{{ eie.beskrivelse }}">
+          <a href="/regnskap/show/konto/{{eie.id}}">{{eie.nummer}}</a>
+          {% if prosjekt %}
+            {{ eie.tittel }}
+          {% else %}
+            {{ eie.prosjekt }}/{{ eie.tittel }}
+          {% endif %}
+        </td>
         {% else %}
         <td>&nbsp;</td>
         {% endif %}
         <td style="text-align:right;" class="rightborder">{{ eie.getLoadedDebit }}</td>
         {% if ege %}
-        <td title="{{ ege.beskrivelse }}">{{ ege }}</td>
+        <td title="{{ ege.beskrivelse }}">
+          <a href="/regnskap/show/konto/{{ege.id}}">{{ege.nummer}}</a>
+          {% if prosjekt %}
+            {{ ege.tittel }}
+          {% else %}
+            {{ ege.prosjekt }}/{{ ege.tittel }}
+          {% endif %}
+        </td>
         {% else %}
         <td>&nbsp;</td>
         {% endif %}
