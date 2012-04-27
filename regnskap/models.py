@@ -162,7 +162,7 @@ class Bilag(models.Model):
         show warnings that something is wrong in the database (shoud never happen)
         """
         sum = Decimal(0)
-        for i in self.innslag:
+        for i in self.innslag.all():
             sum += i.value
         return sum
 

@@ -99,12 +99,14 @@ def showYear(request, prosjekt, year):
     s = min(eiendelKonto, finansKonto, key=len)
     s.extend(None for _ in range(len(l) - len(s)))
     balanse = zip(eiendelKonto, finansKonto)
+    from django.db import connection
     
     return render_to_response('report/showYear.html', {
         'year'       : year,
         'bilagYear'  : bilagYear,
         'overskrift' : u"Årsoversikt %s" % year,
         'prosjekt'   : prosjekt,
+        'queries'    : connection.queries
         
         'resultat'     : resultat,
         'balanse'      : balanse,
