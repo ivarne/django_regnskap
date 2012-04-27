@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.http import Http404
 from django.conf import settings
 
+from decimal import *
+
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=60)
     beskrivelse = models.TextField()
@@ -152,6 +154,17 @@ class Bilag(models.Model):
         return "%s-%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse)
     def get_absolute_url(self):
         return "/regnskap/show/bilag/%d" % self.id
+    def innslag_sum(self):
+        """
+        Get the sum of the values in the inslags. This should always be zero!!!, and
+        this method is used to check concistency.
+        This is not runned automatically by django form framework, but is used to
+        show warnings that something is wrong in the database (shoud never happen)
+        """
+        sum = Decimal(0)
+        for i in self.innslag:
+            sum += i.value
+        return sum
 
 def _bilag_upload_to(instance, filename):
     return "bilag/%s/%s-%s" % (instance.dato.year, instance.bilag.id, filename)

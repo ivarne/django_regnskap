@@ -14,7 +14,15 @@
     {% ifchanged bilag %}
     <td rowspan="{{bilag.innslag.count}}" class="topBorder"><a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a></td>
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.beskrivelse|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.innslag.count}}" class="topBorder">
+      {{bilag.beskrivelse|default:"&nbsp;"}}
+      {% if bilag.innslag_sum %}
+      <br>
+      <span style="color: yellow; background-color: red; border: 2px solid red">
+        Dette bilaget har inkonsistente innslag slik at summen ikke blir 0 men {{bilag.innslag_sum}}!!!!
+      </span>
+      {% endif %}
+    </td>
     <td rowspan="{{bilag.innslag.count}}" class="topBorder">
       {% if bilag.external_actor %}
       {{bilag.external_actor.name}}
