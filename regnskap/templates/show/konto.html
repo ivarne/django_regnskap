@@ -31,7 +31,7 @@
     <td class='tableNumber'>{{innslag.bilag.dato|date:"j"}}</td>
     <td class="tableNumber">
       <a href="{{innslag.bilag.get_absolute_url}}">
-      #{{innslag.bilag.bilagsnummer}}
+      {{innslag.bilag.dato.year}}-{{innslag.bilag.bilagsnummer}}
       </a>
     </td>
     <td>{{innslag.bilag.beskrivelse}}</td>
