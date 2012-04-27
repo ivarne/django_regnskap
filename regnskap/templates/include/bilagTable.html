@@ -9,12 +9,12 @@
     <th>Kredit</th>
   </tr>
   {% for bilag in bilags %}
-  {% for innslag in bilag.innslag.all %}
+  {% for innslag in bilag.getInnslag %}
   <tr>
     {% ifchanged bilag %}
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder"><a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a></td>
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">
+    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder"><a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a></td>
+    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder">
       {{bilag.beskrivelse|default:"&nbsp;"}}
       {% if bilag.innslag_sum %}
       <br>
@@ -23,13 +23,15 @@
       </span>
       {% endif %}
     </td>
-    <td rowspan="{{bilag.innslag.count}}" class="topBorder">
-      {% if bilag.external_actor %}
-      {{bilag.external_actor.name}}
-      (<a href="{{bilag.external_actor.get_absolute_url}}">{{bilag.external_actor.id}}</a>)
+    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder">
+      {% with bilag.external_actor as ea %}
+      {% if ea %}
+      {{ea.name}}
+      (<a href="{{ea.get_absolute_url}}">{{ea.id}}</a>)
       {% else %}
       &nbsp;
       {% endif %}
+      {% endwith %}
     </td>
     <td class="topBorder">
       <a href="{{innslag.konto.get_absolute_url}}">{{innslag.konto.nummer}}</a>
