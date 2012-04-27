@@ -100,5 +100,7 @@
 {% include "include/bilagTable.html" with bilags=bilagYear %}
 
 <h2>Database connections</h2>
-{{queries.count}}
+{{queries|length}}
+<br>
+{{queries}}
 {% endblock %}
