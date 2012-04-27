@@ -12,9 +12,9 @@
   {% for innslag in bilag.getInnslag %}
   <tr>
     {% ifchanged bilag %}
-    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder"><a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a></td>
-    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
-    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder">
+    <td rowspan="{{bilag.getNumInnslag}}" class="topBorder"><a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a></td>
+    <td rowspan="{{bilag.getNumInnslag}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.getNumInnslag}}" class="topBorder">
       {{bilag.beskrivelse|default:"&nbsp;"}}
       {% if bilag.innslag_sum %}
       <br>
@@ -23,7 +23,7 @@
       </span>
       {% endif %}
     </td>
-    <td rowspan="{{bilag.getInnslag.count}}" class="topBorder">
+    <td rowspan="{{bilag.getNumInnslag}}" class="topBorder">
       {% with bilag.external_actor as ea %}
       {% if ea %}
       {{ea.name}}

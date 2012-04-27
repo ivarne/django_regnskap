@@ -143,6 +143,8 @@ class Bilag(models.Model):
         except:
             self.innslag_cache = list(self.innslag.select_related('konto'))
             return self.innslag_cache
+    def getNumInnslag(self):
+        return len(self.getInnslag())
     def _getKredit(self):
         self.innslag.filter(type=0)
     def _getDebit(self):
