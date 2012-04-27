@@ -70,7 +70,7 @@ def offisielltRegnskap(request, prosjekt, year):
 
 
 def showYear(request, prosjekt, year):
-    bilagYear = Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato','bilagsnummer')
+    bilagYear = list(Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato','bilagsnummer').select_related('external_actor'))
     
     kostKonto= list(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType__in = (4,5,6,7,8,9)))
     totalKost = Decimal(0);
@@ -101,7 +101,7 @@ def showYear(request, prosjekt, year):
     balanse = zip(eiendelKonto, finansKonto)
     from django.db import connection
     
-    return render_to_response('report/showYear.html', {
+    ret = render_to_response('report/showYear.html', {
         'year'       : year,
         'bilagYear'  : bilagYear,
         'overskrift' : u"Årsoversikt %s" % year,
@@ -115,3 +115,4 @@ def showYear(request, prosjekt, year):
         'totalEie'     : totalEie,
         'totalFinans'  : totalFinans,
     },RequestContext(request))
+    return ret

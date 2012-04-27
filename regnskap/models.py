@@ -137,6 +137,12 @@ class Bilag(models.Model):
     external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True, related_name="bilag")
     prosjekt = models.ForeignKey(Prosjekt)
     objects = BaseProsjektManager()
+    def getInnslag(self):
+        try:
+            return self.innslag_cache
+        except:
+            self.innslag_cache = list(self.innslag.select_related('konto'))
+            return self.innslag_cache
     def _getKredit(self):
         self.innslag.filter(type=0)
     def _getDebit(self):
@@ -162,7 +168,7 @@ class Bilag(models.Model):
         show warnings that something is wrong in the database (shoud never happen)
         """
         sum = Decimal(0)
-        for i in self.innslag.all():
+        for i in self.getInnslag():
             sum += i.value
         return sum
 
@@ -174,7 +180,6 @@ class BilagFile(models.Model):
     file = models.CharField(max_length=100)
     def url(self):
         return settings.MEDIA_URL + self.file
-
 class Innslag(models.Model):
     AVAILABLE_TYPE = (
       (0,'Debit'),
