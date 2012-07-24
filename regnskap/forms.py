@@ -20,6 +20,27 @@ class External_ActorForm(forms.ModelForm):
             'adress': forms.Textarea(attrs={'cols': 20, 'rows': 4}),
         }
         exclude = ('prosjekt',)
+        
+    def __init__(self,data = None, *args,**kwargs):
+        # find the instance to be edited
+        if not kwargs.get('instance'):
+            try:
+                if "prefix" in kwargs:
+                    key = data[u"%s-%s" % (kwargs['prefix'], u"id")]
+                else:
+                    key = data["id"]
+                print key
+                kwargs['instance'] = Exteral_Actor.objects.get(pk = key)
+            except: pass
+        # Call parent constructor
+        super(External_ActorForm,self).__init__(data,*args, **kwargs)
+        
+        #shuffle Id to the first place
+        self.fields.insert(0,'id',self.fields.pop('id'))
+    id = forms.IntegerField(
+        min_value = 0,
+        widget = forms.TextInput({u'placeholder':u'Søk Her (eller legg til)'})
+    )
 
 class BaseInnslagForm(forms.Form):
 #    kontos = None #Set kontos with choices in innslag_form_factory
@@ -119,5 +140,5 @@ class BilagFileForm(forms.Form):
                 newfile.write(chunk)
             newfile.close()
         return fnames
-    
 
+        

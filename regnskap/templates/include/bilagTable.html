@@ -48,6 +48,10 @@
     <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
     {% endifchanged %}
   </tr>
+  {% empty %}
+  <tr><td colspan="7"><span style="color: yellow; background-color: red; border: 2px solid red">
+    Bilag <a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a> har ingen innslag!!!
+  </span></td></tr>
   {% endfor %}
   {% endfor %}
 </table>

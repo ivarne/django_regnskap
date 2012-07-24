@@ -28,11 +28,7 @@ def registrerBilagForm(request, prosjekt, extra):
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
-        try:
-            inst = Exteral_Actor.objects.get(id = int(request.POST['external-id']))
-        except:
-            inst = None
-        external_actor = External_ActorForm(request.POST, prefix="external", instance = inst)
+        external_actor = External_ActorForm(request.POST, prefix="external")
         bilag_file_form = BilagFileForm(request.POST, request.FILES, prefix="files")
         if bilagform.is_valid() and innslagform.is_valid():
             b = bilagform.instance
@@ -57,13 +53,11 @@ def registrerBilagForm(request, prosjekt, extra):
             #    messages.add_message(request, messages.ERROR, "Det skjedde en feil med lagring av filer (%s)" % e)
             messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %d-%d.' % (bilagform.instance.dato.year , bilagform.instance.bilagsnummer))
             return HttpResponseRedirect(request.path)
-        external_id = request.POST['external-id']
         messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')
     else:
         bilagform   = BilagForm(prefix="bilag")
         innslagform = InnslagFormSet(prefix="innslag")
         external_actor = External_ActorForm(prefix="external")
-        external_id = '';
         bilag_file_form = BilagFileForm(prefix="files")
     return render_to_response('bilagRegistrering.html', {
         'prosjekt'      : prosjekt,
@@ -71,7 +65,6 @@ def registrerBilagForm(request, prosjekt, extra):
         'innslagform'   : innslagform,
         'external_a_form':external_actor,
         'url'           : request.path,
-        'external_id'   : external_id,
         'bilag_file_form':bilag_file_form,
     },RequestContext(request))
     

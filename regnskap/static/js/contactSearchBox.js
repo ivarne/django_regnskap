@@ -33,10 +33,9 @@
     
     this.focusin(function(){
       searchdiv.show()
-      for(var key in settings.match_order ){
-        key = settings.match_order[key];
-        $("#" + settings.prefix + key ).val(null);
-      }
+      var table = $(this).closest('table');
+      table.find('input').val(null);
+      table.find('textarea').val(null)
     });
     
     this.focusout(function(){
@@ -55,11 +54,15 @@
       setExternal( e.target.attributes['ext_id']);
     });
     this.keyup(function(){
+      searchdiv.empty();
+      if (this.value.length == 0){
+        return // empty string should not match anything
+      }
       var reg = new RegExp(this.value,"i");
       var local_contact = contactList.slice(0); // take a copy
       var match = [];
       
-      searchdiv.empty();
+      
       
       breakout:
       for(var key in settings.match_order ){

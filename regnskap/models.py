@@ -8,6 +8,8 @@ from django.conf import settings
 
 from decimal import *
 
+from django_regnskap.utilities.JSONField import JSONField
+
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=60)
     beskrivelse = models.TextField()
@@ -182,6 +184,7 @@ class BilagFile(models.Model):
     file = models.CharField(max_length=100)
     def url(self):
         return settings.MEDIA_URL + self.file
+
 class Innslag(models.Model):
     AVAILABLE_TYPE = (
       (0,'Debit'),
@@ -218,3 +221,4 @@ class Innslag(models.Model):
     debit = property(_debitValue)
     kredit = property(_kreditValue)
     value = property(_value)
+    
