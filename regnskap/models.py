@@ -8,7 +8,6 @@ from django.conf import settings
 
 from decimal import *
 
-from django_regnskap.utilities.JSONField import JSONField
 
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=60)
