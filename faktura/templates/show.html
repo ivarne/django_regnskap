@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Faktura {{faktura.number}}{% endblock %}
+
+{% block content %}
+<h1>Faktura {{faktura.getNumber}}<small>({{faktura.getStatus}})</small></h1>
+
+<div style="float:right">
+  <h3>Logg:</h3>
+  <ul>
+    {% for item in faktura.data.log %}
+    <li>{{item}}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div style="float:right">
+  <h3>Kunde:</h3>
+  {{faktura.kunde.name}}<br>
+  {{faktura.kunde.email}}<br>
+  {{faktura.kunde.org_nr}}<br>
+  {{faktura.kunde.adress|linebreaksbr}}<br>
+</div>
+
+{% if faktura.status == 0 %}
+<h2>Fakturaen er kladdet</h2>
+for å ferdigstille trykk
+<form method="POST" action="/faktura/send">
+  <input type="hidden" name="faktura_id" value="{{faktura.id}}"/>
+  {% csrf_token %}
+  <input type="submit" value="Fikser og send faktura"/>
+</form>
+Alternaltivt kan du slette den.
+
+
+{% endif %}
+{% if faktura.status == 1 %}
+<h2>Fakturaen har nå status sendt</h2>
+og du har tre alternaltiver
+<ul>
+  <li>
+      <a href="#" id="betaling_form_table_togle">Registrer betaling</a>
+      <div id="betaling_form_table" style="display:none">
+          <form method="POST" action="/faktura/betal/{{faktura.id}}">
+          <table>{{faktura_betaling_form}}</table>
+          {% csrf_token %}
+          <input type="submit" value="Registrer innbetaling på faktura">
+      </div>
+  </li>
+  <script>
+  $("#betaling_form_table_togle").click(function(){
+    $("#betaling_form_table").show("slow");
+    $(this).hide("slow").remove();
+    return false; 
+  });
+  </script>
+  <li>Lage Purring</li>
+  <li>Trekk tilbake(slett)</li>
+</ul>
+
+{% endif %}
+{% if faktura.status == 2 %}
+<h2>Det har blitt generert purring</h2>
+<ul>
+  <li>Registrer betaling</li>
+  <li>Send til Inkasso(kansje)</li>
+  <li>Trekk tilbake(slett)</li>
+</ul>
+{% endif %}
+{% if faktura.status == 3 %}
+<h2>Fakturaen er sendt til Inkasso</h2>
+Dette blir neppe implementert
+{% endif %}
+{% if faktura.status == 4 %}
+<h2>Denne fakturaen er registrert betalt</h2>
+Her kan det legges inn mer info om betalingen
+{% endif %}
+{% if faktura.status == 5 %}
+<h2>Fakturaen er trukket tilbake</h2>
+Hvis regnskapsperioden fakturaen var ført på blir regningen dermed ført som tap. Ellers blir det lagt inn et nytt billag som opphever fordringen.
+{% endif %}
+
+<table>
+  <tr>
+    <th>Vare#</th>
+    <th>Test</th>
+    <th>Mengde</th>
+    <th>Pris</th>
+    <th>Sum</th>
+  </tr>
+  {% for vare in faktura.fakturavare.all %}
+  <tr>
+    <td>{{vare.vare.id}}</td>
+    <td>{{vare.name}}</td>
+    <td>{{vare.ammount}}</td>
+    <td>{{vare.price}}</td>
+    <td>{{vare.totalPrice}}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td colspan="4"></td>
+    <td>{{faktura.totalPrice}}</td>
+  </tr>
+</table>
+  
+<h2>Bilagsføring for denne faktura:</h2>
+
+{% include "include/bilagDebitKredit.html" with related_kontos=faktura.related_kontos bilags=faktura.bilag.all %}
+
+Totalt utestående: {{faktura.getOutstanding}}
+
+{% endblock %}

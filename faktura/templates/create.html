@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Lag ny faktura for {{prosjekt}}/{{template.name}}{% endblock %}
+
+{% block content %}
+<h1>Lag ny faktura for {{prosjekt}}/{{template.name}}</h1>
+<form action="" method="post">{% csrf_token %}
+
+<h2>Kunde</h2>
+<table>
+  {{to_form}}
+</table>
+<table>
+{{faktura_form}}
+</table>
+
+Teksten her er den som kommer på fakturaen. Varenummer er kun for å kunne fylle ut pris og forslag til tekst automatisk, og for å kunne lage statestikk.
+<table id="vareliste">
+  <tr>
+    <th>Vare#</th>
+    <th>Tekst <span style="font-weight: normal;"><small>(kan endres)</small></span></th>
+    <th>Antall</th>
+    <th>Pris</th>
+    <th align="right">Sum</th>
+  </tr>
+  {% for vare in vare_form %}
+  <tr>
+    <td>{{vare.vare}}{{vare.vare.errors}}</td>
+    <td>{{vare.name}}{{vare.name.errors}}</td>
+    <td>{{vare.ammount}}{{vare.ammount.errors}}</td>
+    <td>{{vare.price}}{{vare.price.errors}}</td>
+    <td align="right" class="vare-delsum"></td>
+  </tr>
+  {% endfor %}
+  <td colspan="3">&nbsp;</td>
+  <td align="right">SUM:</td>
+  <td align="right" id="fakturasum"></td>
+</table>
+{{vare_form.management_form}}
+
+<input type="submit"/>
+
+
+</form>
+<script>
+
+// oppdater summer
+$("#vareliste").change(function(event){
+  var sum = 0.0;
+  $(this).find('tr').each(function(){
+    var tmp = 0;
+    $(this).find('.vare-pris').each(function(){
+      tmp = parseFloat("0"+this.value.replace(",","."));
+      if(tmp == 0){
+        this.value = "";
+      }else{
+        this.value = tmp;
+      }
+    });
+    $(this).find('.vare-antall').each(function(){
+      if(tmp && this.value == "" ){
+        this.value = '1';
+      }
+      this.value = this.value.replace(",",".");
+      tmp *= parseFloat("0"+this.value);
+    });
+    $(this).find('.vare-delsum').each(function(){
+      if(tmp != 0){
+        this.innerText = tmp;
+        sum+=tmp;
+      }else{
+        this.innerText = '';
+      }
+    });
+    $(this).find("#fakturasum").each(function(){
+      this.innerText = sum;
+    });
+  });
+});
+
+
+$(document).ready(function(){
+  $("#{{to_form.id.id_for_label}}").autocompleteFill({
+    'server-url'  : "/regnskap/registrer/{{prosjekt}}/externalActorJSON",
+    'match_order' : ['id','name', 'email', 'adress','org_nr'],
+    'prefix'      : "id_{{to_form.prefix}}-",
+  });
+  $("#id_faktura-date").datepicker({
+//    altField:"#id_faktura-date",
+    dateFormat:"yy-mm-dd",
+    changeMonth: true,
+    changeYear: true,
+  });
+  //$("#id_faktura-frist_dager").after($('<span></span>').dateAdd({
+  $("#id_faktura-frist").dateAdd({
+    dateField : $("#id_faktura-date"),
+    addField  : $("#id_faktura-frist_dager")
+  }).datepicker({
+    dateFormat:"yy-mm-dd",
+    changeMonth: true,
+    changeYear: true,
+  });
+  $('.vare-search').varenummerUpdate({
+    'varer': {{varer}},
+  });
+});
+$(document).keypress(function(e){
+  if ( e.which == 13 && this.activeElement.nodeName != 'TEXTAREA'){
+    e.preventDefault();
+    e.target.blur()
+  }
+})
+</script>
+{% endblock %}

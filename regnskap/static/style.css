@@ -95,3 +95,31 @@ table{
 .rowTable tr:first-child{
    border-bottom: 2px solid black;
 }
+
+/* bilagsliste debit-kredit*/
+.debit-kredit-regnskap td{
+    padding: 2px;
+}
+.debit-kredit-regnskap td:nth-child(even){
+    border-left: 1px dashed black;
+}
+.debit-kredit-regnskap td:nth-child(odd){
+    border-left: 2px solid black;
+}
+.debit-kredit-regnskap th{
+    border-left: 2px solid black;
+    border-top:2px solid black;
+}
+.debit-kredit-regnskap th:nth-child(2){
+    border-left: none;
+}
+.debit-kredit-regnskap th:last-child{
+    border-right: 2px solid black;
+}
+.debit-kredit-regnskap td:last-child{
+    border-right: 2px solid black;
+}
+
+.debit-kredit-regnskap tr:nth-child(3){
+    border-top: 3px solid black;
+}

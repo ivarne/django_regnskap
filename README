@@ -4,6 +4,7 @@ django      # of course, it's a django app
 openpyxl    # to enable Excel export
 dropbox     # for dropbox upload and make security copies of files
 mathplotlib # for making graphs
+reportlab   # for generating PDF files 
 
 To install:
 copy local_settings.py.dist to local_settings.py and insert your local settings (Database, apiKeys...)

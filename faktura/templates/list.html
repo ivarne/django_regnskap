@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Vis fakturaer for {{prosjekt}}{% endblock %}
+
+{% block content %}
+<h1>Viser fakturaer for {{prosjekt}}</h1>
+
+<table>
+  <tr>
+    <th>Nummer</th>
+    <th>Mottaker</th>
+    <th>Status</th>
+    <th>Dato</th>
+    <th>Beløp</th>
+  </tr>
+  {% for faktura in fakturas %}
+  <tr>
+    <td><a href="{{faktura.get_absolute_url}}">{{faktura.getNumber}}</a></td>
+    <td>{{faktura.kunde.name}} (<a href="{{faktura.kunde.get_absolute_url}}">{{faktura.kunde.id}}</a>)</td>
+    <td>{{faktura.getStatus}}</td>
+    <td>{{faktura.date}}</td>
+    <td align="right">{{faktura.totalPrice}}</td>
+  </tr>
+  {% endfor %}
+<table>
+
+{% endblock %}
