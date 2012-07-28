@@ -46,6 +46,8 @@ def betal_faktura(request, id):
         i1.save()
         i2.save()
         faktura.bilag.add(bilag)
+
+        faktura.data['log'].append(u"Betaling registrert (%s kr) %s av %s"%(fdata['belop'],datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
         faktura.save()
         
         return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )

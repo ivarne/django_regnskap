@@ -123,3 +123,7 @@ table{
 .debit-kredit-regnskap tr:nth-child(3){
     border-top: 3px solid black;
 }
+.debit-kredit-regnskap tr:last-child{
+    border-bottom: 3px solid black;
+}
+
