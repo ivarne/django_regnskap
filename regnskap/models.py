@@ -7,7 +7,7 @@ from django.http import Http404
 from django.conf import settings
 
 from decimal import *
-
+import os
 
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=60)
@@ -193,6 +193,12 @@ class BilagFile(models.Model):
     file = models.CharField(max_length=100)
     def url(self):
         return settings.MEDIA_URL + self.file
+    def saveFile(self, file_content, file_name = u""):
+        if not os.path.exists(os.path.join(settings.MEDIA_ROOT,str(self.bilag.dato.year))):
+            os.makedirs(os.path.join(settings.MEDIA_ROOT,str(self.bilag.dato.year)))
+        self.file = os.path.join(str(self.bilag.dato.year),u"%d-%s" % ( self.bilag.bilagsnummer, file_name))
+        with open(os.path.join(settings.MEDIA_ROOT, self.file),"wb+") as f:
+            f.write(file_content)
 
 class Innslag(models.Model):
     AVAILABLE_TYPE = (
