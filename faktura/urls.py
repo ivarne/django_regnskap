@@ -7,5 +7,5 @@ urlpatterns = patterns('django_regnskap.faktura.views',
     url(r'^create/(\w+)/(\d+)/?(\d*)$','create.create_faktura'),
     url(r'^send$',              'views.send_faktura'),
     url(r'^betal/(\d+)$',            'views.betal_faktura'),
-    url(r'^generate/(\d*)$',    'fakturaPDF.generate'),
+    url(r'^generate/(\d*)$',    'fakturaPDF.generate_response'),
 )

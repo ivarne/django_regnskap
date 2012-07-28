@@ -170,14 +170,12 @@ def draw_giro_content(c, faktura, data):
     c.drawString(240,58, price.split('.')[0]) #kroner
     c.drawString(310,58, price.split('.')[1]) #øre
     
-
-def generate(request, faktura):
-    """This is the view function"""
-    faktura = Faktura.objects.get(pk = faktura)
-    
+def generate_faktura_pdf(faktura):
+    """This is one way of connecting the drawing functions"""
     buffer = BytesIO()
     # Create the PDF object, using the response object as its "file."
     c = canvas.Canvas(buffer)
+    
     c.setAuthor("Django_regnskap")
     c.setTitle("Faktura %s"%faktura.getNumber())
     c.setFont("Helvetica", 12)
@@ -204,6 +202,14 @@ def generate(request, faktura):
     c.save()
     pdf = buffer.getvalue()
     buffer.close()
+    return pdf
+
+def generate_response(request, faktura):
+    """This is the view function"""
+    faktura = Faktura.objects.get(pk = faktura)
+    
+    pdf = generate_faktura_pdf(faktura)
+    
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(mimetype='application/pdf')
     response['Content-Disposition'] = 'filename=faktura%s.pdf' % faktura.getNumber()

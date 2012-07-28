@@ -8,6 +8,7 @@ from django.template import RequestContext
 # django_regnskap imports
 from django_regnskap.faktura.models import *
 from django_regnskap.faktura.forms import FakturaBetaling
+from django_regnskap.faktura.views.fakturaPDF import generate_faktura_pdf
 
 #general
 import datetime
@@ -119,4 +120,9 @@ def send_faktura(request):
             konto_cache[vare.konto.id] = i
     faktura.bilag.add(bilag) 
     faktura.save()
+    bf = BilagFile(
+        bilag = bilag
+    )
+    bf.saveFile(generate_faktura_pdf(faktura),u"Faktura-%s.pdf" % faktura.getNumber())
+    bf.save()
     return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )
