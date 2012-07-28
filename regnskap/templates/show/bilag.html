@@ -18,4 +18,12 @@
   </tr>
 {% endfor %}
 </table>
+{% if bilag.files.all %}
+<h2>Filer</h2>
+<ul>
+  {% for file in bilag.files.all %}
+  <li><a href="{{file.url}}">{{file.file}}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}
