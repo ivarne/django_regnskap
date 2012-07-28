@@ -108,6 +108,8 @@ class Konto(models.Model):
     
     def __unicode__(self):
         return u"%s %s/%s" %(self.nummer, self.prosjekt.navn, self.tittel)
+    def getTittel(self):
+        return self.prosjekt.navn + "/" + self.tittel
     # views can not do calculations
     def getLoadedDebit(self):
         return (self.sum_debit or 0) - (self.sum_kredit or 0)
@@ -144,6 +146,12 @@ class Bilag(models.Model):
         except:
             self.innslag_cache = list(self.innslag.select_related('konto'))
             return self.innslag_cache
+    def related_kontos(self):
+        try:
+            return self.related_kontos_cache
+        except:
+            self.related_kontos_cache = list(Konto.objects.filter(innslag__bilag = self).distinct())
+            return self.related_kontos_cache
     def getNumInnslag(self):
         return len(self.getInnslag())
     def _getKredit(self):
@@ -159,6 +167,8 @@ class Bilag(models.Model):
         self.bilagsnummer = previous + 1
         super(Bilag,self).save(*args, **kwargs)
         return self.bilagsnummer
+    def getNummer(self):
+        return str(self.dato.year) + "-" + str(self.bilagsnummer)
     def __unicode__(self):
         return "%s-%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse)
     def get_absolute_url(self):

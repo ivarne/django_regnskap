@@ -1,0 +1,34 @@
+<table class="debit-kredit-regnskap">
+  <tr>
+    <th rowspan="2">Nummer</th>
+    <th rowspan="2">Beskrivelse</th>
+    {% for konto in related_kontos %}
+    <th colspan="2"><a href="{{konto.get_absolute_url}}">{{konto.nummer}}</a> {{konto.getTittel}}</th>
+    {% endfor %}
+  </tr>
+  <tr>
+    {% for konto in related_kontos %}
+    <td>Debit</td>
+    <td>Kredit</td>
+    {% endfor %}
+  </tr>
+{% for bilag in bilags %}
+<tr>
+  <td><a href="{{bilag.get_absolute_url}}">{{bilag.getNummer}}</a></td>
+  <td>{{bilag.beskrivelse}}</td>
+  {% for konto in related_kontos %}
+    {% if konto in bilag.related_kontos %}
+      {% for innslag in bilag.getInnslag %}
+        {% if innslag.konto = konto %}
+          <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
+          <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
+        {% endif %}
+      {% endfor %}
+  {% else %}
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  {% endif %}
+  {% endfor %}
+</tr>
+{% endfor %}
+</table>

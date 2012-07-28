@@ -4,4 +4,18 @@
 {% block content %}
 <h1>Bilag {{bilag.bilagsnummer}} {{bilag.dato}}</h1>
 <p>{{bilag.beskrivelse}}</p>
+<table>
+  <tr>
+    <th>Konto</th>
+    <th>Debit</th>
+    <th>Kredit</th>
+  </tr>
+  {% for innslag in bilag.getInnslag %}
+  <tr>
+    <td>{{innslag.konto}}</td>
+    <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
+    <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
+  </tr>
+{% endfor %}
+</table>
 {% endblock %}

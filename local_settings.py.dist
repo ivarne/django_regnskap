@@ -2,13 +2,17 @@
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'regnskap',                      # Or path to database file if using sqlite3.
         'USER': 'regnskap',                      # Not used with sqlite3.
         'PASSWORD': 'X4y8ZCtGW3Uj93rX',                  # Not used with sqlite3.
         'HOST': '192.168.1.11',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
+}
+
+DATABASE_OPTIONS = {
+   "init_command": "SET storage_engine=INNODB",
 }
 
 DROPBOX_SETTINGS = {
