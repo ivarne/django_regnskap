@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from io import BytesIO
 
+# Koordinater og fargekoder for giroblankett er basert på arbeid av Marius N. Nicolaysen
+
 # in this file the variable c is always the canvas object
 
 def draw_faktura_header(c, faktura, data):
