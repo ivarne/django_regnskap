@@ -14,6 +14,18 @@ Her kan man se på ulike ting
 </li>
 {% endfor %}
 </ul>
+
+<h3>Registrer faktura</h3>
+<ul>
+{% for faktura_t in faktura_templates %}
+<li>
+{% ifchanged faktura_t.prosjekt %}
+<b>{{faktura_t.prosjekt}}</b><br>
+{% endifchanged %}
+<a href="{{faktura_t.get_absolute_url}}">{{faktura_t}}</a>
+</li>
+{% endfor %}
+</ul>
 <h3>Årsoversikter</h3>
 <ul>
   {% for year in years %}

@@ -63,6 +63,8 @@ class Template(models.Model):
             'email'       : self.email,
             'innbetaling_konto_id': self.innbetaling_konto.id,
         }
+    def get_absolute_url(self):
+        return u'/faktura/create/%s/%d' % (self.prosjekt.navn, self.id)
     def __unicode__(self):
         return self.name
 
