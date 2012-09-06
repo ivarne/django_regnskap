@@ -23,7 +23,7 @@ class VareItemForm(forms.ModelForm):
         exclude = ('konto','faktura','mva')
     vare = forms.ModelChoiceField(
         queryset = Vare.objects.all(),
-        widget   = forms.TextInput(attrs={'size':'5','placeholder':u'Søk','class':'vare-search vare-id'}),
+        widget   = forms.TextInput(attrs={'size':'5','placeholder':u'Søk','class':'vare-search vare-id search'}),
     )
     name   = forms.CharField(
         widget = forms.TextInput(attrs={'size':'40','class': 'vare-text'}),

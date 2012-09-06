@@ -34,7 +34,7 @@
 </tr>
 {% for innslag in innslagform %}
 <tr class="kontoRow">
-  <td class="kontoSokField"><input class="kontosok" type="text" row="{{forloop.counter0}}" size="5"/></td>
+  <td class="kontoSokField"><input class="kontosok search" type="text" row="{{forloop.counter0}}" size="5"/></td>
   <td class="kontoSelect">{{ innslag.kontos }}{{ innslag.kontos.errors }}</td>
   <td></td>
   <td></td>

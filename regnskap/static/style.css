@@ -62,6 +62,10 @@ ul.errorlist {
     text-align: right;
     font:monospace;
 }
+input.search{
+    background: white url('/static/fglass.gif') no-repeat;
+    padding-left:23px;
+}
 
 /*Bilagsliste*/
 table{
