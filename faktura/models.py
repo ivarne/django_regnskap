@@ -68,6 +68,27 @@ class Template(models.Model):
     def __unicode__(self):
         return self.name
 
+class FakturaManager(BaseProsjektManager):
+    def getPaymentsDue(self, projekt = None, periods = (None,None)):
+        """
+        Get the mony ammounts that is due, but not registrerd as payed in the relevant preiods
+        param: project (the project you are interrested in the due ammounts for)
+        periods: a sequence of datetime objects that encloses the time interval you are interrested in.
+                 inclusive from, and exclusive to use None for infinete beginning and end
+                 ex.
+                 (None, datetime('now - 1 week'), datetime.now(), datetime('now + 1 month'), None)
+                 wil return a list of due amounts with
+                 [
+                     #payments more overdue than 1 week
+                     # payments overdue the last week
+                     #payments due in the next month
+                     #payments due later than the next month
+                 ]
+        """
+        qs = self.prosjekt(project) # get a project filtered QuerySet
+        qs = qs.filter(status = 1)  # count only sendt un
+        qs.annotate('outstanding',SUM())
+
 class Faktura(models.Model):
     STATUS_VALUES = (
         (0, 'Kladdet'),
@@ -83,7 +104,7 @@ class Faktura(models.Model):
     frist = models.DateField()
     prosjekt = models.ForeignKey(Prosjekt)
     mellomverende = models.ForeignKey(Konto)
-    objects = BaseProsjektManager()
+    objects = FakturaManager()
     data = JSONField() # data used to generate the PDF file
     bilag = models.ManyToManyField(Bilag)
     kunde = models.ForeignKey(Exteral_Actor)

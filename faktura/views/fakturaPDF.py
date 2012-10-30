@@ -64,6 +64,7 @@ def draw_faktura_varer(c, faktura):
     #Overskrifter
     c.setFont('Helvetica-Bold',12)
     h = 630
+    c.setLineWidth(2)
     c.drawString(40,  h, 'Varenr.')
     c.drawString(100, h, 'Produkt')
     c.drawCentredString(363, h, 'Antall')
@@ -108,21 +109,41 @@ def draw_giro_template(c, color=(1, 0.9, 0.2)):
     for i in range(11):
         c.rect(125+i*16.8,93,11,14, fill=1) #ruter for kontonummer
 
-    #Diverse småtekst
-    c.setFillColorRGB(0,0,0)
-    c.setStrokeColorRGB(0,0,0)
-    
+    #Haker rundt datalesbare felt og tekst
+    c.setFillColorRGB(  0, 0, 0)
+    c.setStrokeColorRGB(0, 0, 0)
+    c.setLineWidth(0.2)
     c.setFont('Helvetica-Bold',11)
     c.drawString(45,327,"Kvittering")
     
     c.setFont('Helvetica',7)
+    def feltHake(x,y,up,right):
+        p = c.beginPath()
+        p.moveTo(x+(right*5),y)
+        p.lineTo(x,y)
+        p.lineTo(x,y+(up*5))
+        c.drawPath(p)
+
+    c.drawString(45,185,'Betalt av')
+    feltHake(38,184,-1,1)
+    feltHake(38,120,1,1)
+    feltHake(300,184,-1,-1)
+    feltHake(300,120,1,-1)
+
+    c.drawString(335,185,'Betalt til')
+    feltHake(320,184,-1,1)
+    feltHake(320,120,1,1)
+    feltHake(555,184,-1,-1)
+    feltHake(555,120,1,-1)
+    #Diverse småtekst
+    
+    
     c.drawString(45,315,"Innbetalt til konto")
     c.drawString(250,315,u"Beløp")
     c.drawString(380,315,'Betalers kontonummer')
     c.drawString(45,275,'Betalingsinformasjon')
     c.drawString(445,270,'Betalings-')
     c.drawString(445,263,'frist')
-    c.drawString(45,185,'Betalt av')
     c.drawString(335,185,'Betalt til')
     c.drawString(100,101,'Belast')
     c.drawString(100, 94,'konto')
