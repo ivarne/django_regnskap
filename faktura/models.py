@@ -122,7 +122,6 @@ class Faktura(models.Model):
         """Finn ut hvor mye som er utestående på fakturaen ved å summere opp verdier på mellomværende konto"""
         sum = Decimal(0)
         for innslag in Innslag.objects.filter(bilag__faktura__id = self.id).filter(konto = self.mellomverende).all():
-            print innslag
             sum += innslag.value
         return sum
     def related_kontos(self):

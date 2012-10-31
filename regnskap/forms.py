@@ -32,7 +32,6 @@ class External_ActorForm(forms.ModelForm):
                     key = data[u"%s-%s" % (kwargs['prefix'], u"id")]
                 else:
                     key = data["id"]
-                print key
                 kwargs['instance'] = Exteral_Actor.objects.get(pk = key)
             except: pass
         # Call parent constructor
@@ -135,10 +134,10 @@ class BilagFileForm(forms.Form):
         for file in self.cleaned_data['previousUploads']:
             file = os.path.join(settings.MEDIA_ROOT, "upload", file)
             if os.path.exists(file):
-                hash, name = file.split(":",1) #split temorary uplodad filename
+                hash, name = file.split("_",1) #split temorary uplodad filename
                 newname = os.path.join(str(bilag.dato.year),"%d-%s" % (bilag.bilagsnummer, name))
                 os.rename(file, os.path.join(settings.MEDIA_ROOT, newname))
-                
+                fnames.append(newname)
 #                newname, newfile = prepareSave(dname)
 #                fnames.append(newname)
 #                f = client.get_file("upload/" + dname)
