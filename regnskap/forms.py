@@ -149,7 +149,7 @@ class BilagFileForm(forms.Form):
         if self.cleaned_data['currentUpload']:
             newname, newfile = prepareSave(self.cleaned_data['currentUpload'].name)
             fnames.append(newname)
-            for chunk in self.cleaned_data['file'].chunks():
+            for chunk in self.cleaned_data['currentUpload'].chunks():
                 newfile.write(chunk)
             newfile.close()
         return fnames
