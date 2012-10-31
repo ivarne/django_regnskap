@@ -3,9 +3,12 @@ from models import *
 
 from django import forms
 from django.conf import settings
+from django.template.defaultfilters import slugify as django_slugify
 
 from decimal import *
 import os
+import string
+import random
 
 
 class BilagForm(forms.ModelForm):
@@ -105,40 +108,72 @@ class BaseInnslagFormSet(forms.formsets.BaseFormSet):
             raise forms.ValidationError(u"Det må være minst to innslag på et bilag")
         if debit != kredit:
             raise forms.ValidationError(u"Kredit og debit må summere til samme tall")
-    
 
+        
 class BilagFileForm(forms.Form):
-    file = forms.FileField(required =False)
-    dropbox = forms.CharField(required =False)
-    def save(self,bilag,client):
+    currentUpload = forms.FileField(required =False)
+    previousUploads = forms.MultipleChoiceField(required =False, widget= forms.CheckboxSelectMultiple())
+    def __init__(self, *args, **kwargs):
+        super(BilagFileForm,self).__init__(*args, **kwargs)
+        files = []
+        for file in os.listdir(os.path.join(settings.MEDIA_ROOT, 'upload')):
+            files.append((file, file.rsplit('_',1)[1]))
+        print files
+        self.fields['previousUploads'].choices = files
+    def save(self,bilag):
         if not self.is_valid():# ignore files if validation fails
             raise Exception("Ugyldig form")
-        for f in self._saveFiles(bilag,client):
+        for f in self._saveFiles(bilag):
             b = BilagFile(bilag = bilag, file = f)
             b.save()
-    def _saveFiles(self, bilag, client):
+    def _saveFiles(self, bilag):
         def prepareSave(fname):
             newname = os.path.join(str(bilag.dato.year),"%d-%s" % (bilag.bilagsnummer, fname))
             f = os.path.join(settings.MEDIA_ROOT,newname)
             return (newname, open(f,'wb+'))
         fnames = []
-        # save files from dropbox
-        for dname in self.cleaned_data['dropbox'].split(";"):
-            if len(dname): # spilt returns [''] if string is empty
-                newname, newfile = prepareSave(dname)
-                fnames.append(newname)
-                f = client.get_file("upload/" + dname)
-                newfile.write(f.read())
-                f.close()
-                newfile.close()
-                client.file_delete("upload/" + dname)
+        for file in self.cleaned_data['previousUploads']:
+            file = os.path.join(settings.MEDIA_ROOT, "upload", file)
+            if os.path.exists(file):
+                hash, name = file.split(":",1) #split temorary uplodad filename
+                newname = os.path.join(str(bilag.dato.year),"%d-%s" % (bilag.bilagsnummer, name))
+                os.rename(file, os.path.join(settings.MEDIA_ROOT, newname))
+                
+#                newname, newfile = prepareSave(dname)
+#                fnames.append(newname)
+#                f = client.get_file("upload/" + dname)
+#                newfile.write(f.read())
+#                f.close()
+#                newfile.close()
+#                client.file_delete("upload/" + dname)
         # save file from upload field
-        if self.cleaned_data['file']:
-            newname, newfile = prepareSave(self.cleaned_data['file'].name)
+        if self.cleaned_data['currentUpload']:
+            newname, newfile = prepareSave(self.cleaned_data['currentUpload'].name)
             fnames.append(newname)
             for chunk in self.cleaned_data['file'].chunks():
                 newfile.write(chunk)
             newfile.close()
         return fnames
+    @staticmethod
+    def slugify(fileName):
+        print fileName
+        fname, ext = fileName.rsplit('.',1)
+        return django_slugify(fname) + '.' + ext
+    
+    @classmethod
+    def get_files_from_dropbox(cls, dropbox_client):
+        """Utility function to download files from the users dropbox/upload folder and store them on the server"""
+        files = dropbox_client.metadata('upload')['contents']
+        ret = []
+        for f in files:
+            random_prefix = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(8))
+            name = f['path'].rsplit("/",1)[1]
+            fname = random_prefix + "_" + cls.slugify(name)
+            tmp_file = open(os.path.join(settings.MEDIA_ROOT, 'upload', fname), "wb+")
+            d_file = dropbox_client.get_file(f['path'])
+            tmp_file.write(d_file.read())
+            ret.append((fname, name))
+            dropbox_client.file_delete(f['path'])
+        return ret
 
         

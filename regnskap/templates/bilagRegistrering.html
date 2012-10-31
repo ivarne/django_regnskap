@@ -79,12 +79,24 @@
 
 <div style="float:left;width:300px;height:300px">
   <table>
-  {{bilag_file_form}}
+    <tr>
+      <th>Upload New File</th>
+      <td>{{bilag_file_form.currentUpload}}</td>
+    <tr>
+      <th>Previously uploaded files</th>
+      <td>
+        <ul id="fileList">
+          {% for file, label in bilag_file_form.fields.previousUploads.choices %}
+          <li><label><input type="checkbox" id="asdf" value="{{file}}" name="files-previousUploads"><a href="/media/upload/{{file}}">{{label}}</a></label></li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
   </table>
-  <ul id="dropbox-file-list"></ul>
+  <ul id="new-dropbox-files"></ul>
 </div>
 
-<div id="pdf_div" style="float:left;width:800px;height:300"></div>
+<div id="pdf_div" style="float:left;width:800px;height:800"></div>
 
 
 
@@ -192,55 +204,31 @@ $(document).ready(function(){
     'prefix'      : "id_external-",
   });
 
-  var ul = $("#dropbox-file-list");
-  var form = $("#id_files-dropbox")[0];
-  ul.load("/regnskap/registrer/uploadsJSON",function(){
-    var values = form.value.split(";");
-    form.value = "";
-    var update = function(e){
+  var ul = $("#fileList");
+  var tmp = new PDFObject({'url':'ehm-not inn use'});
+  if(tmp.get("pluginTypeFound")){
+    ul.click(function(e){
       var t = e.target;
-      var v = form.value.split(";");
-      if(v[0] == ""){
-        v.shift();//remove first element
+      if(!is_pdf.test(t.innerText)){
+        return true; // do not change non pdf links
       }
-      if(t.checked){
-        v.push(t.defaultValue)
-      }else{
-        var index = v.indexOf(t.defaultValue);
-        if(index != -1){
-          v.splice(index,1);
+      var pObj = new PDFObject({ 
+        url: t.href,
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          view: "FitV"
         }
-      }
-      form.value = v.join(";");
-    }
-    ul.find("input").each(function(){
-      if(values.indexOf(this.defaultValue) != -1){
-        this.checked = true;
-      }
-      update({'target':this});
-    });
-    ul.change(update)
-    var tmp = new PDFObject({'url':'ehm-not inn use'});
-    if(tmp.get("pluginTypeFound")){
-      ul.find("a").click(function(e){
-        var t = e.target;
-        if(t.attributes['xmimetype'].value != 'application/pdf'){
-          return true; // do not change non pdf links
-        }
-        var pObj = new PDFObject({ 
-          url: t.attributes['href'].value,
-          pdfOpenParams: {
-            navpanes: 0,
-            toolbar: 0,
-            statusbar: 0,
-            view: "FitV"
-          }
-        });
-        pObj.embed("pdf_div")
-        
-        return false;
       });
-    }
+      pObj.embed("pdf_div")
+        
+      return false;
+    });
+  }
+  var is_pdf = new RegExp(".*\.pdf","i");
+  $("<div>").load("/regnskap/registrer/uploadsJSON",function(){
+    ul.append(this.children)
   });
 });
   
