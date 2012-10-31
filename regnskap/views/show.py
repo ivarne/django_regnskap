@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django_regnskap.regnskap.models import *
+from django_regnskap.regnskap.forms import *
 
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
@@ -30,8 +31,15 @@ def kontoList(request, prosjekt = ""):
     })
 
 def bilag(request,id):
+    bilag = Bilag.objects.get(pk = id)
+    if(request.method == 'POST'):
+        bilag_file_form = BilagFileForm(request.POST, request.FILES, prefix="files")
+        bilag_file_form.save(bilag)
+    else:
+        bilag_file_form = BilagFileForm(prefix="files")
     return render_to_response( 'show/bilag.html',{
-        'bilag' : Bilag.objects.get(pk = id),
+        'bilag' : bilag,
+        'bilag_file_form' : bilag_file_form
         },RequestContext(request))
 
 def external_actor(request,id):

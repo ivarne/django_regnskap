@@ -27,5 +27,23 @@
 </ul>
 {% endif %}
 <h2>Last opp flere filer</h2>
-
+<form action="" enctype="multipart/form-data" method="post">
+<table>
+  <tr>
+    <th>Upload New File</th>
+    <td>{{bilag_file_form.currentUpload}}</td>
+  </tr>
+  <tr>
+    <th>Previously uploaded files</th>
+    <td>
+      <ul id="fileList">
+        {% for file, label in bilag_file_form.fields.previousUploads.choices %}
+        <li><label><input type="checkbox" id="asdf" value="{{file}}" name="files-previousUploads"><a href="/media/upload/{{file}}">{{label}}</a></label></li>
+        {% endfor %}
+      </ul>
+    </td>
+  </tr>
+</table>
+</form>
+{{bilag_file_form}}
 {% endblock %}
