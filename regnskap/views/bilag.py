@@ -48,7 +48,7 @@ def registrerBilagForm(request, prosjekt, extra):
                     inn.type = not cd["debit"] or 0
                     inn.save()
             #try:
-            bilag_file_form.save(b,get_dropbox(request))
+            bilag_file_form.save(b)
             #except Exception, e:
             #    messages.add_message(request, messages.ERROR, "Det skjedde en feil med lagring av filer (%s)" % e)
             messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %d-%d.' % (bilagform.instance.dato.year , bilagform.instance.bilagsnummer))
@@ -77,13 +77,6 @@ def ajaxExternalActors(request, prosjekt):
 
 @dropbox_user_required
 def ajaxDropboxUploads(request,dropbox_client):
-    files = dropbox_client.metadata('upload')['contents']
-    for f in files:
-        f.update(dropbox_client.media(f['path']))
-        f['modified'] = datetime.strptime(f["modified"],"%a, %d %b %Y %H:%M:%S +0000")
-        f['file'] = f['path'][8:]
-    files.sort(key=itemgetter('modified'))
-    files.reverse()
-    return render_to_response('bilag/dropboxList.html', {
-        'files' : files,
-    },RequestContext(request))
+    newFiles = BilagFileForm.get_files_from_dropbox(dropbox_client)
+    newFiles = ["""<li><label><input type="checkbox" id="asdf" value="%s" name="files-previousUploads"><a href="/media/upload/%s">%s</a></label></li>""" % (file,file,label) for file,label in newFiles]
+    return HttpResponse("\n".join(newFiles))
