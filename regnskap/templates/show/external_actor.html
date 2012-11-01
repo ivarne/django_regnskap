@@ -31,6 +31,6 @@
 </table>
 
 <h2>Sisste bilag</h2>
-{% include "include/bilagTable.html" with bilags=bilags%}
+{% include "include/bilagDebitKredit.html" with related_kontos=external_actor.related_kontos bilags=bilags %}
 
 {% endblock %}

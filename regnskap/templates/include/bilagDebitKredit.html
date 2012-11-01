@@ -31,4 +31,20 @@
   {% endfor %}
 </tr>
 {% endfor %}
+<tr>
+  <td></td>
+  <td style="text-align:right;"><strong>SUM:</strong></td>
+  {% for konto in related_kontos %}
+  <td>{{konto.sum_debit}}</td>
+  <td>{{konto.sum_kredit}}</td>
+  {% endfor %}
+</tr>
+<tr>
+  <td></td>
+  <td style="text-align:right;">Netto:</td>
+  {% for konto in related_kontos %}
+  <td>{{konto.getLoadedDebit}}</td>
+  <td></td>
+  {% endfor %}
+</tr>
 </table>

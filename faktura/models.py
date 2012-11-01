@@ -128,7 +128,7 @@ class Faktura(models.Model):
         try:
             return self.related_kontos_cache
         except:
-            self.related_kontos_cache = list(Konto.objects.filter(innslag__bilag__faktura = self).distinct())
+            self.related_kontos_cache = list(Konto.objects.filter(innslag__bilag__faktura = self).distinct().order_by("nummer"))
             return self.related_kontos_cache
     def assignNumber(self, *args, **kwargs):
         """Assign a fakturanumber to the Faktura (done while sending)"""

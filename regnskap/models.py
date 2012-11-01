@@ -67,7 +67,58 @@ class KontoManager(BaseProsjektManager):
             select_params = arg * 2
             )
         return ret
-    
+
+    def bilagRelated(self, related = None, year = None, kontoTypes=()):
+        """
+        somewhat same as sum_colums, but returns a list of kontos with extra properties instead of a query set
+        this is also a cleaner approach as it does not use two separate subsql queries
+        
+        """
+        where = []
+        args = []
+        if related:
+            if isinstance(related, Exteral_Actor):
+                where.append("`%(b)s`.`external_actor_id` = %%s")
+                args.append(related.id)
+            elif isinstance(related, Prosjekt):
+                where.append("`%(b)s`.`prosjekt_id` = %%s")
+                args.append(related.id)
+#            elif hasattr(related, ):
+#                where.append("`%(b)s`.`external_actor_id` = %%s")
+#                args.append(related.id)
+            else:
+                raise Exception("Ugyldig objekt som relasjon til bilag")
+        print "erik"
+        if year:
+            where.append("YEAR(`%(b)s`.`dato`) = %%s")
+            args.append(int(year))
+        print "linda"
+        if kontoTypes:
+            where.append("`%(k)s`.`kontoType` IN %%s")
+            args.append(kontoTypes)
+        print "ivar"
+        where = " AND ".join(where)
+        sql = ("""SELECT
+            SUM(`%(i)s`.`belop` * `%(i)s`.`type` ) AS `sum_kredit`, 
+            SUM(`%(i)s`.`belop` * (1 -`%(i)s`.`type`) ) AS `sum_debit`, 
+            `%(k)s`.`id`, 
+            `%(k)s`.`kontoType`, 
+            `%(k)s`.`nummer`, 
+            `%(k)s`.`tittel`, 
+            `%(k)s`.`beskrivelse`, 
+            `%(k)s`.`prosjekt_id`
+        FROM `%(k)s` 
+        INNER JOIN `%(i)s` ON (`%(k)s`.`id` = `%(i)s`.`konto_id`) 
+        INNER JOIN `%(b)s` ON (`%(i)s`.`bilag_id` = `%(b)s`.`id`) 
+        WHERE """ + where + """ GROUP BY `%(k)s`.`id` ORDER BY `%(k)s`.`nummer` ASC
+        """) % {
+            'b': Bilag._meta.db_table,
+            'i': Innslag._meta.db_table,
+            'k': Konto._meta.db_table,
+        }
+        print "asss: ", sql
+        return self.raw(sql, args)
+
     def toOptionGroups(self, prosjekt):
         types = [('','')]
         kontos = self.prosjekt(prosjekt).order_by('nummer')
@@ -126,6 +177,14 @@ class Exteral_Actor(models.Model):
     archived = models.DateField(editable = False, blank=True, null=True)
     prosjekt = models.ForeignKey(Prosjekt)
     objects = BaseProsjektManager()
+
+    def related_kontos(self):
+        print "hei"
+        try:
+            return self.related_kontos_cache
+        except:
+            self.related_kontos_cache = list(Konto.objects.bilagRelated(related = self))
+            return self.related_kontos_cache
 
     def __unicode__(self):
         return self.name + ( " (%d)" % self.id )

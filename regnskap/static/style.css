@@ -127,6 +127,9 @@ table{
 .debit-kredit-regnskap tr:nth-child(3){
     border-top: 3px solid black;
 }
+.debit-kredit-regnskap tr:nth-last-child(1){
+    border-top: 2px solid black;
+}
 .debit-kredit-regnskap tr:last-child{
     border-bottom: 3px solid black;
 }
