@@ -88,15 +88,12 @@ class KontoManager(BaseProsjektManager):
 #                args.append(related.id)
             else:
                 raise Exception("Ugyldig objekt som relasjon til bilag")
-        print "erik"
         if year:
             where.append("YEAR(`%(b)s`.`dato`) = %%s")
             args.append(int(year))
-        print "linda"
         if kontoTypes:
             where.append("`%(k)s`.`kontoType` IN %%s")
             args.append(kontoTypes)
-        print "ivar"
         where = " AND ".join(where)
         sql = ("""SELECT
             SUM(`%(i)s`.`belop` * `%(i)s`.`type` ) AS `sum_kredit`, 
@@ -116,7 +113,6 @@ class KontoManager(BaseProsjektManager):
             'i': Innslag._meta.db_table,
             'k': Konto._meta.db_table,
         }
-        print "asss: ", sql
         return self.raw(sql, args)
 
     def toOptionGroups(self, prosjekt):
@@ -179,7 +175,6 @@ class Exteral_Actor(models.Model):
     objects = BaseProsjektManager()
 
     def related_kontos(self):
-        print "hei"
         try:
             return self.related_kontos_cache
         except:
