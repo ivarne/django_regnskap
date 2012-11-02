@@ -24,7 +24,6 @@ def konto(request,id):
 def kontoList(request, prosjekt = ""):
     kontos = Konto.objects.order_by('nummer')
     if prosjekt:
-#        print prosjekt
         kontos = kontos.filter(prosjekt__navn = prosjekt)
     return render_to_response('show/kontoList.html',{
     'kontos' : kontos,
@@ -67,7 +66,6 @@ def konto_graph(request, year, konto_id):
     for innslag in innslags:
         x.append(innslag.bilag.dato)
         y.append(sum)
-#        print innslag.value
         x.append(innslag.bilag.dato)
         sum += innslag.value
         y.append(sum)
@@ -76,7 +74,6 @@ def konto_graph(request, year, konto_id):
         # fill the period from the end of the year with a red line
         ax.plot_date([x[-1],date(int(year),12,31)],[y[-1],y[-1]],"r")
     ax.xaxis.set_major_formatter(DateFormatter('%b'))
-#    print type(ax)
     fig.autofmt_xdate()
     canvas = FigureCanvas(fig)
     response = HttpResponse(content_type='image/png')

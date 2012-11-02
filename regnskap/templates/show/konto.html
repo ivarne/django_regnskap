@@ -3,6 +3,8 @@
 
 {% block content %}
 <h1>{{konto}}</h1>
+<p>{{konto.beskrivelse}}</p>
+<a href="{{konto.get_admin_url}}">Rediger</a>
 {% for year in years %}
 <img src="/regnskap/show/konto_graph/{{year}}/{{konto.id}}.png">
 {% endfor %}

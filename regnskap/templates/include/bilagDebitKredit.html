@@ -13,8 +13,18 @@
     {% endfor %}
   </tr>
 {% for bilag in bilags %}
+{% ifchanged bilag.dato.year %}
 <tr>
-  <td><a href="{{bilag.get_absolute_url}}">{{bilag.getNummer}}</a></td>
+  <th>{{bilag.dato.year}}</th>
+  <td></td>
+  {% for konto in related_kontos %}
+  <td></td>
+  <td></td>
+  {% endfor %}
+</tr>
+{% endifchanged %}
+<tr>
+  <td><a href="{{bilag.get_absolute_url}}">{{bilag.dato.year}}&#8209;{{bilag.bilagsnummer}}</a></td>
   <td>{{bilag.beskrivelse}}</td>
   {% for konto in related_kontos %}
     {% if konto in bilag.related_kontos %}

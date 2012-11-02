@@ -5,6 +5,8 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.conf import settings
+from django.core import urlresolvers
+from django.contrib.contenttypes.models import ContentType
 
 from decimal import *
 import os
@@ -164,6 +166,10 @@ class Konto(models.Model):
         return (self.sum_kredit or 0) - (self.sum_debit or 0)
     def get_absolute_url(self):
         return "/regnskap/show/konto/%d" % self.id
+    def get_admin_url(self):
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
+    
 
 class Exteral_Actor(models.Model):
     name = models.CharField(max_length = 256)
@@ -185,6 +191,10 @@ class Exteral_Actor(models.Model):
         return self.name + ( " (%d)" % self.id )
     def get_absolute_url(self):
         return "/regnskap/show/external_actor/%d" % self.id
+    def get_admin_url(self):
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
+    
 
 class Bilag(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable = False)

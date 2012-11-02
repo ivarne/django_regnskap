@@ -96,6 +96,9 @@
   </div>
 </div>
 <div style="clear:both"></div>
+{% if ubalanse %}
+<p style="background-color:yellow">Det er et foreløpig resultat på {{ubalanse}} som ikke er ført i regnskapet</p>
+{% endif %}
 <h3>Bilagsliste</h3>
 {% include "include/bilagTable.html" with bilags=bilagYear %}
 {% endblock %}

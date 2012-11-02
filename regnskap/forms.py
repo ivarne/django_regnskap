@@ -117,7 +117,6 @@ class BilagFileForm(forms.Form):
         files = []
         for file in os.listdir(os.path.join(settings.MEDIA_ROOT, 'upload')):
             files.append((file, file.rsplit('_',1)[1]))
-        print files
         self.fields['previousUploads'].choices = files
     def save(self,bilag):
         if not self.is_valid():# ignore files if validation fails
@@ -155,7 +154,6 @@ class BilagFileForm(forms.Form):
         return fnames
     @staticmethod
     def slugify(fileName):
-        print fileName
         fname, ext = fileName.rsplit('.',1)
         return django_slugify(fname) + '.' + ext
     

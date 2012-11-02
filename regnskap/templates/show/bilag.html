@@ -4,6 +4,26 @@
 {% block content %}
 <h1>Bilag {{bilag.bilagsnummer}} {{bilag.dato}}</h1>
 <p>{{bilag.beskrivelse}}</p>
+{% with bilag.external_actor as ea %}
+<table style="float:right">
+  <tr>
+    <th>Ekstern aktør</th>
+    <td><a href="{{ea.get_absolute_url}}">{{ea.name}}</a></td>
+  </tr>
+  <tr>
+    <th>Epost</th>
+    <td>{{ea.email}}</td>
+  </tr>
+  <tr>
+    <th>org. nr</th>
+    <td>{{ea.org_nr}}</td>
+  </tr>
+  <tr>
+    <th>Adresse</th>
+    <td>{{ea.adress|linebreaksbr}}</td>
+  </tr>
+</table>
+{% endwith %}
 <table>
   <tr>
     <th>Konto</th>
@@ -12,7 +32,7 @@
   </tr>
   {% for innslag in bilag.getInnslag %}
   <tr>
-    <td>{{innslag.konto}}</td>
+    <td title="{{innslag.konto.beskrivelse}}"><a href="{{innslag.konto.get_absolute_url}}">{{innslag.konto.nummer}}</a> {{innslag.konto.tittel}}</td>
     <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
     <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
   </tr>

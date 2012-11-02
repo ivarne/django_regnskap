@@ -27,7 +27,4 @@ def saveBackup(request, year, dropbox_client):
 @dropbox_user_required
 def test(request,dropbox_client):
     ret = dropbox_client.metadata('upload')['contents']
-#    for f in ret:
-#        print dropbox_client.media(f['path'])
-#    print ret
     return HttpResponse(str(ret))
