@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Ekstern kontakter{% endblock %}
+
+{% block content %}
+<h1>Liste over externe aktører i regnskapet</h1>
+<table>
+  <tr>
+    <th>Id:</th>
+    <th>Navn:</th>
+    <th>Epost:</th>
+    <th>Adresse:</th>
+    <th>Org. nr:</th>
+    <th>Antall bilag</th>
+    <th>Prosjekt:</th>
+  </tr>
+  {% for external_actor in external_actors %}
+  <tr>
+    <td><a href="{{external_actor.get_absolute_url}}">{{external_actor.id}}</a></td>
+    <td>{{external_actor.name}}</td>
+    <td>{{external_actor.email}}</td>
+    <td>{{external_actor.adress|linebreaks}}</td>
+    <td>{{external_actor.org_nr}}</td>
+    <td>{{external_actor.bilag_count}}</td>
+    <td>{{external_actor.prosjekt|default_if_none:"Generell (vises i alle prosjekter)"}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

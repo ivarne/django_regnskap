@@ -49,6 +49,16 @@ def external_actor(request,id):
         'bilags'       : bilags,
         },RequestContext(request))
 
+def external_actor_list(request):
+    extra = {}
+    extra['bilag_count'] = "SELECT COUNT(*) FROM `%s` as `b` WHERE `b`.`external_actor_id` = `%s`.`id`" % (Bilag._meta.db_table, Exteral_Actor._meta.db_table)
+    #extra['faktura_count_sql'] = "SELECT COUNT(*) FROM `%s` as `f` WHERE `f`.`external_actor_id` = `%s`.`id`" % (Faktura._meta.db_table, Exteral_Actor._meta.db_table)
+    ext = Exteral_Actor.objects.all().extra(select= extra).order_by("name")
+    print ext.query
+    return render_to_response( 'show/external_actor_list.html',{
+        'external_actors' : ext,
+        },RequestContext(request))
+
 def konto_graph(request, year, konto_id):
     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     from matplotlib.figure import Figure
