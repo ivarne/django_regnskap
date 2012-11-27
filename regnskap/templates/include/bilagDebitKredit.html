@@ -1,6 +1,6 @@
 <table class="debit-kredit-regnskap">
   <tr>
-    <th rowspan="2">Nummer</th>
+    <th rowspan="2">Dato</th>
     <th rowspan="2">Beskrivelse</th>
     {% for konto in related_kontos %}
     <th colspan="2"><a href="{{konto.get_absolute_url}}">{{konto.nummer}}</a> {{konto.getTittel}}</th>
@@ -24,7 +24,7 @@
 </tr>
 {% endifchanged %}
 <tr>
-  <td><a href="{{bilag.get_absolute_url}}">{{bilag.dato.year}}&#8209;{{bilag.bilagsnummer}}</a></td>
+  <td><a style="white-space:nowrap;" title="{{bilag.dato.year}}&#8209;{{bilag.bilagsnummer}}" href="{{bilag.get_absolute_url}}">{{bilag.dato|date:"j N"}}</a></td>
   <td>{{bilag.beskrivelse}}</td>
   {% for konto in related_kontos %}
     {% if konto in bilag.related_kontos %}
