@@ -170,7 +170,7 @@ class BilagFileForm(forms.Form):
             d_file = dropbox_client.get_file(f['path'])
             tmp_file.write(d_file.read())
             ret.append((fname, name))
-            dropbox_client.file_delete(f['path'])
+            dropbox_client.file_delete(f['path'].encode("utf-8"))
         return ret
 
         
