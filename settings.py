@@ -145,6 +145,6 @@ LOGGING = {
 }
 
 # first year the regnskap should be written for
-REGNSKAP_FIRST_YEAR = 2011
+REGNSKAP_FIRST_YEAR = 2010
 
 from local_settings import *

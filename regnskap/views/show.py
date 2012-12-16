@@ -5,6 +5,7 @@ from django_regnskap.regnskap.forms import *
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponse
+from django.conf import settings
 
 #system imports
 from datetime import date
@@ -18,7 +19,7 @@ def konto(request,id):
     return render_to_response( 'show/konto.html',{
         'konto' : konto,
         'innslags': innslags,
-        'years'  : range(2011,date.today().year+1),
+        'years'  : range(settings.REGNSKAP_FIRST_YEAR ,date.today().year+1),
         },RequestContext(request))
 
 def kontoList(request, prosjekt = ""):
