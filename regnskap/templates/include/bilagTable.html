@@ -1,10 +1,9 @@
 <table class="BilagListe">
   <tr>
-    <th>#</th>
-    <th>Dato</th>
+    <th>Dato #</th>
     <th>Beskrivelse</th>
     <th>Hvem?</th>
-    <th>Konto</th>
+    <th style="min-width: 200px">Konto</th>
     <th>Debet</th>
     <th>Kredit</th>
   </tr>
@@ -12,8 +11,13 @@
   {% for innslag in bilag.getInnslag %}
   <tr>
     {% ifchanged bilag %}
-    <td rowspan="{{bilag.getNumInnslag}}" class="topBorder"><a href="/regnskap/show/bilag/{{bilag.id}}">{{bilag.bilagsnummer|default:"&nbsp;"}}</a></td>
-    <td rowspan="{{bilag.getNumInnslag}}" class="topBorder">{{bilag.dato|date:"j. b"|default:"&nbsp;"}}</td>
+    <td rowspan="{{bilag.getNumInnslag}}" class="topBorder">
+      {% autoescape off %}
+      {{bilag.dato|date:"j.&\n\b\sp;b"}}
+      {% endautoescape %}
+      <br>
+      <a href="{{bilag.get_absolute_url}}">{{bilag.dato.year}}&#8209;{{bilag.bilagsnummer}}</a>
+    </td>
     <td rowspan="{{bilag.getNumInnslag}}" class="topBorder">
       {{bilag.beskrivelse|default:"&nbsp;"}}
       {% if bilag.innslag_sum %}
