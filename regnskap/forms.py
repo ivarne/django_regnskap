@@ -33,7 +33,8 @@ class External_ActorForm(forms.ModelForm):
                 else:
                     key = data["id"]
                 kwargs['instance'] = Exteral_Actor.objects.get(pk = key)
-            except: pass
+            except:
+                pass
         # Call parent constructor
         super(External_ActorForm,self).__init__(data,*args, **kwargs)
         
@@ -41,7 +42,8 @@ class External_ActorForm(forms.ModelForm):
         self.fields.insert(0,'id',self.fields.pop('id'))
     id = forms.IntegerField(
         min_value = 0,
-        widget = forms.TextInput({u'placeholder':u'Søk Her (eller legg til)'})
+        widget = forms.TextInput({u'placeholder':u'Søk Her (eller legg til)'}),
+        required=False
     )
 
 class BaseInnslagForm(forms.Form):

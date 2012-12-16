@@ -177,7 +177,7 @@ class Exteral_Actor(models.Model):
     adress = models.TextField(blank = True)
     org_nr = models.CharField(blank = True, max_length = 100)
     archived = models.DateField(editable = False, blank=True, null=True)
-    prosjekt = models.ForeignKey(Prosjekt)
+    prosjekt = models.ForeignKey(Prosjekt, null=True)
     objects = BaseProsjektManager()
 
     def related_kontos(self):

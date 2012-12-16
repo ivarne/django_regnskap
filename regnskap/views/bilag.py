@@ -34,7 +34,8 @@ def registrerBilagForm(request, prosjekt, extra):
             b = bilagform.instance
             b.prosjekt = prosjekt
             if(external_actor.is_valid()):
-                external_actor.instance.prosjekt = prosjekt
+                if external_actor.instance.pk == None:
+                    external_actor.instance.prosjekt = prosjekt
                 external_actor.save()
                 b.external_actor = external_actor.instance
             bilagform.save()
