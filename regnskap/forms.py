@@ -126,7 +126,7 @@ class BilagFileForm(forms.Form):
             b.save()
     def _saveFiles(self, bilag):
         def prepareSave(fname):
-            newname = os.path.join(str(bilag.dato.year),"%d-%s" % (bilag.bilagsnummer, fname))
+            newname = os.path.join(str(bilag.dato.year),u"%d-%s" % (bilag.bilagsnummer, fname.encode("ascii","ignore")))
             f = os.path.join(settings.MEDIA_ROOT,newname)
             return (newname, open(f,'wb+'))
         fnames = []
