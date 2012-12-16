@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Bilag {{bilag.bilagsnummer}} {{bilag.dato}}{% endblock %}
+{% block title %}Bilag {{bilag.getNumber}}{% endblock %}
 
 {% block content %}
-<h1>Bilag {{bilag.bilagsnummer}} {{bilag.dato}}</h1>
+<h1>Bilag {{bilag.getNummer}}</h1>
+{{bilag.dato}}
 <p>{{bilag.beskrivelse}}</p>
 {% with bilag.external_actor as ea %}
 <table style="float:right">
