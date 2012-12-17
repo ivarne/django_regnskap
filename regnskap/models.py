@@ -70,7 +70,7 @@ class KontoManager(BaseProsjektManager):
             )
         return ret
 
-    def bilagRelated(self, related = None, year = None, kontoTypes=()):
+    def bilagRelated(self, related = None, year = None, kontoTypes=(), bilag_ids=[]):
         """
         somewhat same as sum_colums, but returns a list of kontos with extra properties instead of a query set
         this is also a cleaner approach as it does not use two separate subsql queries
@@ -96,6 +96,9 @@ class KontoManager(BaseProsjektManager):
         if kontoTypes:
             where.append("`%(k)s`.`kontoType` IN %%s")
             args.append(kontoTypes)
+        if bilag_ids:
+            where.append("`%(b)s`.`id` IN %%s")
+            args.append(bilag_ids)
         where = " AND ".join(where)
         sql = ("""SELECT
             SUM(`%(i)s`.`belop` * `%(i)s`.`type` ) AS `sum_kredit`, 

@@ -50,6 +50,22 @@ def external_actor(request,id):
         'bilags'       : bilags,
         },RequestContext(request))
 
+def sisste_bilag(request, num):
+    if num:
+        num = int(num)
+    else:
+        num = 1
+    bilags = list(Bilag.objects.all().order_by('-id')[:num])
+    bilag_ids = [b.id for b in bilags]
+    if len(bilag_ids) == 1:
+        bilag_ids.append(-1) ## no bilag has id=-1 but the in query needs two conditions to work
+    related_kontos = list(Konto.objects.bilagRelated(bilag_ids=bilag_ids))
+    return render_to_response( 'show/sisste_bilag.html',{
+        'bilags': bilags,
+        'related_kontos': related_kontos,
+        'num_range': range(1, num + 5),
+        },RequestContext(request))
+
 def external_actor_list(request):
     extra = {}
     extra['bilag_count'] = "SELECT COUNT(*) FROM `%s` as `b` WHERE `b`.`external_actor_id` = `%s`.`id`" % (Bilag._meta.db_table, Exteral_Actor._meta.db_table)
