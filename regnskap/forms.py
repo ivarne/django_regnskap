@@ -168,11 +168,10 @@ class BilagFileForm(forms.Form):
             random_prefix = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(8))
             name = f['path'].rsplit("/",1)[1]
             fname = random_prefix + "_" + cls.slugify(name)
-            tmp_file = open(os.path.join(settings.MEDIA_ROOT, 'upload', fname), "wb+")
-            d_file = dropbox_client.get_file(f['path'])
-            tmp_file.write(d_file.read())
+            with open(os.path.join(settings.MEDIA_ROOT, 'upload', fname), "wb+") as tmp_file:
+                d_file = dropbox_client.get_file(f['path'])
+                tmp_file.write(d_file.read())
             ret.append((fname, name))
             dropbox_client.file_delete(f['path'].encode("utf-8"))
         return ret
-
         
