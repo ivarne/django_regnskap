@@ -193,8 +193,10 @@ $(document).ready(function(){
   $(".balance-row").click(balance);
   $(".kontoSelect > select").change(colorGrid);
   $("#id_bilag-dato").datepicker({
-    altField:"#id_bilag-dato",
-    altFormat:"yy-mm-dd",
+    yearRange: "2009:+0",
+    maxDate: "+0",
+    firstDay: 1,
+    dateFormat:"yy-mm-dd",
     changeMonth: true,
     changeYear: true,
   });
