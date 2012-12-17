@@ -5,9 +5,11 @@
 <h1>{{konto}}</h1>
 <p>{{konto.beskrivelse}}</p>
 <a href="{{konto.get_admin_url}}">Rediger</a>
-{% for year in years %}
-<img src="/regnskap/show/konto_graph/{{year}}/{{konto.id}}.png">
-{% endfor %}
+<div id="konto_graph_slide">
+  {% for year in years %}
+    <img {% if forloop.first %}class="active"{% endif %} year ="{{year}}" src="https://regnskap.laget.net/regnskap/show/konto_graph/{{year}}-{{konto.id}}.png">
+  {% endfor %}
+</div>
 <h2>Sisste bilag</h2>
 <table>
   <tr>
@@ -43,4 +45,32 @@
   </tr>
 {% endfor %}
 </table>
+
+<script>
+$(document).ready(function(){
+  // cheat so that the function uses this like a jquery module would do
+  // sometime it might be moved to a separate jquery module if need might rise
+  $("#konto_graph_slide").each(function(){
+    var years = {};
+    var years_list = [];
+    // remove $() on this if changed into jquery plugin
+    var prev_active = $(this).children("img.active");
+    var img = $(this).children("img");
+  
+    img.each(function(){
+      var year = this.attributes['year'].value
+      years[year] = $(this);
+      years_list.push(year);
+    });
+    img.click(function(){
+      prev_active.removeClass('active');
+      //rotate years_list
+      years_list.push(years_list.shift());
+
+      prev_active = years[years_list[0]];
+      prev_active.addClass('active');
+    });
+  });
+});
+</script>
 {% endblock %}

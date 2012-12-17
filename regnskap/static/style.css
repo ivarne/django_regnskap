@@ -134,3 +134,19 @@ table{
     border-bottom: 3px solid black;
 }
 
+/* Konto slideshow*/
+#konto_graph_slide {
+    position:relative;
+    height:550px;
+}
+
+#konto_graph_slide img {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:8;
+}
+
+#konto_graph_slide img.active {
+    z-index:10;
+}

@@ -19,7 +19,7 @@ def konto(request,id):
     return render_to_response( 'show/konto.html',{
         'konto' : konto,
         'innslags': innslags,
-        'years'  : range(settings.REGNSKAP_FIRST_YEAR ,date.today().year+1),
+        'years'  : range(date.today().year, settings.REGNSKAP_FIRST_YEAR -1, -1),
         },RequestContext(request))
 
 def kontoList(request, prosjekt = ""):
