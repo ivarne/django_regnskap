@@ -7,6 +7,7 @@ from django.http import Http404
 from django.conf import settings
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
+from django.utils.safestring import mark_safe
 
 from decimal import *
 import os
@@ -235,9 +236,9 @@ class Bilag(models.Model):
         super(Bilag,self).save(*args, **kwargs)
         return self.bilagsnummer
     def getNummer(self):
-        return str(self.dato.year) + "-" + str(self.bilagsnummer)
+        return mark_safe(str(self.dato.year) + "&#8209;" + str(self.bilagsnummer))
     def __unicode__(self):
-        return "%s-%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse)
+        return mark_safe("%s&#8209;%s %s" % (self.dato.year, self.bilagsnummer, self.beskrivelse))
     def get_absolute_url(self):
         return "/regnskap/show/bilag/%d" % self.id
     def innslag_sum(self):

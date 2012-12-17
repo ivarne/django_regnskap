@@ -18,6 +18,7 @@
     <th>Beskrivelse</th>
     <th>Debet</th>
     <th>Kredit</th>
+    <th>Mot konto</th>
     <th>Ekstern</th>
   </tr>
 {% for innslag in innslags %}
@@ -35,12 +36,23 @@
     <td class='tableNumber'>{{innslag.bilag.dato|date:"j"}}</td>
     <td class="tableNumber">
       <a href="{{innslag.bilag.get_absolute_url}}">
-      {{innslag.bilag.dato.year}}-{{innslag.bilag.bilagsnummer}}
+      {{innslag.bilag.getNummer}}
       </a>
     </td>
     <td>{{innslag.bilag.beskrivelse}}</td>
     <td class="tableNumber">{{innslag.debit|default_if_none:"&nbsp;"}}</td>
     <td class="tableNumber">{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
+    <td>
+      {% if innslag.bilag.related_kontos|length < 4 %}
+        {% for konto in innslag.bilag.related_kontos %}
+          {% if konto != innslag.konto %}
+            <a title="{{konto.prosjekt}}/{{konto.tittel}}&#10;{{konto.beskrivelse}}" href="{{konto.get_absolute_url}}">{{konto.nummer}}</a>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+      <a href="{{innslag.bilag.get_absolute_url}}" title="Det er for mange kontoer til at det ikke øndelegger tabellen å vise alle">...</a>
+      {% endif %}
+    </td>
     <td><a href="{{innslag.bilag.external_actor.get_absolute_url}}">{{innslag.bilag.external_actor}}</a></td>
   </tr>
 {% endfor %}
