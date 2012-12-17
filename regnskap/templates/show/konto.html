@@ -7,6 +7,7 @@
 <a href="{{konto.get_admin_url}}">Rediger</a>
 <div id="konto_graph_slide">
   {% for year in years %}
+    {#<img {% if forloop.first %}class="active"{% endif %} year ="{{year}}" src="/regnskap/show/konto_graph/{{year}}-{{konto.id}}.png">#}
     <img {% if forloop.first %}class="active"{% endif %} year ="{{year}}" src="https://regnskap.laget.net/regnskap/show/konto_graph/{{year}}-{{konto.id}}.png">
   {% endfor %}
 </div>
@@ -43,7 +44,7 @@
     <td class="tableNumber">{{innslag.debit|default_if_none:"&nbsp;"}}</td>
     <td class="tableNumber">{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
     <td>
-      {% if innslag.bilag.related_kontos|length < 4 %}
+      {% if innslag.bilag.related_kontos|length <= 4 %}
         {% for konto in innslag.bilag.related_kontos %}
           {% if konto != innslag.konto %}
             <a title="{{konto.prosjekt}}/{{konto.tittel}}&#10;{{konto.beskrivelse}}" href="{{konto.get_absolute_url}}">{{konto.nummer}}</a>

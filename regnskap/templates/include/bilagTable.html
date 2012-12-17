@@ -45,8 +45,10 @@
     <td class="topBorder">{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
     {% else %}
     <td>
-      <a href="{{innslag.konto.get_absolute_url}}">{{innslag.konto.nummer}}</a>
-      {{innslag.konto.tittel}}
+      <span title="{{innslag.konto.beskrivelse}}">
+        <a href="{{innslag.konto.get_absolute_url}}">{{innslag.konto.nummer}}</a>
+        {{innslag.konto.tittel}}
+      </span>
     </td>
     <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
     <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
