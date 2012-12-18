@@ -3,9 +3,9 @@
 {% block title %}Registrering av billag {% endblock %}
 
 {% block content %}
-<a style="float:right" href="/regnskap/registrer/hus/30">Registrer bilag med opp til 30 innslag</a>
+<a style="float:right" href="/regnskap/registrer/{{prosjekt}}/30">Registrer bilag med opp til 30 innslag</a>
 <h1>Registrer bilag på {{prosjekt.navn}}</h1>
-<form action="{{url}}" enctype="multipart/form-data" method="post">{% csrf_token %}
+<form action="/regnskap/registrer/{{prosjekt.navn}}/{{innslagform.management_form.TOTAL_FORMS.value}}" enctype="multipart/form-data" method="post">{% csrf_token %}
 {{ bilagform.non_field_errors }}
 
 <div style="float:right">
@@ -184,6 +184,8 @@ function colorGrid(){
 }
 
 $(document).ready(function(){
+  //ensure rows are balanced and colored
+  update();
   $(".kontoRow").each(function(){
       var searchField = $(this).children('.kontoSokField').children('input')[0];
       var kontoList = $(this).children('.kontoSelect').children('select')[0];
@@ -193,6 +195,7 @@ $(document).ready(function(){
   $(".innslag").change(update);
   $(".balance-row").click(balance);
   $(".kontoSelect > select").change(colorGrid);
+  $(".kontoSelect > select").each(colorGrid);
   $("#id_bilag-dato").datepicker({
     yearRange: "2009:+0",
     maxDate: "+0",

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Create your views here.
 ## standard includes
 import os
@@ -18,7 +19,7 @@ import json
 
 from operator import itemgetter
 
-from datetime import datetime
+from datetime import datetime, date
 
 def registrerBilagForm(request, prosjekt, extra):
     NumberOfInnslag = int(extra or 5)
@@ -68,7 +69,44 @@ def registrerBilagForm(request, prosjekt, extra):
         'url'           : request.path,
         'bilag_file_form':bilag_file_form,
     },RequestContext(request))
+
+def inngaaendeBalanseForm(request, prosjekt, year):
+    year = int(year)
+    prosjekt = Prosjekt.objects.get(navn = prosjekt)
+    InnslagForm = innslag_form_factory(prosjekt)
+    InnslagFormSet = formset_factory(InnslagForm, extra = 0, formset=BaseInnslagFormSet)
+    #collect usefull infromation
     
+    bilagform   = BilagForm(prefix="bilag", initial={
+                'dato' : date(year,1,1),
+                'beskrivelse': u"Inngående balanse %d" % year,
+                })
+    initial_inslag = []
+    for konto in Konto.objects.sum_columns(prosjekt, year-1).filter(kontoType = 1):
+        v = (konto.sum_debit or 0) - (konto.sum_kredit or 0)
+        initial_inslag.append({
+            'debit': v if v >= 0 else None,
+            'kredit': -v if v < 0 else None,
+            'kontos': konto.id,
+        })
+    for konto in Konto.objects.sum_columns(prosjekt, year-1).filter(kontoType = 2):
+        v = (konto.sum_debit or 0) - (konto.sum_kredit or 0)
+        initial_inslag.append({
+            'debit': v if v > 0 else None,
+            'kredit': -v if v <= 0 else None,
+            'kontos': konto.id,
+        })
+    innslagform = InnslagFormSet(prefix="innslag", initial=initial_inslag)
+    external_actor = External_ActorForm(prefix="external")
+    bilag_file_form = BilagFileForm(prefix="files")
+    return render_to_response('bilagRegistrering.html', {
+        'prosjekt'      : prosjekt,
+        'bilagform'     : bilagform,
+        'innslagform'   : innslagform,
+        'external_a_form':external_actor,
+        'bilag_file_form':bilag_file_form,
+    },RequestContext(request))
+
 def ajaxExternalActors(request, prosjekt):
     actors = Exteral_Actor.objects.prosjekt(prosjekt)
     ret = []
