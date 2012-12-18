@@ -86,7 +86,8 @@ $(document).ready(function(){
     'prefix'      : "id_{{to_form.prefix}}-",
   });
   $("#id_faktura-date").datepicker({
-//    altField:"#id_faktura-date",
+    yearRange: "2009:+1",
+    firstDay: 1,
     dateFormat:"yy-mm-dd",
     changeMonth: true,
     changeYear: true,
