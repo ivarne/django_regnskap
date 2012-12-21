@@ -214,6 +214,7 @@ class Bilag(models.Model):
     dato = models.DateField()
     beskrivelse = models.CharField(max_length=256)
     external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True, related_name="bilag")
+    registrerd_by = models.ForeignKey(User, editable=False, null=True)
     prosjekt = models.ForeignKey(Prosjekt)
     objects = BaseProsjektManager()
     def getInnslag(self):

@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>Bilag {{bilag.getNummer}}</h1>
-{{bilag.dato}} <small>(Registrert: {{bilag.created}})</small>
+{{bilag.dato}} <small>(Registrert: {{bilag.created}} av {{bilag.registrerd_by}})</small>
 <p>{{bilag.beskrivelse}}</p>
 {% with bilag.external_actor as ea %}
 <table style="float:right">

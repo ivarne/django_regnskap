@@ -34,6 +34,8 @@ def registrerBilagForm(request, prosjekt, extra):
         if bilagform.is_valid() and innslagform.is_valid():
             b = bilagform.instance
             b.prosjekt = prosjekt
+            print request.user.id
+            b.registrerd_by = request.user
             if(external_actor.is_valid()):
                 if external_actor.instance.pk == None:
                     external_actor.instance.prosjekt = prosjekt
