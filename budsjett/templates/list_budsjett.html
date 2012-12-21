@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Liste over budsjett for {{prosjekt}}{% endblock %}
+
+{% block content %}
+<h1>Liste over budsjett for {{prosjekt}}</h1>
+
+<ul>
+{% for budsjett in budsjett_list %}
+<li>
+<a href="{{budsjett.get_absolute_url}}">{{budsjett}}</a>
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

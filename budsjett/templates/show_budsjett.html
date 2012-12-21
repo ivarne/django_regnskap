@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{budsjett}}{% endblock %}
+
+{% block content %}
+<h1>{{budsjett}}</h1>
+<a href="{{budsjett.get_admin_url}}">Rediger</a>
+<table>
+  <thead>
+    <tr>
+      <th>Post</th>
+      <th>Konto</th>
+      <th>Budsjett</th>
+      <th>Resultat</th>
+      <th>Avvik</th>
+      {% if budsjett.til > now %}
+      <th>Ekstrapolert<br>resultat</th>
+      <th>Ekstrapolert<br>Avvik</th>
+      {% endif %}
+      <th>Kommentar</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in budsjett.post.all %}
+    <tr>
+      <td>{{ post.name }}</td>
+      <td>
+        {% for konto in post.konto.all %}
+        <a href="{{konto.get_absolute_url}}">{{konto.nummer}}</a> {{konto.tittel}}<br />
+        {% endfor %}
+      </td>
+      <td class="tableNumber">{{ post.belop }}</td>
+      <td class="tableNumber">{{ post.getResultat }}</td>
+      <td class="tableNumber">
+        {% if post.getAvvik > 0 %}
+        <span style="color:green">
+        {% else %}
+        <span style="color:red">
+        {% endif %}
+        {{ post.getAvvik }}
+        </span>
+      </td>
+      {% if budsjett.til > now %}
+      <td class="tableNumber">{{post.exResultat}}</td>
+      <td class="tableNumber">
+        {% if post.exAvvik > 0 %}
+        <span style="color:green">
+        {% else %}
+        <span style="color:red">
+        {% endif %}
+        {{ post.exAvvik }}
+        </span>
+      </td>
+      {% endif %}
+      <td>{{ post.comment }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
