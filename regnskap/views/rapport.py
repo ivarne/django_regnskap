@@ -29,7 +29,7 @@ def offisielltRegnskap(request, prosjekt, year):
         table.append_cell(TableCell(u"SUM %s" % overskrift, bold = True))
     
     for year in years:
-        kontos = iter(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType__in = (1,2)).order_by('nummer'))
+        kontos = iter(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType__in = (1,2)).order_by('nummer'))
         konto = kontos.next()
         table.reset()
         table.append_cell(TableCell(unicode(year), head = True))
@@ -71,11 +71,11 @@ def offisielltRegnskap(request, prosjekt, year):
 def showYear(request, prosjekt, year):
     bilagYear = list(Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato','bilagsnummer').select_related('external_actor'))
     
-    kostKonto= list(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType__in = (4,5,6,7,8,9)))
+    kostKonto= list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType__in = (4,5,6,7,8,9)))
     totalKost = Decimal(0);
     for k in kostKonto:
         totalKost += k.getLoadedDebit()
-    intKonto = list(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType = 3 ))
+    intKonto = list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType = 3 ))
     totalInt = Decimal(0);
     for i in intKonto:
         totalInt += i.getLoadedKredit()
@@ -85,11 +85,11 @@ def showYear(request, prosjekt, year):
     s.extend(None for asdf in range(len(l) - len(s)))
     resultat = zip(kostKonto, intKonto)
     
-    eiendelKonto =list(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType = 1))
+    eiendelKonto =list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType = 1))
     totalEie = Decimal(0);
     for e in eiendelKonto:
         totalEie += e.getLoadedDebit()
-    finansKonto = list(Konto.objects.sum_columns(prosjekt, int(year)).filter(kontoType__in = (2,9)))
+    finansKonto = list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType__in = (2,9)))
     totalFinans = Decimal(0);
     for e in finansKonto:
         totalFinans += e.getLoadedKredit()

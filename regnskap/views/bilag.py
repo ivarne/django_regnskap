@@ -82,14 +82,14 @@ def inngaaendeBalanseForm(request, prosjekt, year):
                 'beskrivelse': u"Inngående balanse %d" % year,
                 })
     initial_inslag = []
-    for konto in Konto.objects.sum_columns(prosjekt, year-1).filter(kontoType = 1):
+    for konto in Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (year-1,)).filter(kontoType = 1):
         v = (konto.sum_debit or 0) - (konto.sum_kredit or 0)
         initial_inslag.append({
             'debit': v if v >= 0 else None,
             'kredit': -v if v < 0 else None,
             'kontos': konto.id,
         })
-    for konto in Konto.objects.sum_columns(prosjekt, year-1).filter(kontoType = 2):
+    for konto in Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (year-1,)).filter(kontoType = 2):
         v = (konto.sum_debit or 0) - (konto.sum_kredit or 0)
         initial_inslag.append({
             'debit': v if v > 0 else None,

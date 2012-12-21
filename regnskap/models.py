@@ -20,7 +20,7 @@ class Prosjekt(models.Model):
 
 class BaseProsjektManager(models.Manager):
     def prosjekt(self, prosjekt):
-        if prosjekt == '':
+        if prosjekt == '' or prosjekt == None:
             return self
         if not isinstance(prosjekt, Prosjekt):
             try:
@@ -30,12 +30,7 @@ class BaseProsjektManager(models.Manager):
         return self.filter(Q(prosjekt = prosjekt) | Q(prosjekt = None))
 
 class KontoManager(BaseProsjektManager):
-    def sum_columns(self, prosjekt, *arg, **kwarg):
-        if kwarg.has_key('when'):
-            when = kwarg['when']
-            del kwarg['when'] # cleanup
-        else:
-            when = "YEAR(`dato`) = %s"
+    def sum_columns(self, when_arg=(), when = "YEAR(`dato`) = %s", prosjekt = None):
         
         if(prosjekt):
             ret = self.prosjekt(prosjekt)
@@ -67,7 +62,7 @@ class KontoManager(BaseProsjektManager):
                     'type' : 1
                     },
             },
-            select_params = arg * 2
+            select_params = when_arg * 2
             )
         return ret
 
@@ -94,6 +89,7 @@ class KontoManager(BaseProsjektManager):
         if year:
             where.append("YEAR(`%(b)s`.`dato`) = %%s")
             args.append(int(year))
+        
         if kontoTypes:
             where.append("`%(k)s`.`kontoType` IN %%s")
             args.append(kontoTypes)
@@ -121,20 +117,27 @@ class KontoManager(BaseProsjektManager):
         }
         return self.raw(sql, args)
 
-    def toOptionGroups(self, prosjekt):
+    def toOptionGroups(self, prosjekt = "", not_balanse = False):
+        avaiable_types = dict(Konto.AVAILABLE_KONTO_TYPE)
         types = [('','')]
         kontos = self.prosjekt(prosjekt).order_by('nummer')
+        if not_balanse:
+            kontos = kontos.filter(kontoType__gt = 2)
+        kontos = list(kontos)
         if not kontos:
             return types
         t = kontos[0].kontoType # first konto type
         subtype = []
         for konto in kontos:
             if(konto.kontoType != t):
-                types.append((Konto.AVAILABLE_KONTO_TYPE[t-1][1],subtype))
+                types.append((avaiable_types[t],subtype))
                 subtype = []
                 t = konto.kontoType
-            subtype.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
-        types.append((Konto.AVAILABLE_KONTO_TYPE[t-1][1],subtype))
+            if prosjekt:
+                subtype.append((konto.id, str(konto.nummer) + ' ' + konto.tittel,))
+            else:
+                subtype.append((konto.id, u"%d %s/%s" % (konto.nummer, konto.prosjekt, konto.tittel)))
+        types.append((avaiable_types[t],subtype))
         return types
 
 # Kontoplan
@@ -147,8 +150,7 @@ class Konto(models.Model):
       (3,'Salg og driftsinntekt'),
       (4,'Varekostnad'),
       (5,'Lonnskonstnad'),
-      (6,'Annen driftskostnad'),
-      (7,'Av- og nedskrivninger'),
+      (6,'Av- og nedskrivninger og Annen driftskostnad'),
       (8,u'Finans, ekstra og oppgjør')
     )
     id = models.AutoField(primary_key=True)
@@ -168,6 +170,12 @@ class Konto(models.Model):
         return (self.sum_debit or 0) - (self.sum_kredit or 0)
     def getLoadedKredit(self):
         return (self.sum_kredit or 0) - (self.sum_debit or 0)
+    def save(self):
+        t = int(str(self.nummer)[0])
+        if t == 7:
+            t = 6
+        self.kontoType = t
+        return super(Konto,self).save()
     def get_absolute_url(self):
         return "/regnskap/show/konto/%d" % self.id
     def get_admin_url(self):
