@@ -25,9 +25,13 @@
     <tr>
       <td>{{ post.name }}</td>
       <td>
+        {% if post.konto.count < 4 %}
         {% for konto in post.konto.all %}
         <a href="{{konto.get_absolute_url}}">{{konto.nummer}}</a> {{konto.tittel}}<br />
         {% endfor %}
+        {% else %}
+        <a title="{% for konto in post.konto.all %}{{konto.nummer}} {{konto.tittel}}&#10;{% endfor %}">...</a>
+        {% endif %}
       </td>
       <td class="tableNumber">{{ post.belop }}</td>
       <td class="tableNumber">{{ post.getResultat }}</td>
