@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<a href="/regnskap"><h1 id="site-name">Automatisk regnskapsadministrajson</h1></a>
+{% endblock %}
+
+{% block nav-global %}
+<a href"/admin">Admin</a> | <a href="/regnskap">Hovedside</a>
+{% endblock %}
