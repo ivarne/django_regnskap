@@ -8,7 +8,7 @@
 <div id="konto_graph_slide">
   {% for year in years %}
     {#<img {% if forloop.first %}class="active"{% endif %} year ="{{year}}" src="/regnskap/show/konto_graph/{{year}}-{{konto.id}}.png">#}
-    <img {% if forloop.first %}class="active"{% endif %} year ="{{year}}" src="https://regnskap.laget.net/regnskap/show/konto_graph/{{year}}-{{konto.id}}.png">
+    <img {% if forloop.first %}class="active"{% endif %} year ="{{year}}" src="/regnskap/show/konto_graph/{{year}}-{{konto.id}}.png">
   {% endfor %}
 </div>
 <h2>Sisste bilag</h2>

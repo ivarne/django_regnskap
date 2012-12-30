@@ -30,12 +30,13 @@ class BaseProsjektManager(models.Manager):
         return self.filter(Q(prosjekt = prosjekt) | Q(prosjekt = None))
 
 class KontoManager(BaseProsjektManager):
-    def sum_columns(self, when_arg=(), when = "YEAR(`dato`) = %s", prosjekt = None):
-        
+    def sum_columns(self, when_arg=(), when = "YEAR(`dato`) = %s", prosjekt = None, include_outgoing_balance=False):
         if(prosjekt):
             ret = self.prosjekt(prosjekt)
         else:
             ret = self
+        if not include_outgoing_balance:
+            when += " AND `b`.`bilagType` <> %d" % Bilag.UTGAAENDE_BALANSE
         
         subsql = '''SELECT SUM(`i`.`belop`)\
             FROM `%(i)s` as `i`\
@@ -209,8 +210,17 @@ class Exteral_Actor(models.Model):
     
 
 class Bilag(models.Model):
+    STANDARD_BILAG     = 0
+    INNGAAENDE_BALANSE = 1
+    UTGAAENDE_BALANSE  = 2
+    AVAILABLE_BILAG_TYPE = (
+      (0,u'Stanardbilag'),
+      (1,u'Inngående balanse'),
+      (2,u'Utgående balanse')
+    )
     created = models.DateTimeField(auto_now_add=True, editable = False)
     bilagsnummer = models.IntegerField(editable = False) #Automatic?
+    bilagType = models.IntegerField(choices=AVAILABLE_BILAG_TYPE, default=0, null=False, editable=False)
     dato = models.DateField()
     beskrivelse = models.CharField(max_length=256)
     external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True, related_name="bilag")
@@ -278,6 +288,8 @@ class BilagFile(models.Model):
             f.write(file_content)
 
 class Innslag(models.Model):
+    TYPE_DEBIT = 0
+    TYPE_KREDIT = 1
     AVAILABLE_TYPE = (
       (0,'Debit'),
       (1,'Kredit')

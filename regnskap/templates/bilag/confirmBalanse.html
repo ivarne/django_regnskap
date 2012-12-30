@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Balanseoverføring {{prosjekt}} {{from_year}}-{{to_year}}{% endblock %}
+
+{% block content %}
+<h2>Tabell over inngående balanse {{to_year}} slik den vil bli ført</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Konto</th>
+      <th>Debit</th>
+      <th>Kredit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for innslag in innslags %}
+    <tr>
+      <td>{{innslag.konto}}</td>
+      <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
+      <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p>Bekreft overføring av balanse fra {{from_year}} til {{to_year}}</p>
+<form action="" method="post">
+  {% csrf_token %}
+  <input type="submit" value="overfør">
+</form>
+
+
+{% endblock %}

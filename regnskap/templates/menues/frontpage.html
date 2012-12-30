@@ -27,26 +27,42 @@ Her kan man se på ulike ting
 {% endfor %}
 </ul>
 <h3>Årsoversikter</h3>
-<ul>
-  {% for year in years %}
-  <li>{{year}}
-    <ul>
-    {% for p in prosjekt %}
-    <li>{{p.beskrivelse}}<br>
-      <a href="rapport/year/{{ p }}{{year}}.html">{{p}}{{year}}.html</a>
-    </li>
-    {% endfor%}
-      <li>Excel<br>
-        <a href="rapport/year/{{year}}.xls">regnskap{{year}}.xls</a>
-      </li>
-      <li>Konsern<br>
-        <a href="rapport/year/{{year}}.html">{{year}}.html</a>
-      </li>
-    </ul>
-  </li>
-  {% endfor %}
-</ul>
 
+<table style="padding:3px;margin:5px">
+  <thead>
+    <tr>
+      <th>År</th>
+      <th>Excel</th>
+      <th>Konsern</th>
+      {% for p in prosjekt %}
+      <th title="{{p.beskrivelse}}">
+        {{p|upper}}
+      </th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for year, prosjekts in years %}
+    <tr>
+      <td>{{year}}</td>
+      <td><a href="rapport/year/{{year}}.xls">regnskap{{year}}.xls</a></td>
+      <td><a href="rapport/year/{{year}}.html">{{year}}.html</a></td>
+      {% for p, resultat_ok, balanse_ok in prosjekts %}
+      <td>
+        <a href="rapport/year/{{ p }}{{year}}.html">{{p}}{{year}}.html</a>
+        {% if not resultat_ok %}
+        <img title="Resultat er ikke ført til egenkapital" height="12px" widht="12px" src="/static/Actions-messagebox-warning-icon.png">
+        {% elif not balanse_ok %}
+        <img title="Utgående balanse er ikke ført" height="12px" widht="12px" src="/static/Actions-messagebox-warning-icon.png">
+        {% else %}
+        <img title="Regnskapet er resultat og balanseført" height="12px" widht="12px" src="/static/Actions-dialog-ok-apply-icon.png">
+        {% endif %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 <h3>Admin</h3>
 <a href="/admin">Her</a> kan du bruke det automatisk genererte systemet for å endre kontoer, prosjekt og eksterne brukere
 

@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.conf import settings
+from django.db import connection
 
 from decimal import *
 
@@ -98,7 +99,25 @@ def showYear(request, prosjekt, year):
     s = min(eiendelKonto, finansKonto, key=len)
     s.extend(None for _ in range(len(l) - len(s)))
     balanse = zip(eiendelKonto, finansKonto)
-    
+
+    # Check if outgoing balance has been queried
+    cursor = connection.cursor()
+    p_id = Prosjekt.objects.get(navn=prosjekt).id
+    cursor.execute( """SELECT 
+        SUM(type*belop) - sum((1-type)*belop) = 0 AS bal_inner,
+        k.nummer
+        FROM regnskap_innslag as i
+        INNER JOIN regnskap_bilag AS b ON b.id = i.bilag_id
+        INNER JOIN regnskap_konto AS k ON k.id = i.konto_id
+        WHERE k.kontoType IN (1, 2) AND YEAR(b.dato) = %s AND b.prosjekt_id = %s
+        GROUP BY k.id
+    """, [int(year), p_id])
+    ubalanse_bal = False
+    for row in cursor.fetchall():
+        bal_inner, k_nummer = row
+        if not bal_inner:
+            ubalanse_bal = True
+
     ret = render_to_response('report/showYear.html', {
         'year'       : year,
         'bilagYear'  : bilagYear,
@@ -111,6 +130,7 @@ def showYear(request, prosjekt, year):
         'totalInt'     : totalInt,
         'totalEie'     : totalEie,
         'totalFinans'  : totalFinans,
-        'ubalanse'     : totalInt - totalKost,
+        'ubalanse_res' : totalInt - totalKost,
+        'ubalanse_bal' : ubalanse_bal,
     },RequestContext(request))
     return ret

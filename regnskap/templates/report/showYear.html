@@ -96,9 +96,11 @@
   </div>
 </div>
 <div style="clear:both"></div>
-{% if ubalanse %}
-<p style="background-color:yellow">Det er et foreløpig resultat på {{ubalanse}} som ikke er ført i regnskapet</p>
+{% if ubalanse_res %}
+<p style="background-color:yellow">Det er et foreløpig resultat på {{ubalanse_res}} som ikke er ført i regnskapet</p>
+{% elif ubalanse_bal %}
+<p style="background-color:yellow">Utgående balanse er ikke ført over til neste år. <a href="/regnskap/balanse/{{prosjekt}}/{{year}}">Før utgående balanse ved å klikke her.</a></p>
 {% endif %}
 <h3>Bilagsliste</h3>
-{% include "include/bilagTable.html" with bilags=bilagYear %}
+{% include "include/bilagTable.html" with bilags=bilagYear prosjekt=prosjekt %}
 {% endblock %}

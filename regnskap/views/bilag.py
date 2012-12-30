@@ -12,7 +12,7 @@ from django.forms.formsets import formset_factory
 from django.contrib import messages
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
-
+from django.db import transaction
 
 
 import json
@@ -72,7 +72,80 @@ def registrerBilagForm(request, prosjekt, extra):
         'bilag_file_form':bilag_file_form,
     },RequestContext(request))
 
+@transaction.commit_on_success
 def inngaaendeBalanseForm(request, prosjekt, year):
+    from_year = int(year)
+    to_year = from_year + 1
+    prosjekt = Prosjekt.objects.get(navn = prosjekt)
+    #collect usefull infromation
+    
+    def append_kontos_as_innslag(kontos, innslags):
+        for konto in kontos:
+            v = (konto.sum_debit or 0) - (konto.sum_kredit or 0)
+            if v < 0:
+                innslags.append({
+                    'debit' : None,
+                    'kredit': -v,
+                    'belop' : abs(v),
+                    'type'  : Innslag.TYPE_KREDIT,
+                    'konto' : konto,
+                })
+            elif v > 0:
+                innslags.append({
+                    'debit' : v,
+                    'kredit': None,
+                    'belop' : abs(v),
+                    'type'  : Innslag.TYPE_DEBIT,
+                    'konto' : konto,
+                })
+            else: # v==0
+                if konto.kontoType == 1:
+                    t = Innslag.TYPE_DEBIT
+                else:
+                    t = Innslag.TYPE_KREDIT
+                innslags.append({
+                    'debit' : 0 if t == Innslag.TYPE_DEBIT else None,
+                    'kredit': 0 if t == Innslag.TYPE_KREDIT else None,
+                    'belop' : 0,
+                    'type'  : t,
+                    'konto' : konto,
+                })
+
+    innslags = []
+    kontos = Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (from_year,)).filter(kontoType = 1)
+    append_kontos_as_innslag(kontos, innslags)
+    kontos = Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (from_year,)).filter(kontoType = 2)
+    append_kontos_as_innslag(kontos, innslags)
+    if(request.method == 'POST'):
+        bal_ut = Bilag(
+            bilagType = Bilag.UTGAAENDE_BALANSE,
+            dato = date(from_year, 12, 31),
+            beskrivelse = u"Utgående balanse %s/%d" % (prosjekt, from_year),
+            registrerd_by = request.user,
+            prosjekt = prosjekt,
+        )
+        bal_ut.save()
+        for innslag in innslags:
+            inn = Innslag(
+                type  = not innslag['type'],
+                konto = innslag['konto'],
+                belop = innslag['belop'],
+                bilag = bal_ut,
+            )
+            inn.save()
+        return HttpResponseRedirect(bal_ut.get_absolute_url())
+    else:
+        return render_to_response('bilag/confirmBalanse.html', {
+            'prosjekt'      : prosjekt,
+            'from_year'     : from_year,
+            'to_year'       : to_year,
+            'innslags'       : innslags
+        },RequestContext(request))
+
+
+# aldri vært i bruk, men dette var første forsøk på automatisk inngående balanse,
+# nå blir det ikke mulighet for å redigere balansen (den skal jo uansett overføres uendret).
+def inngaaendeBalanseForm_old(request, prosjekt, year):
     year = int(year)
     prosjekt = Prosjekt.objects.get(navn = prosjekt)
     InnslagForm = innslag_form_factory(prosjekt)
