@@ -101,22 +101,23 @@ def showYear(request, prosjekt, year):
     balanse = zip(eiendelKonto, finansKonto)
 
     # Check if outgoing balance has been queried
-    cursor = connection.cursor()
-    p_id = Prosjekt.objects.get(navn=prosjekt).id
-    cursor.execute( """SELECT 
-        SUM(type*belop) - sum((1-type)*belop) = 0 AS bal_inner,
-        k.nummer
-        FROM regnskap_innslag as i
-        INNER JOIN regnskap_bilag AS b ON b.id = i.bilag_id
-        INNER JOIN regnskap_konto AS k ON k.id = i.konto_id
-        WHERE k.kontoType IN (1, 2) AND YEAR(b.dato) = %s AND b.prosjekt_id = %s
-        GROUP BY k.id
-    """, [int(year), p_id])
     ubalanse_bal = False
-    for row in cursor.fetchall():
-        bal_inner, k_nummer = row
-        if not bal_inner:
-            ubalanse_bal = True
+    if prosjekt:
+        cursor = connection.cursor()
+        p_id = Prosjekt.objects.get(navn=prosjekt).id
+        cursor.execute( """SELECT 
+            SUM(type*belop) - sum((1-type)*belop) = 0 AS bal_inner,
+            k.nummer
+            FROM regnskap_innslag as i
+            INNER JOIN regnskap_bilag AS b ON b.id = i.bilag_id
+            INNER JOIN regnskap_konto AS k ON k.id = i.konto_id
+            WHERE k.kontoType IN (1, 2) AND YEAR(b.dato) = %s AND b.prosjekt_id = %s
+            GROUP BY k.id
+        """, [int(year), p_id])
+        for row in cursor.fetchall():
+            bal_inner, k_nummer = row
+            if not bal_inner:
+                 ubalanse_bal = True
 
     ret = render_to_response('report/showYear.html', {
         'year'       : year,

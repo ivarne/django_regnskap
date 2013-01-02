@@ -110,7 +110,7 @@ function update(){
   var debit = 0;
   $(".debit > input").each(function(){
     if(this.value){
-      var v = parseFloat(this.value.replace(",","."));
+      var v = parseFloat(this.value.replace(",",".").replace(" ",""));
       debit += v;
       this.value = v.toFixed(2);  
       deactivateTwinField(this,true);
@@ -122,7 +122,7 @@ function update(){
   var kredit = 0;
   $(".kredit > input").each(function(){
     if(this.value){
-      var v = parseFloat(this.value);
+      var v = parseFloat(this.value.replace(",",".").replace(" ",""));
       kredit += v;
       this.value = v.toFixed(2);
       deactivateTwinField(this,true);

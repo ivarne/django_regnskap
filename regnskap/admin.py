@@ -12,6 +12,7 @@ class KontoAdmin(admin.ModelAdmin):
     list_filter = ('prosjekt', 'kontoType')
     exclude = ('kontoType',)
 
+admin.site.disable_action('delete_selected')
 #admin.site.register(Bilag, BilagAdmin)
 #admin.site.register(Innslag)
 admin.site.register(Konto, KontoAdmin)
