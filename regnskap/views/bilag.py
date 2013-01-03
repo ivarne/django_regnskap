@@ -133,6 +133,22 @@ def inngaaendeBalanseForm(request, prosjekt, year):
                 bilag = bal_ut,
             )
             inn.save()
+        bal_inn = Bilag(
+            bilagType = Bilag.INNGAAENDE_BALANSE,
+            dato = date(to_year, 1, 1),
+            beskrivelse = u"Inngående balanse %s/%d" % (prosjekt, to_year),
+            registrerd_by = request.user,
+            prosjekt = prosjekt,
+        )
+        bal_inn.save()
+        for innslag in innslags:
+            inn = Innslag(
+                type  = innslag['type'],
+                konto = innslag['konto'],
+                belop = innslag['belop'],
+                bilag = bal_inn,
+            )
+            inn.save()
         return HttpResponseRedirect(bal_ut.get_absolute_url())
     else:
         return render_to_response('bilag/confirmBalanse.html', {
