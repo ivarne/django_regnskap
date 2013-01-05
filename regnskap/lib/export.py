@@ -47,7 +47,7 @@ class ExelYearView(object):
         h.style.font.bold = True
         sheet.merge_cells("A1:B1")
         
-        kontos = list(Konto.objects.bilagRelated(related=prosjekt, year = year))
+        kontos = list(Konto.objects.bilagRelated(related=prosjekt, year = year, bilagTypes=(Bilag.INNGAAENDE_BALANSE, Bilag.STANDARD_BILAG)))
         #grupper kontoene
         groups = [[] for _ in range(9)]
         for konto in kontos:
