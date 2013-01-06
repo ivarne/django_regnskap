@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.sites.models import Site
 from django_regnskap.regnskap.models import *
 
 class BilagAdmin(admin.ModelAdmin):
@@ -12,6 +13,8 @@ class KontoAdmin(admin.ModelAdmin):
     list_filter = ('prosjekt', 'kontoType')
     exclude = ('kontoType',)
 
+
+admin.site.unregister(Site)
 admin.site.disable_action('delete_selected')
 #admin.site.register(Bilag, BilagAdmin)
 #admin.site.register(Innslag)
