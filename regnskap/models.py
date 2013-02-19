@@ -331,4 +331,20 @@ class Innslag(models.Model):
     debit = property(_debitValue)
     kredit = property(_kreditValue)
     value = property(_value)
+
+class PerodLock(models.Model):
+    """Brukes for å "låse" peroder (gjerne år) slik at man ikke kan endre regnskap tilbake i tid"""
+    created  = models.DateTimeField(auto_now_add=True, editable = False)
+    fra      = models.DateField()
+    til      = models.DateField()
+    signatur = models.CharField(max_length=255, editable=False)
+    signert_text = models.TextField()
+    def bilag_innslag_signature(self):
+        return "test"
+    bilag_innslag_signature.__repr__ = lambda self: u"Bilag+Innslag"
+    SIGNATUR_METHODS = (
+        (1,bilag_innslag_signature),
+    )
+    signatur_method = models.IntegerField(choices=SIGNATUR_METHODS)
+    
     
