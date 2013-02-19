@@ -55,7 +55,7 @@ def registrerBilagForm(request, prosjekt, extra):
             bilag_file_form.save(b)
             #except Exception, e:
             #    messages.add_message(request, messages.ERROR, "Det skjedde en feil med lagring av filer (%s)" % e)
-            messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer <a href="%s">%s></a>.' % (bilagform.instance.get_absolute_url(), bilagform.instance.getNummer()))
+            messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %s' % ( bilagform.instance.getNummer()))
             return HttpResponseRedirect(request.path)
         messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')
     else:

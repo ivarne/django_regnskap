@@ -80,7 +80,7 @@ def draw_faktura_varer(c, faktura):
         c.setFont('Helvetica',11)
         c.drawString(100, h, vare.name)
         c.setFont('Helvetica',12)
-        c.drawCentredString(363, h, str(vare.ammount))
+        c.drawRightString(363, h, str(vare.ammount))
         c.drawRightString(450, h, str(vare.price))
         #c.drawString(460, h, str(vare.getMva()))
         c.drawRightString(560, h, ("%10.2f" % vare.totalPrice()))

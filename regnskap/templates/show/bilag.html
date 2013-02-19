@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Bilag {{bilag.getNumber}}{% endblock %}
-
+{% load regnskap_filters%}
 {% block content %}
-<h1>Bilag {{bilag.getNummer}}</h1>
+<h1>Bilag {{bilag.getNummer|no_break}}</h1>
 {{bilag.dato}} <small>(Registrert: {{bilag.created}} av {{bilag.registrerd_by}})</small>
 <p>{{bilag.beskrivelse}}</p>
 {% with bilag.external_actor as ea %}
