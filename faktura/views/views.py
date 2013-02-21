@@ -81,6 +81,13 @@ def list_faktura(request,prosjekt):
         'prosjekt' : prosjekt,
     },RequestContext(request))
 
+def list_vare(request, prosjekt):
+    vares = Vare.objects.raw("""SELECT v.*, SUM(fv.price*fv.ammount) AS totalPrice, SUM(fv.ammount) as totalAmmount, YEAR(f.date) as faktura_year FROM faktura_vare AS v LEFT JOIN `faktura_faktura_vare` AS fv ON v.id = fv.vare_id LEFT JOIN faktura_faktura AS f ON f.id = fv.faktura_id GROUP BY v.id, faktura_year ORDER BY faktura_year DESC, v.id""")
+    return render_to_response('list_vare.html',{
+        'vares': vares,
+        'prosjekt' : prosjekt,
+    },RequestContext(request))
+
 def send_faktura(request):
     if request.method != 'POST':
         raise Exception('Wrong method')

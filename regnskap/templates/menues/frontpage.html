@@ -20,7 +20,7 @@ Her kan man se på ulike ting
 {% for faktura_t in faktura_templates %}
 <li>
 {% ifchanged faktura_t.prosjekt %}
-<b>{{faktura_t.prosjekt.navn}}</b> (<a href="/faktura/list/{{faktura_t.prosjekt.navn}}">liste</a>)<br>
+<b>{{faktura_t.prosjekt.navn}}</b> (<a href="/faktura/list/{{faktura_t.prosjekt.navn}}">fakturaer</a>, <a href="/faktura/list_vare/{{faktura_t.prosjekt.navn}}">varer</a>)<br>
 {% endifchanged %}
 <a href="{{faktura_t.get_absolute_url}}">{{faktura_t}}</a>
 </li>

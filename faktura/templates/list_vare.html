@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Vis varer for {{prosjekt}}{% endblock %}
+
+{% block content %}
+<h1>Viser varer for {{prosjekt}}</h1>
+{% for vare in vares %}
+{%ifchanged vare.faktura_year%}
+{% if not forloop.first %}</table>
+{%endif%}
+<h2>År {{vare.faktura_year}}</h2>
+<table>
+  <tr>
+    <th>Vare</th>
+    <th>Pris</th>
+    <th>Antall</th>
+    <th>Total Inntekt</th>
+  </tr>
+  {% endifchanged %}
+  <tr>
+    <td>{{vare.name}} (<a href="{{vare.get_absolute_url}}">{{vare.id}}</a>)</td>
+    <td align="right">{{vare.price}}</td>
+    <td align="right">{{vare.totalAmmount}}</td>
+    <td align="right">{{vare.totalPrice}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
