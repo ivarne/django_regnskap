@@ -70,7 +70,7 @@ def offisielltRegnskap(request, prosjekt, year):
 
 
 def showYear(request, prosjekt, year):
-    bilagYear = list(Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato','bilagsnummer').select_related('external_actor'))
+    bilagYear = list(Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato','bilagsnummer').prefetch_related('external_actor').prefetch_related('innslag').prefetch_related('prosjekt').prefetch_related('innslag__konto'))
     
     kostKonto= list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType__in = (4,5,6,7,8,9)))
     totalKost = Decimal(0);

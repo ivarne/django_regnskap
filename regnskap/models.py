@@ -234,6 +234,7 @@ class Bilag(models.Model):
     prosjekt = models.ForeignKey(Prosjekt)
     objects = BaseProsjektManager()
     def getInnslag(self):
+        return self.innslag.all()
         try:
             return self.innslag_cache
         except:
