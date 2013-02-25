@@ -44,7 +44,7 @@ def bilag(request,id):
 
 def external_actor(request,id):
     ext = Exteral_Actor.objects.get(pk = id)
-    bilags = ext.bilag.order_by('-dato')
+    bilags = ext.bilag.order_by('-dato').prefetch_related('innslag').prefetch_related('innslag__konto')
     return render_to_response( 'show/external_actor.html',{
         'external_actor' : ext,
         'bilags'       : bilags,
