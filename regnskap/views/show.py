@@ -14,11 +14,11 @@ from decimal import Decimal
 
 def konto(request,id):
     konto = Konto.objects.get(pk = id)
-    innslags = konto.innslag.order_by('-bilag__dato')
+    bilags = Bilag.objects.filter(innslag__konto = konto).order_by('-dato').prefetch_related('innslag__konto').prefetch_related('innslag__konto__prosjekt').prefetch_related('innslag').prefetch_related('external_actor')
 #    omsettning = 
     return render_to_response( 'show/konto.html',{
         'konto' : konto,
-        'innslags': innslags,
+        'bilags': bilags,
         'years'  : range(date.today().year, settings.REGNSKAP_FIRST_YEAR -1, -1),
         },RequestContext(request))
 

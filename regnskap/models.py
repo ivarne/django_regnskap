@@ -234,13 +234,11 @@ class Bilag(models.Model):
     prosjekt = models.ForeignKey(Prosjekt)
     objects = BaseProsjektManager()
     def getInnslag(self):
+        # use prefetch_related to cache all innslag.all() queries efficiently
         return self.innslag.all()
-        try:
-            return self.innslag_cache
-        except:
-            self.innslag_cache = list(self.innslag.select_related('konto'))
-            return self.innslag_cache
     def related_kontos(self):
+        return [i.konto for i in self.innslag.all()]
+        # use prefetch related to cache innslag and konto
         try:
             return self.related_kontos_cache
         except:
