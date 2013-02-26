@@ -76,7 +76,6 @@ def external_actor_list(request):
     extra['bilag_count'] = "SELECT COUNT(*) FROM `%s` as `b` WHERE `b`.`external_actor_id` = `%s`.`id`" % (Bilag._meta.db_table, Exteral_Actor._meta.db_table)
     #extra['faktura_count_sql'] = "SELECT COUNT(*) FROM `%s` as `f` WHERE `f`.`external_actor_id` = `%s`.`id`" % (Faktura._meta.db_table, Exteral_Actor._meta.db_table)
     ext = Exteral_Actor.objects.all().extra(select= extra).order_by("name")
-    print ext.query
     return render_to_response( 'show/external_actor_list.html',{
         'external_actors' : ext,
         },RequestContext(request))
