@@ -10,6 +10,7 @@ from django.conf import settings
 from django.db import connection
 
 from decimal import *
+from datetime import date
 
 def offisielltRegnskap(request, prosjekt, year):
     year = int(year)
@@ -135,3 +136,50 @@ def showYear(request, prosjekt, year):
         'ubalanse_bal' : ubalanse_bal,
     },RequestContext(request))
     return ret
+
+
+def get_innslag_dato(innslag):
+    #return 31.desember for inngående balanse
+    if innslag.bilag.bilagType == 1 and innslag.bilag.dato.day == 1 and innslag.bilag.dato.month == 1:
+        return date(innslag.bilag.dato.year-1, 12, 31)
+    return innslag.bilag.dato
+
+def calculate_intrest(request, year, kontos, rate):
+    year = int(year)
+    rate = float(rate) / 100
+    innslags = list(Innslag.objects.filter(konto__in = kontos.split(',')).filter(bilag__dato__year = int(year)).order_by('bilag__dato', '-bilag__bilagType').select_related('bilag'))
+    
+    prev = innslags[0]
+    saldo = prev.value
+    rentesaldo = [float(0)] # mutable type can be changed inside intrest_period
+    # calculation of leap years from 1901 to 2199
+    days_in_year = 365 + (year % 4 == 0) - (year == 2100)
+    
+    def intrest_period(start, end):
+        days = (end - start).days
+        intrest = rate * float(saldo) * float(days) / float(days_in_year)
+        rentesaldo[0] += intrest
+        return {
+            "start": start,
+            "end" : end,
+            "days": days,
+            "days_in_year" : days_in_year,
+            "intrest" : intrest,
+            "saldo" : saldo,
+            "rentesaldo": rentesaldo[0]
+        }
+    
+    rows = [prev]
+    for innslag in innslags[1:]:
+        p_dato = get_innslag_dato(prev)
+        i_dato = get_innslag_dato(innslag)
+        if p_dato != i_dato:
+            rows.append(intrest_period(p_dato, i_dato))
+        saldo += innslag.value
+        rows.append(innslag)
+        prev = innslag
+        
+    return render_to_response( 'report/calculate_intrest.html',{
+        'kontos': Konto.objects.filter(id__in = kontos.split(',')),
+        'rows': rows,
+    },RequestContext(request))
