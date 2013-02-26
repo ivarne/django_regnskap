@@ -42,6 +42,11 @@ def bilag(request,id):
         'bilag_file_form' : bilag_file_form
         },RequestContext(request))
 
+#stupid proxy for simple lookup of bilag from YYYY-# format
+def bilag_nummer(request, year, nummer):
+    b = Bilag.objects.get(dato__year = year, bilagsnummer = nummer)
+    return bilag(request, b.pk)
+
 def external_actor(request,id):
     ext = Exteral_Actor.objects.get(pk = id)
     bilags = ext.bilag.order_by('-dato').prefetch_related('innslag').prefetch_related('innslag__konto')
