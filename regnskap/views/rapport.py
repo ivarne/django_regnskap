@@ -183,3 +183,11 @@ def calculate_intrest(request, year, kontos, rate):
         'kontos': Konto.objects.filter(id__in = kontos.split(',')),
         'rows': rows,
     },RequestContext(request))
+
+def konto_external_actor_imbalance(request, konto):
+    konto = Konto.objects.get(pk = int(konto))
+    external_actors = Exteral_Actor.objects.raw("""SELECT * FROM (SELECT SUM(`i`.`belop` * i.`type` ) - SUM(`i`.`belop` * (1 -`i`.`type`) ) AS `imbalance`, e.* FROM regnskap_bilag AS b INNER JOIN regnskap_innslag AS i ON i.bilag_id = b.id INNER JOIN regnskap_exteral_actor AS e ON e.id = b.`external_actor_id` WHERE i.konto_id = %d GROUP BY e.id ) AS subtalbe WHERE imbalance <> 0""" % int(konto.pk))
+    return render_to_response( 'report/external_actor_imbalance.html',{
+        'konto': konto,
+        'external_actors': external_actors,
+    },RequestContext(request))

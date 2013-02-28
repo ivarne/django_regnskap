@@ -63,6 +63,10 @@
 {% endfor %}
 </table>
 
+{% if konto.kontoType == 1 or konto.kontoType == 2 %}
+For mellomværende kontoer kan det være greit å se på <a href="/regnskap/rapport/konto_imbalance/{{konto.id}}">Ubalanse per ekstern aktør</a>
+{% endif %}
+
 <script>
 $(document).ready(function(){
   // cheat so that the function uses this like a jquery module would do

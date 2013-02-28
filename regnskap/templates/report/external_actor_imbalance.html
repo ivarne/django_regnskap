@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Ubalanse for konto {{konto}}{% endblock %}
+{% load regnskap_filters%}
+{% block content %}
+<h1>Ubalanse for konto {{konto}}</h1>
+<ul>
+  {% for ea in external_actors %}
+  <li><a href="{{ea.get_absolute_url}}">{{ea}}</a> {{ea.imbalance}}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
