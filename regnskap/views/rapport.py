@@ -166,7 +166,7 @@ def calculate_intrest(request, year, kontos, rate):
             "days_in_year" : days_in_year,
             "intrest" : intrest,
             "saldo" : saldo,
-            "rentesaldo": rentesaldo[0]
+            "rentesaldo": rentesaldo[0],
         }
     
     rows = [prev]
@@ -180,8 +180,9 @@ def calculate_intrest(request, year, kontos, rate):
         prev = innslag
         
     return render_to_response( 'report/calculate_intrest.html',{
-        'kontos': Konto.objects.filter(id__in = kontos.split(',')),
+        'kontos': Konto.objects.filter(id__in = kontos.split(',')).select_related('prosjekt'),
         'rows': rows,
+        "rate" : rate*100,
     },RequestContext(request))
 
 def konto_external_actor_imbalance(request, konto):
