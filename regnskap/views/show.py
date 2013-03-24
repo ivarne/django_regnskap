@@ -42,6 +42,11 @@ def bilag(request,id):
         'bilag_file_form' : bilag_file_form
         },RequestContext(request))
 
+#stupid proxy for simple lookup of bilag from YYYY-# format
+def bilag_nummer(request, year, nummer):
+    b = Bilag.objects.get(dato__year = year, bilagsnummer = nummer)
+    return bilag(request, b.pk)
+
 def external_actor(request,id):
     ext = Exteral_Actor.objects.get(pk = id)
     bilags = ext.bilag.order_by('-dato').prefetch_related('innslag').prefetch_related('innslag__konto')
@@ -71,7 +76,6 @@ def external_actor_list(request):
     extra['bilag_count'] = "SELECT COUNT(*) FROM `%s` as `b` WHERE `b`.`external_actor_id` = `%s`.`id`" % (Bilag._meta.db_table, Exteral_Actor._meta.db_table)
     #extra['faktura_count_sql'] = "SELECT COUNT(*) FROM `%s` as `f` WHERE `f`.`external_actor_id` = `%s`.`id`" % (Faktura._meta.db_table, Exteral_Actor._meta.db_table)
     ext = Exteral_Actor.objects.all().extra(select= extra).order_by("name")
-    print ext.query
     return render_to_response( 'show/external_actor_list.html',{
         'external_actors' : ext,
         },RequestContext(request))

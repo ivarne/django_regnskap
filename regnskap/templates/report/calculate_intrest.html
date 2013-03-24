@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Bilag {{bilag.getNumber}}{% endblock %}
+{% load regnskap_filters%}
+{% block content %}
+<h1>Beregning av rente for konto(er), med {{rate}}% rente</h1>
+<ol>
+  {% for konto in kontos %}
+  <li>{{konto}}</li>
+  {% endfor %}
+</ol>
+<table>
+  <thead>
+    <tr>
+      <th>Tidsperiode</th>
+      <th>Endring</th>
+      <th>Saldo</th>
+      <th>Rente</th>
+      <th>Rentesaldo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      {% if row.bilag %}
+      <td>{{row.bilag.dato}}: <a href="{{row.bilag.get_absolute_url}}">{{row.bilag.getNummer}}</a> {{row.bilag.beskrivelse}}</td>
+      <td>{{row.value}}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      {% else %}
+      <td>{{row.days}} dager av {{row.days_in_year}}</td>
+      <td></td>
+      <td>{{row.saldo}}</td>
+      <td>{{row.intrest|floatformat:2}}</td>
+      <td>{{row.rentesaldo|floatformat:2}}</td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

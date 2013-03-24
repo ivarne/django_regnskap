@@ -36,7 +36,7 @@
     </td>
     <td class='tableNumber'>{{bilag.dato|date:"j"}}</td>
     <td class="tableNumber">
-      <a href="{{innslag.bilag.get_absolute_url}}">
+      <a href="{{bilag.get_absolute_url}}">
       {{bilag.getNummer}}
       </a>
     </td>
@@ -62,6 +62,10 @@
   </tr>
 {% endfor %}
 </table>
+
+{% if konto.kontoType == 1 or konto.kontoType == 2 %}
+For mellomværende kontoer kan det være greit å se på <a href="/regnskap/rapport/konto_imbalance/{{konto.id}}">Ubalanse per ekstern aktør</a>
+{% endif %}
 
 <script>
 $(document).ready(function(){
