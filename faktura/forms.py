@@ -46,6 +46,7 @@ class VareItemsFormSet(BaseFormSet):
     can_order = False
     can_delete = False
     max_num = None
+    absolute_max = 1000
     def setFaktura(self, faktura):
         for f in self.forms:
             f.instance.faktura = faktura
