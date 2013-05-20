@@ -8,6 +8,7 @@ from django_regnskap.utilities.JSONField import JSONField
 
 
 from decimal import *
+from datetime import date
 
 # Create your models here.
 
@@ -147,6 +148,14 @@ class Faktura(models.Model):
         }
     def getStatus(self):
         return self.STATUS_VALUES[self.status][1]
+    def alert(self):
+        if self.status == 1 and self.frist < date.today(): # sent og over frist
+            return True
+        if self.status == 2: # purret
+            return True
+        if self.status == 3: # inkasso
+            return True
+        return False
     def get_absolute_url(self):
         return '/faktura/show/%d' % self.id
     def __unicode__(self):

@@ -10,7 +10,7 @@
     <th>Nummer</th>
     <th>Mottaker</th>
     <th>Status</th>
-    <th>Dato</th>
+    <th>Forfall</th>
     <th>Beløp</th>
   </tr>
   {% for faktura in fakturas %}
@@ -18,7 +18,9 @@
     <td><a href="{{faktura.get_absolute_url}}">{{faktura.getNumber}}</a></td>
     <td>{{faktura.kunde.name}} (<a href="{{faktura.kunde.get_absolute_url}}">{{faktura.kunde.id}}</a>)</td>
     <td>{{faktura.getStatus}}</td>
-    <td>{{faktura.date}}</td>
+    <td>
+      <span style="color:{% if faktura.alert %}red{% else %}green{% endif %}" title="{{faktura.date}}">{{faktura.frist}}</span>
+    </td>
     <td align="right">{{faktura.totalPrice}}</td>
   </tr>
   {% endfor %}
