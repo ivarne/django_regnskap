@@ -169,6 +169,19 @@ def calculate_intrest(request, year, kontos, rate):
             "rentesaldo": rentesaldo[0],
         }
     
+    # insert stopping points for each qarter of a year exept first
+    quarters = [Innslag(konto_id = kontos.split(',')[0], type=1, belop=0, bilag = Bilag(dato = date(year, m, d), beskrivelse= '%d. kvartal %d'% (k,year))) for k,m,d in [(1,4,1),(2,7,1),(3,10,1),(4,12,31)]]
+    tmp_innslag = []
+    for innslag in innslags:
+        if innslag.bilag.dato == quarters[0].bilag.dato:
+            quarters.pop(0)
+            if len(quarters) == 0:
+                break;
+        while innslag.bilag.dato > quarters[0].bilag.dato:
+            tmp_innslag.append(quarters.pop(0))
+        tmp_innslag.append(innslag)
+    innslags = tmp_innslag + quarters
+    
     rows = [prev]
     for innslag in innslags[1:]:
         p_dato = get_innslag_dato(prev)
