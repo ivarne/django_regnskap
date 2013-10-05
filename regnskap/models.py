@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from django.utils.safestring import mark_safe
+from django.contrib.contenttypes import generic
 
 from decimal import *
 import os
@@ -232,6 +233,11 @@ class Bilag(models.Model):
     external_actor = models.ForeignKey(Exteral_Actor,editable = False, null = True, related_name="bilag")
     registrerd_by = models.ForeignKey(User, editable=False, null=True)
     prosjekt = models.ForeignKey(Prosjekt)
+    # ektra fields for generic relations to extra components
+    content_type = models.ForeignKey(ContentType, editable=False, null=True)
+    object_id = models.PositiveIntegerField()
+    related_instance = generic.GenericForeignKey('content_type', 'object_id')
+
     objects = BaseProsjektManager()
     def getInnslag(self):
         # use prefetch_related to cache all innslag.all() queries efficiently
