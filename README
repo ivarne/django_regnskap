@@ -7,6 +7,7 @@ mathplotlib # for making graphs
 reportlab   # for generating PDF files 
 
 To install:
-copy local_settings.py.dist to local_settings.py and insert your local settings (Database, apiKeys...)
+* Rename the folder from regnskap to django_regnskap (because I named the github repository wrong)
+* copy local_settings.py.dist to local_settings.py and insert your local settings (Database, apiKeys...)
 
 Then it should behave as a normal django app:)
