@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     'django_regnskap.faktura',
     'django_regnskap.budsjett',
     'django_regnskap.django_dropbox',
+    'django_regnskap.lonn',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
