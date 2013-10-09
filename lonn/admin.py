@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django_regnskap.lonn.models import *
 
+admin.site.register(Selskap)
 admin.site.register(Ansatt)
 admin.site.register(Skattekort)
 admin.site.register(LonnPeriode)
