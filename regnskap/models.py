@@ -235,7 +235,7 @@ class Bilag(models.Model):
     prosjekt = models.ForeignKey(Prosjekt)
     # ektra fields for generic relations to extra components
     content_type = models.ForeignKey(ContentType, editable=False, null=True)
-    object_id = models.PositiveIntegerField()
+    object_id = models.PositiveIntegerField( editable=False, default=0)
     related_instance = generic.GenericForeignKey('content_type', 'object_id')
 
     objects = BaseProsjektManager()
