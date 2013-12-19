@@ -131,7 +131,7 @@ function update(){
     }
   });
   $("#kredit_sum").text(kredit.toFixed(2));
-  if(debit - kredit != 0){
+  if(abs(debit - kredit) < 0.001){
     $("#diffDebitkredit").text("Error " + (debit-kredit).toFixed(2)).show();
   }else{
     $("#diffDebitkredit").hide();
