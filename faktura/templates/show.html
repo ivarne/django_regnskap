@@ -103,9 +103,9 @@ Hvis regnskapsperioden fakturaen var ført på blir regningen dermed ført som t
   </tr>
 </table>
   
-<h2>Bilagsføring for denne faktura:</h2>
+<h2>Bilagsføring for denne faktura:<small><a href="/regnskap/registrer/{{faktura.prosjekt}}/?content_type={{faktura.content_type.pk}}&object_id={{faktura.pk}}">+</a></small></h2>
 
-{% include "include/bilagDebitKredit.html" with related_kontos=faktura.related_kontos bilags=faktura.bilag.all %}
+{% include "include/bilagDebitKredit.html" with related_kontos=faktura.related_kontos bilags=faktura.bilags.all %}
 
 <p>Totalt utestående: {{faktura.getOutstanding}}</p>
 <p><a href="/faktura/generate/{{faktura.id}}">Generer faktura pdf her</a></p>

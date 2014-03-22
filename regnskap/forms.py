@@ -17,12 +17,18 @@ class BilagForm(forms.ModelForm):
         exclude = ('prosjekt',)
 
 class External_ActorForm(forms.ModelForm):
+    id = forms.IntegerField(
+        min_value = 0,
+        widget = forms.TextInput({u'placeholder':u'Søk Her (eller legg til)'}),
+        required=False
+    )
     class Meta:
         model = Exteral_Actor
         widgets = {
             'adress': forms.Textarea(attrs={'cols': 20, 'rows': 4}),
         }
         exclude = ('prosjekt',)
+        #fields = ['id', 'name', 'email', 'adress', 'org_nr']
         
     def __init__(self,data = None, *args,**kwargs):
         # find the instance to be edited
@@ -39,12 +45,8 @@ class External_ActorForm(forms.ModelForm):
         super(External_ActorForm,self).__init__(data,*args, **kwargs)
         
         #shuffle Id to the first place
-        self.fields.insert(0,'id',self.fields.pop('id'))
-    id = forms.IntegerField(
-        min_value = 0,
-        widget = forms.TextInput({u'placeholder':u'Søk Her (eller legg til)'}),
-        required=False
-    )
+        #self.fields.insert(0,'id',self.fields.pop('id'))
+        self.fields.keyOrder.insert(0, self.fields.keyOrder.pop(self.fields.keyOrder.index('id')))
 
 class BaseInnslagForm(forms.Form):
 #    kontos = None #Set kontos with choices in innslag_form_factory
@@ -62,6 +64,7 @@ class BaseInnslagForm(forms.Form):
         widget=forms.TextInput(attrs={'size':'10'}),
         required=False, # one of debit/kredit required(not both)
     )
+
     #form fields gets added by the inslag_form_factory
     #Validation:
     def clean(self):
@@ -86,6 +89,9 @@ def innslag_form_factory(prosjekt):
         empty_value = None,
         widget = forms.Select(attrs={'tabindex':'-1'})
     )
+    if django.VERSION[0] = 1 and django.VERSION[1] = 6:
+        # Disable validation because of https://code.djangoproject.com/ticket/21397
+        kontos.valid_value = lambda *self: True
     return type(str(prosjekt) + "InnslagForm", (BaseInnslagForm,), {
         'kontos' : kontos,
     })

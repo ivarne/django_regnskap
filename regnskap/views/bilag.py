@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db import transaction
+from django.contrib.contenttypes.models import ContentTypeManager
 
 
 import json
@@ -59,7 +60,10 @@ def registrerBilagForm(request, prosjekt, extra):
             return HttpResponseRedirect(request.path)
         messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')
     else:
-        bilagform   = BilagForm(prefix="bilag")
+        bilagform   = BilagForm(prefix="bilag", initial={ 
+            'object_id': request.GET.get('object_id', ""),
+            'content_type': request.GET.get('content_type', "")
+        })
         innslagform = InnslagFormSet(prefix="innslag")
         external_actor = External_ActorForm(prefix="external")
         bilag_file_form = BilagFileForm(prefix="files")

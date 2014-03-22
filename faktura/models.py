@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.generic import GenericRelation
 
 from django_regnskap.regnskap.models import *
 
@@ -10,7 +12,6 @@ from django_regnskap.utilities.JSONField import JSONField
 from decimal import *
 from datetime import date
 
-# Create your models here.
 
 class AbstractVare(models.Model):
     """The vare class is abstract so that we can have a copy registrer"""
@@ -107,13 +108,16 @@ class Faktura(models.Model):
     mellomverende = models.ForeignKey(Konto)
     objects = FakturaManager()
     data = JSONField() # data used to generate the PDF file
-    bilag = models.ManyToManyField(Bilag)
+    #bilag = models.ManyToManyField(Bilag)
     kunde = models.ForeignKey(Exteral_Actor)
     template = models.ForeignKey(Template)
+    bilags = GenericRelation(Bilag)
     def getNumber(self):
         if self.number:
             return u"%s-%s" % (self.date.year, self.number)
         return u'#'
+    def content_type(self):
+        return ContentType.objects.get_for_model(self)
     def totalPrice(self):
         tp = 0.0
         for vare in self.fakturavare.all():
@@ -122,14 +126,14 @@ class Faktura(models.Model):
     def getOutstanding(self):
         """Finn ut hvor mye som er utestående på fakturaen ved å summere opp verdier på mellomværende konto"""
         sum = Decimal(0)
-        for innslag in Innslag.objects.filter(bilag__faktura__id = self.id).filter(konto = self.mellomverende).all():
+        for innslag in Innslag.objects.filter(bilag__object_id = self.id, bilag__content_type = self.content_type()).filter(konto = self.mellomverende).all():
             sum += innslag.value
         return sum
     def related_kontos(self):
         try:
             return self.related_kontos_cache
         except:
-            self.related_kontos_cache = list(Konto.objects.filter(innslag__bilag__faktura = self).distinct().order_by("nummer"))
+            self.related_kontos_cache = list(Konto.objects.filter(innslag__bilag__object_id = self.pk, innslag__bilag__content_type = self.content_type()).distinct().order_by("nummer"))
             return self.related_kontos_cache
     def assignNumber(self, *args, **kwargs):
         """Assign a fakturanumber to the Faktura (done while sending)"""

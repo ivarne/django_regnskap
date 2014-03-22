@@ -16,9 +16,17 @@
 </div>
 
 <table>
-{{ bilagform }}
+    <tr>
+        <th>{{ bilagform.dato.label_tag }}</th>
+        <td>{{ bilagform.dato }}</td>
+    </tr>
+    <tr>
+        <th>{{ bilagform.beskrivelse.label_tag }}</th>
+        <td>{{ bilagform.beskrivelse }}</td>
+    </tr>
 </table>
-
+{{ bilagform.content_type.as_hidden }}
+{{ bilagform.object_id.as_hidden }}
 {{ innslagform.management_form }}
 {{ innslagform.formset.non_form_errors }}
 
