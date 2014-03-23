@@ -7,7 +7,7 @@
 <h1>Registrer bilag på {{prosjekt.navn}}</h1>
 <form action="/regnskap/registrer/{{prosjekt.navn}}/{{innslagform.management_form.TOTAL_FORMS.value}}" enctype="multipart/form-data" method="post">{% csrf_token %}
 {{ bilagform.non_field_errors }}
-
+{{bilagform.errors}}
 <div style="float:right">
   <h3>Hvem?</h3>
   <table>

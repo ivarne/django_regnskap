@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from models import *
 
+import django
 from django import forms
 from django.conf import settings
 from django.template.defaultfilters import slugify as django_slugify
@@ -89,7 +90,7 @@ def innslag_form_factory(prosjekt):
         empty_value = None,
         widget = forms.Select(attrs={'tabindex':'-1'})
     )
-    if django.VERSION[0] = 1 and django.VERSION[1] = 6:
+    if django.VERSION[0] == 1 and django.VERSION[1] == 6:
         # Disable validation because of https://code.djangoproject.com/ticket/21397
         kontos.valid_value = lambda *self: True
     return type(str(prosjekt) + "InnslagForm", (BaseInnslagForm,), {

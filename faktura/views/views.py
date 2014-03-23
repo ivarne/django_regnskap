@@ -31,6 +31,7 @@ def betal_faktura(request, id):
             external_actor = faktura.kunde,
             prosjekt = faktura.prosjekt,
         )
+        bilag.related_instance = faktura
         bilag.save()
         i1 = Innslag(
             bilag = bilag,
@@ -46,7 +47,6 @@ def betal_faktura(request, id):
         )
         i1.save()
         i2.save()
-        faktura.bilag.add(bilag)
 
         faktura.data['log'].append(u"Betaling registrert (%s kr) %s av %s"%(fdata['belop'],datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
         faktura.save()
