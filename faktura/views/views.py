@@ -68,8 +68,12 @@ def show_faktura(request, id):
         pass
     elif faktura.status == 5: # Slettet
         pass
+    bilag_ids =[b.id for b in faktura.bilags.all()]
+    related_kontos = list(Konto.objects.bilagRelated(bilag_ids=bilag_ids))
     return render_to_response('show.html',{
         'faktura' : faktura,
+        'bilags': faktura.bilags.order_by('dato'),
+        'related_kontos': related_kontos,
         'faktura_betaling_form':faktura_betaling_form,
     },RequestContext(request))
 
