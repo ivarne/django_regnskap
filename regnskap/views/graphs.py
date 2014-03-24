@@ -1,5 +1,18 @@
 # -*- coding: utf-8 -*-
 
+# -*- coding: utf-8 -*-
+from django_regnskap.regnskap.models import *
+from django_regnskap.regnskap.forms import *
+
+from django.template import RequestContext
+from django.shortcuts import render_to_response, render
+from django.http import HttpResponse
+from django.conf import settings
+
+#system imports
+from datetime import date
+from decimal import Decimal
+
 def konto_graph(request, year, konto_id):
     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
     from matplotlib.figure import Figure
