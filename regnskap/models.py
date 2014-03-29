@@ -74,7 +74,7 @@ class KontoManager(BaseProsjektManager):
         this is also a cleaner approach as it does not use two separate subsql queries
         
         """
-        where = []
+        where = [ 1 ]
         args = []
         if related:
             if isinstance(related, Exteral_Actor):
