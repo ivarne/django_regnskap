@@ -108,6 +108,7 @@ def send_faktura(request):
         external_actor = faktura.kunde,
         prosjekt = faktura.prosjekt
     )
+    bilag.related_instance = faktura
     bilag.save()
     Innslag(
         bilag = bilag,
@@ -129,7 +130,6 @@ def send_faktura(request):
             )
             i.save()
             konto_cache[vare.konto.id] = i
-    faktura.bilag.add(bilag) 
     faktura.save()
     bf = BilagFile(
         bilag = bilag
