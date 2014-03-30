@@ -103,7 +103,7 @@ class KontoManager(BaseProsjektManager):
                 where.append("`%(b)s`.`bilagType` IN %%s")
             else:
                 where.append("`%(b)s`.`bilagType` = %%s")
-            args.append(bilagTypes)
+            args.append(tuple(bilagTypes))
         if not where:
             return []
         where = " AND ".join(where)
