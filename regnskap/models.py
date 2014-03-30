@@ -96,14 +96,13 @@ class KontoManager(BaseProsjektManager):
             where.append("`%(k)s`.`kontoType` IN %%s")
             args.append(kontoTypes)
         if bilag_ids:
-            where.append("`%(b)s`.`id` IN %%s")
-            args.append(bilag_ids)
+            where.append("`%%(b)s`.`id` IN (%s)" % str(list(bilag_ids))[1:-1])
         if bilagTypes:
             if hasattr(bilagTypes,'__iter__'):
                 where.append("`%(b)s`.`bilagType` IN %%s")
             else:
                 where.append("`%(b)s`.`bilagType` = %%s")
-            args.append(tuple(bilagTypes))
+            args.append(bilagTypes)
         if not where:
             return []
         where = " AND ".join(where)
