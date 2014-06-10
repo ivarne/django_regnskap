@@ -38,6 +38,8 @@ class Skattekort(models.Model):
     dato_fra = models.DateField()
     dato_til = models.DateField(null=True)
     prosent = models.IntegerField()
+    def __unicode__(self):
+        return 'Skattekort ('+unicode(self.dato_fra)+' - '+unicode(self.dato_til)+':  '+self.ansatt.navn+')'
 
 class LonnPeriode(models.Model):
     navn = models.CharField(max_length=63)
