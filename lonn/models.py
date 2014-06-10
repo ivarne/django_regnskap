@@ -27,7 +27,9 @@ class Ansatt(models.Model):
     def __unicode__(self):
         return self.navn
     def _getSkattekort(self):
-        return Skattekort.objects.get(ansatt=self, dato_til__gte=datetime.now)
+        return self.getSkattekort(datetime.now)
+    def getSkattekort(self, dato):
+        return Skattekort.objects.get(ansatt=self, dato_fra__lte=dato, dato_til__gte=dato)
     skattekort = property(_getSkattekort)
 
 class Skattekort(models.Model):
