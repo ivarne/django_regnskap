@@ -221,10 +221,12 @@ class Bilag(models.Model):
     STANDARD_BILAG     = 0
     INNGAAENDE_BALANSE = 1
     UTGAAENDE_BALANSE  = 2
+    DRAFT_BILAG = 3
     AVAILABLE_BILAG_TYPE = (
       (0,u'Stanardbilag'),
       (1,u'Inngående balanse'),
-      (2,u'Utgående balanse')
+      (2,u'Utgående balanse'),
+	  (3,u'Kladd')
     )
     created = models.DateTimeField(auto_now_add=True, editable = False)
     bilagsnummer = models.IntegerField(editable = False) #Automatic?
