@@ -11,7 +11,7 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 
 import locale
-locale.setlocale(locale.LC_ALL, 'no_NO')
+locale.setlocale(locale.LC_ALL, '')
 
 
 # in this file the variable c is always the canvas object

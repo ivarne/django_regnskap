@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from regnskap.models import Konto
+from django_regnskap.regnskap.models import Konto
 from datetime import datetime
 
 # Create your models here.
