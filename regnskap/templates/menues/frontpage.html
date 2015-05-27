@@ -10,7 +10,8 @@ Her kan man se på ulike ting
 <ul>
 {% for p in prosjekt %}
 <li>
-  <a href="registrer/{{ p.navn }}">{{ p.navn}}</a>: {{p.beskrivelse}}
+  <a href="registrer/{{ p.navn }}">{{ p.navn}}</a>: {{p.beskrivelse}}<br>
+  <small>(<a href="registrer/{{p.navn}}/kontoutskrift">Kontoutskrift</a>, <a href="registrer/{{p.navn}}/drafts">kladd</a>)</small>
 </li>
 {% endfor %}
 </ul>
@@ -68,7 +69,7 @@ Her kan man se på ulike ting
 
 <h3>Oversikter</h3>
 <ul>
-  <li><a href="/regnskap/show/sisste_bilag/">Sisste Bilag</a></li>
+  <li><a href="/regnskap/show/sisste_bilag/10">Sisste Bilag</a></li>
   <li><a href="/regnskap/show/konto/">Kontoer</a></li>
   <li><a href="/regnskap/show/external_actor">Eksterne aktører</a></li>
   <li><a href="/faktura/list/1">Fakturaer på vaktmester</a></li>
