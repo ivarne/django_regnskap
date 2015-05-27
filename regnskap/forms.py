@@ -3,6 +3,7 @@ from models import *
 
 import django
 from django import forms
+from django.forms.formsets import formset_factory
 from django.conf import settings
 from django.template.defaultfilters import slugify as django_slugify
 
@@ -16,6 +17,9 @@ class BilagForm(forms.ModelForm):
     class Meta:
         model = Bilag
         exclude = ('prosjekt',)
+        widgets = {
+            'beskrivelse': forms.TextInput(attrs={'size':'100'}),
+        }
 
 class External_ActorForm(forms.ModelForm):
     id = forms.IntegerField(
@@ -181,4 +185,21 @@ class BilagFileForm(forms.Form):
             ret.append((fname, name))
             dropbox_client.file_delete(f['path'].encode("utf-8"))
         return ret
-        
+
+
+# Import av kontoutskrifter
+
+class BilagKontoutskriftForm(forms.Form):
+    konto = forms.ModelChoiceField(
+        queryset = Konto.objects.all().order_by("nummer")
+    )
+
+class BilagKontoutskriftRowForm(forms.Form):
+    text = forms.CharField()
+    date = forms.DateField()
+    ammount = forms.DecimalField(
+        decimal_places = 2,
+        widget=forms.TextInput(attrs={'size':'10'}),
+    )
+BilagKontoutskriftRowFormset = formset_factory(BilagKontoutskriftRowForm, extra=1000, can_delete=True)
+    

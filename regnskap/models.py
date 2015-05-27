@@ -221,12 +221,10 @@ class Bilag(models.Model):
     STANDARD_BILAG     = 0
     INNGAAENDE_BALANSE = 1
     UTGAAENDE_BALANSE  = 2
-    DRAFT_BILAG = 3
     AVAILABLE_BILAG_TYPE = (
       (0,u'Stanardbilag'),
       (1,u'Inngående balanse'),
-      (2,u'Utgående balanse'),
-	  (3,u'Kladd')
+      (2,u'Utgående balanse')
     )
     created = models.DateTimeField(auto_now_add=True, editable = False)
     bilagsnummer = models.IntegerField(editable = False) #Automatic?
@@ -261,11 +259,14 @@ class Bilag(models.Model):
         self.innslag.filter(type=1)
     innslagKredit = property(_getKredit)
     innslagDebit = property(_getDebit)
-    def save(self, *args, **kwargs):
-        """Not thread safe, concider using transactions"""
+    def set_bilagsnummer(self):
+        """Not thread safe, consider using transactions"""
         year = self.dato.year
         previous = Bilag.objects.filter(dato__year = year).aggregate(models.Max("bilagsnummer"))['bilagsnummer__max'] or 0
         self.bilagsnummer = previous + 1
+    def save(self, *args, **kwargs):
+        if self.bilagsnummer == None:
+            self.set_bilagsnummer()
         super(Bilag,self).save(*args, **kwargs)
         return self.bilagsnummer
     def getNummer(self):
@@ -339,4 +340,14 @@ class Innslag(models.Model):
     debit = property(_debitValue)
     kredit = property(_kreditValue)
     value = property(_value)
-    
+
+class BilagDraft(models.Model):
+    prosjekt = models.ForeignKey(Prosjekt)
+    dato = models.DateField()
+    beskrivelse = models.CharField(max_length=256)
+    belop = models.DecimalField(max_digits=16,decimal_places=2, blank=True, null=False)
+    konto = models.ForeignKey(Konto)
+    def __unicode__(self):
+        return "%s %s" % (self.dato,self.beskrivelse)
+    def get_absolute_url(self):
+        return "/regnskap/registrer/%s/3?bilag_draft_id=%s" % (self.prosjekt.navn, self.id)

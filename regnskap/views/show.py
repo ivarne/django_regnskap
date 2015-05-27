@@ -61,7 +61,7 @@ def sisste_bilag(request, num):
     else:
         num = 1
     bilags = list(Bilag.objects.all().order_by('-id')[:num])
-    bilag_ids = [b.id for b in bilags]
+    bilag_ids = [str(b.id) for b in bilags]
     if len(bilag_ids) == 1:
         bilag_ids.append(-1) ## no bilag has id=-1 but the in query needs two conditions to work
     related_kontos = list(Konto.objects.bilagRelated(bilag_ids=bilag_ids))

@@ -22,6 +22,13 @@ from operator import itemgetter
 
 from datetime import datetime, date
 
+#utility functions
+def positive_or_None(number):
+    if number > 0:
+        return number
+    return None
+
+#views
 def registrerBilagForm(request, prosjekt, extra):
     NumberOfInnslag = int(extra or 5)
     prosjekt = Prosjekt.objects.get(navn = prosjekt)
@@ -57,14 +64,29 @@ def registrerBilagForm(request, prosjekt, extra):
             #except Exception, e:
             #    messages.add_message(request, messages.ERROR, "Det skjedde en feil med lagring av filer (%s)" % e)
             messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %s' % ( bilagform.instance.getNummer()))
+            if int(request.POST["bilag_draft_id"])>0:
+                BilagDraft.objects.get(id = request.POST["bilag_draft_id"]).delete()
             return HttpResponseRedirect(request.path)
         messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')
     else:
-        bilagform   = BilagForm(prefix="bilag", initial={ 
-            'object_id': request.GET.get('object_id', ""),
-            'content_type': request.GET.get('content_type', "")
-        })
-        innslagform = InnslagFormSet(prefix="innslag")
+        if request.GET.get('bilag_draft_id',False):
+            draft = BilagDraft.objects.get(id=int(request.GET.get('bilag_draft_id')))
+            bilagform   = BilagForm(prefix="bilag", initial={ 
+                'object_id': request.GET.get('object_id', ""),
+                'content_type': request.GET.get('content_type', ""),
+                'dato':draft.dato,
+                'beskrivelse': draft.beskrivelse
+            })
+            innslagform = InnslagFormSet(prefix="innslag", initial=[
+                {'kontos':draft.konto.id,"debit":positive_or_None(draft.belop),"kredit":positive_or_None(-draft.belop)},
+                {"debit":positive_or_None(-draft.belop),"kredit":positive_or_None(draft.belop)}
+            ])
+        else:
+            bilagform   = BilagForm(prefix="bilag", initial={ 
+                'object_id': request.GET.get('object_id', ""),
+                'content_type': request.GET.get('content_type', "")
+            })
+            innslagform = InnslagFormSet(prefix="innslag")
         external_actor = External_ActorForm(prefix="external")
         bilag_file_form = BilagFileForm(prefix="files")
     return render_to_response('bilagRegistrering.html', {
@@ -74,6 +96,7 @@ def registrerBilagForm(request, prosjekt, extra):
         'external_a_form':external_actor,
         'url'           : request.path,
         'bilag_file_form':bilag_file_form,
+        'bilag_draft_id': request.GET.get('bilag_draft_id',0),
     },RequestContext(request))
 
 @transaction.commit_on_success
