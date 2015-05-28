@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, url, include
 
 
 urlpatterns = patterns('django_regnskap.faktura.views',

@@ -1,5 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
-
+from django.conf.urls import patterns, url, include
 
 urlpatterns = patterns('django_regnskap.regnskap.views',
     url(r'^registrer/(\w+)/externalActorJSON$', 'bilag.ajaxExternalActors'),
