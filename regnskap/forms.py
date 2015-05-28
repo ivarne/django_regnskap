@@ -129,7 +129,7 @@ class BilagFileForm(forms.Form):
         super(BilagFileForm,self).__init__(*args, **kwargs)
         files = []
         for file in os.listdir(os.path.join(settings.MEDIA_ROOT, 'upload')):
-            files.append((file, file.rsplit('_',1)[1]))
+            files.append((file, file.split('_',1)[1]))
         self.fields['previousUploads'].choices = files
     def save(self,bilag):
         if not self.is_valid():# ignore files if validation fails
