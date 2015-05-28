@@ -66,6 +66,7 @@ def registrerBilagForm(request, prosjekt, extra):
             messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %s' % ( bilagform.instance.getNummer()))
             if int(request.POST["bilag_draft_id"])>0:
                 BilagDraft.objects.get(id = request.POST["bilag_draft_id"]).delete()
+                return HttpResponseRedirect("/regnskap/registrer/%s/drafts"%prosjekt.navn)
             return HttpResponseRedirect(request.path)
         messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')
     else:
