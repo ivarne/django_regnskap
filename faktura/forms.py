@@ -50,7 +50,7 @@ class BaseVareItemsFormSet(BaseFormSet):
                 f.save()
 
 VareItemsFormSet = formset_factory(VareItemForm, 
-    fomrset = BaseVareItemsFormSet,
+    formset = BaseVareItemsFormSet,
     extra = 6
     )
 
