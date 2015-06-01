@@ -2,7 +2,7 @@
 from models import *
 
 from django import forms
-from django.forms.formsets import BaseFormSet
+from django.forms.formsets import BaseFormSet, formset_factory
 
 import datetime
 
