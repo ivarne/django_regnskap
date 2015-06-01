@@ -40,13 +40,7 @@ class VareItemForm(forms.ModelForm):
         min_value = 0
     )
 
-class VareItemsFormSet(BaseFormSet):
-    form = VareItemForm
-    extra = 6
-    can_order = False
-    can_delete = False
-    max_num = None
-    absolute_max = 1000
+class BaseVareItemsFormSet(BaseFormSet):
     def setFaktura(self, faktura):
         for f in self.forms:
             f.instance.faktura = faktura
@@ -54,6 +48,11 @@ class VareItemsFormSet(BaseFormSet):
         for f in self.forms:
             if f.cleaned_data:
                 f.save()
+
+VareItemsFormSet = formset_factory(VareItemForm, 
+    fomrset = BaseVareItemsFormSet,
+    extra = 6
+    )
 
 class FakturaBetaling(forms.Form):
     faktura_id = forms.IntegerField(
