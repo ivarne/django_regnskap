@@ -37,6 +37,7 @@ def kontoutskrift_import(request, project):
     return render_to_response('bilag/kontoutskrift_import.html', {
         'metadata_form': metadata_form,
         'row_formset': row_formset,
+        'prosjekt': project,
     },RequestContext(request))
 
 def show_drafts(request, project):
