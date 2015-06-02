@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Registrering av bilag fra kontoutskrift{% endblock %}
+{% block title %}Registrering av bilag fra kontoutskrift på {{prosjekt.navn}}{% endblock %}
 
 {% block content %}
+<h1>Registrering av bilag fra kontoutskrift på {{prosjekt.navn}}</h1>
+
 <textarea id="csv_inn" style="width:100%;height:50%" placeholder="Lim inn CSV innput her">
 </textarea>
 <form method="POST" action="">
@@ -36,6 +38,19 @@
 </form>
 
 <script>
+//remove kontos from other prjects
+var r1 = /^(\d+) \w+\/(.+)$/;
+var r2 = /^(\d+) {{prosjekt.navn}}\/(.+)$/;
+$("#id_metadata-konto").children().each(function(){
+    if(r1.test(this.innerText)){
+        if(r2.test(this.innerText)){
+            this.innerText = this.innerText.replace(r2,"$1 $2");
+        }else{
+            this.remove();
+        }
+    }  
+});
+
 function update_form(){
     var date_regex = /^([0123]\d)\.([01]\d)\.(2[012]\d\d)$/g
     var TOTAL_FORMS = parseInt($("#id_rows-TOTAL_FORMS").val(),10);
