@@ -145,6 +145,7 @@ def draw_slip(c, data):
     c.setStrokeColorRGB(0,0,0)
     
     #Mottakerinfo
+    skattekort = data.ansatt.getSkattekort(data.periode.dato);
     mottakerAdresse = data.ansatt.adresse.splitlines()
     mottakerInfo = [
         ('Navn',data.ansatt.navn),
@@ -152,8 +153,8 @@ def draw_slip(c, data):
         ('',(mottakerAdresse[1] if len(mottakerAdresse)>1 else '')),
         ('',(mottakerAdresse[2] if len(mottakerAdresse)>2 else '')),
         ('Stilling',data.ansatt.stilling),
-        ('Skattekommune',unicode(data.ansatt.skattekort.skattekommune)),
-        ('Trekkprosent',unicode(data.ansatt.skattekort.prosent)),
+        ('Skattekommune',unicode(skattekort.skattekommune)),
+        ('Trekkprosent',unicode(skattekort.prosent)),
         ('Fødselsnummer',data.ansatt.f_nr),
     ]
     
@@ -327,7 +328,7 @@ def generate_slip_pdf(ansattPeriode):
     """Lager PDF med lønnslippen til den annsatte for perioden"""
     buffer = BytesIO()
     # Create the PDF object, using the response object as its "file."
-    c = canvas.Canvas(buffer)
+    c = canvas.Canvas(buffer, encrypt=ansattPeriode.ansatt.f_nr)
     
     c.setAuthor("Django_regnskap")
     c.setTitle("Lonn %s"%ansattPeriode.periode.navn)
@@ -390,7 +391,7 @@ def generate_slip_response(request, ansattPeriodeID):
     
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(mimetype='application/pdf')
-    response['Content-Disposition'] = 'filename=lonn_%s.pdf' % ansattPeriode.ansatt.id
+    response['Content-Disposition'] = 'filename=lonn_%s.pdf' % ansattPeriode.periode.navn
     response.write(pdf)
     
     return response
