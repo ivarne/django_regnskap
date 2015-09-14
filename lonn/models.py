@@ -123,7 +123,7 @@ class LonnAnsattPeriode(models.Model):
             artDict[art.lonnArt.nummer] = dataElem
         return artDict
     class Meta:
-        ordering = ['-periode']
+        ordering = ['periode']
 
 
 class LonnAnsattPeriodeArt(models.Model):
