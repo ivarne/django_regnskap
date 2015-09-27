@@ -26,7 +26,7 @@ def draw_faktura_header(c, faktura, data):
     c.setFont('Helvetica', 12)
     c.drawString(w + 5, h, faktura.getNumber())
     headers = [
-        ('Kundenr :',    str(data['kunde']['id'])),
+        ('Kundenr :',    str(faktura.kunde.id)),
         ('Fakturadato :',faktura.date.strftime('%d.%m.%Y')),
         ('Forfall :',    faktura.frist.strftime('%d.%m.%Y')),
         ('Org nr :',     data['template']['org_nr']),
