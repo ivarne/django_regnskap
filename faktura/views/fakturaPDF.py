@@ -8,6 +8,7 @@ from django.http import HttpResponse
 
 # library imports
 from reportlab.pdfgen import canvas
+import textwrap
 from io import BytesIO
 
 # Koordinater og fargekoder for giroblankett er basert på arbeid av Marius N. Nicolaysen
@@ -73,18 +74,24 @@ def draw_faktura_varer(c, faktura):
     c.drawRightString(560, h, 'Totalpris')
     h -=6
     c.line(20,h,578,h)
-    c.setFont('Helvetica',12)
+    h -= 15
     for vare in faktura.fakturavare.all():
-        h -= 15
-        c.drawString(50,  h, str(vare.vare.id))
-        c.setFont('Helvetica',11)
-        c.drawString(100, h, vare.name)
+        #h -= 15
         c.setFont('Helvetica',12)
+        c.drawString(50,  h, str(vare.vare.id))
         c.drawRightString(363, h, str(vare.ammount))
         c.drawRightString(450, h, str(vare.price))
         #c.drawString(460, h, str(vare.getMva()))
         c.drawRightString(560, h, ("%10.2f" % vare.totalPrice()))
-    h -= 6
+        c.setFont('Helvetica',11)
+        # Tegn opp varenavnet (dette kan gå over flere linjer)
+        #c.drawString(100,h, vare.name)
+        vares = textwrap.wrap(vare.name, width=45)
+        for vare in vares:
+            c.drawString(100, h, vare)
+            h -= 11
+        h -= 5
+    h += 7
     c.line(20,h,578,h)
     h -= 15
     c.setFont('Helvetica-Bold',12)
