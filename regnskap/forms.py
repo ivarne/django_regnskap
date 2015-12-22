@@ -6,12 +6,21 @@ from django import forms
 from django.forms.formsets import formset_factory
 from django.conf import settings
 from django.template.defaultfilters import slugify as django_slugify
+from django.contrib.contenttypes.models import ContentType
 
 from decimal import *
 import os
 import string
 import random
 
+def bilag_related_choices():
+    try:
+        from django_regnskap.faktura.models import Faktura
+        fakturas = Faktura.objects.filter(status__in = [1,2,3])
+        oid = ContentType.objects.get_for_model(Faktura).id
+        return [("","")] + [("%s-%s"%(oid,f.id) , str(f)) for f in fakturas]
+    except Exception as e:
+        return[("",e)]
 
 class BilagForm(forms.ModelForm):
     class Meta:
@@ -20,6 +29,13 @@ class BilagForm(forms.ModelForm):
         widgets = {
             'beskrivelse': forms.TextInput(attrs={'size':'100'}),
         }
+    related = forms.ChoiceField(
+        choices = bilag_related_choices(),
+        required = False
+    )
+#    def clean_related(self):
+        #content_type_id , model_id = self.cleaned_data["related"].split("-")
+        #ContentType.objects.get_for_id(content_type_id).objects.get(model_id)
 
 class External_ActorForm(forms.ModelForm):
     id = forms.IntegerField(
