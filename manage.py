@@ -11,6 +11,7 @@
 import os
 import sys
 sys.path.append("/Users/ivarne/django")
+sys.path.append("/storage/regnskap/")
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_regnskap.settings")
