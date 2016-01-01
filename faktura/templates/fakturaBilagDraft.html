@@ -1,0 +1,21 @@
+<table>
+  {% for draft in drafts %}
+  <tr {% if draft.belop = faktura.getOutstanding %}style="color:green"{%endif%} >
+    <td>{{draft.dato}}</td>
+    <td>{{draft.beskrivelse}}</td>
+    <td>{{draft.belop}}</td>
+    <td>{{draft.konto}}</td>
+    <td>
+      <a href="/regnskap/registrer/{{faktura.prosjekt}}/?content_type={{faktura.content_type.pk}}&object_id={{faktura.pk}}&bilag_draft_id={{draft.id}}">
+        Rediger bilag
+      </a>
+    </td>
+    <td>
+      <form action="/faktura/draft/{{faktura.id}}/{{draft.id}}" method="POST">
+        {% csrf_token %}
+          <input type="submit" value="Registrer uendret"> 
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>

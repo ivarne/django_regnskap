@@ -5,9 +5,19 @@
 {% block content %}
 <h1>Bilagskladd for {{project.navn}}</h1>
 
-<ul>
-    {% for bilag in drafts %}
-    <li><a href="{{bilag.get_absolute_url}}">{{bilag}}</a></li>
-    {% endfor %}
-</ul>
+<table>
+  <tr>
+    <th>Beløp</th>
+    <th>Dato</th>
+    <th>Beskrivelse</th>
+    
+  </tr>
+  {% for draft in drafts %}
+  <tr>
+    <td>{{draft.belop}}</td>
+    <td>{{draft.dato}}</td>
+    <td><a href="{{draft.get_absolute_url}}">{{draft.beskrivelse}}</a></td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

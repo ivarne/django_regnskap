@@ -212,7 +212,8 @@ def generate_faktura_pdf(faktura):
 
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
-    
+    draw_giro_template(c)
+
     if faktura.status == 0: #Kladdet
         data = faktura.get_data_for_sending()
         c.saveState()
@@ -223,7 +224,15 @@ def generate_faktura_pdf(faktura):
         c.restoreState()
     else:
         data = faktura.data
-    draw_giro_template(c)
+
+    if faktura.status == 4: #Betalt
+        c.saveState()
+        c.rotate(35)
+        c.setFillColorRGB(1,0,0)
+        c.setFont('Courier-Bold',100)
+        c.drawString(400,300,"Betalt")
+        c.restoreState()
+
     draw_giro_content(c,faktura,data)
     draw_faktura_header(c,faktura,data)
     draw_faktura_varer(c, faktura)

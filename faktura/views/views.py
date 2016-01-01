@@ -9,6 +9,7 @@ from django.template import RequestContext
 from django_regnskap.faktura.models import *
 from django_regnskap.faktura.forms import FakturaBetaling
 from django_regnskap.faktura.views.fakturaPDF import generate_faktura_pdf
+from django_regnskap.regnskap.models import BilagDraft
 
 #general
 import datetime
@@ -51,7 +52,49 @@ def betal_faktura(request, id):
         faktura.data['log'].append(u"Betaling registrert (%s kr) %s av %s"%(fdata['belop'],datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
         faktura.save()
         
-        return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )
+    return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )
+
+def betal_faktura_draft(request, faktura_id, draft_id):
+    if request.method != 'POST':
+        raise Exception("Wrong metthod")
+    faktura = Faktura.objects.get(id = faktura_id)
+    draft = BilagDraft.objects.get(id = draft_id)
+
+    if faktura.getOutstanding() == draft.belop:
+       bilag_text = u"Faktura %s Betalt (%s)" % (faktura.getNumber(),draft.beskrivelse)
+       faktura.status = 4 # Betalt
+    else:
+        bilag_text = u"Faktura %s Delbetaling (%s)" % (faktura.getNumber(),draft.beskrivelse)
+
+    bilag = Bilag(
+        dato = draft.dato,
+        beskrivelse = bilag_text,
+        external_actor = faktura.kunde,
+        prosjekt = faktura.prosjekt,
+    )
+    bilag.related_instance = faktura
+    bilag.save()
+    i1 = Innslag(
+        bilag = bilag,
+        konto = draft.konto,
+        belop = abs(draft.belop),
+        type = int(draft.belop <= 0) #debit == 0
+    )
+    i2 = Innslag(
+        bilag = bilag,
+        konto = faktura.mellomverende,
+        belop = abs(draft.belop),
+        type = int(draft.belop > 0) #kredit == 1
+    )
+    i1.save()
+    i2.save()
+
+    faktura.data['log'].append(u"Betaling registrert (%s kr) %s av %s"%(draft.belop,datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
+    faktura.save()
+    draft.delete()
+
+    return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )
+
 
 def show_faktura(request, id):
     faktura = Faktura.objects.get(id = id)
@@ -75,6 +118,7 @@ def show_faktura(request, id):
         'bilags': faktura.bilags.order_by('dato'),
         'related_kontos': related_kontos,
         'faktura_betaling_form':faktura_betaling_form,
+        'drafts': BilagDraft.objects.filter(prosjekt=faktura.prosjekt),
     },RequestContext(request))
 
 def list_faktura(request,prosjekt):

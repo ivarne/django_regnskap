@@ -42,10 +42,14 @@ og du har tre alternaltiver
       <a href="#" id="betaling_form_table_togle">Registrer betaling</a>
       <div id="betaling_form_table" style="display:none">
           <form method="POST" action="/faktura/betal/{{faktura.id}}">
-          <table>{{faktura_betaling_form}}</table>
-          {% csrf_token %}
-          <input type="submit" value="Registrer innbetaling på faktura">
+              <table>{{faktura_betaling_form}}</table>
+              {% csrf_token %}
+              <input type="submit" value="Registrer innbetaling på faktura">
+          </form>
       </div>
+  </li>
+  <li>
+    {% include "fakturaBilagDraft.html" with drafts=drafts faktura=faktura %}
   </li>
   <script>
   $("#betaling_form_table_togle").click(function(){
