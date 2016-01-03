@@ -49,16 +49,6 @@
   </tr>
 {% endfor %}
 </table>
-{% if bilag.files.all %}
-
-
-<h2>Filer</h2>
-<ul id="fileList">
-  {% for file in bilag.files.all %}
-  <li><a href="{{file.url}}">{{file.file}}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
 
 <div id="pdf_div" style="width:800px;height:800"></div>
 
