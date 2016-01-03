@@ -2,7 +2,8 @@
 try:
     import sys
 #    sys.path.append("/Users/ivarne/django/Django-1.3.1")
-    sys.path.append("/Users/ivarne/django/Django-1.4")
+#    sys.path.append("/Users/ivarne/django/Django-1.4")
+    sys.path.append("/Users/marius/Downloads/Django-1.4")
 except:
     pass
 
