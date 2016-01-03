@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Bilag {{bilag.getNumber}}{% endblock %}
+{% load regnskap_filters%}
+{% block content %}
+<h1>Bilag {{bilag.getNummer|no_break}}</h1>
+<form method="POST" action="/lonn/finalizePeriode/{{bilag.related_instance.pk}}">
+    {% csrf_token %}
+    <input type="submit" value="Finaliser lønn og før bilag">
+</form>
+
+{{bilag.dato}} <small>(Registrert: {{bilag.created}} av {{bilag.registrerd_by}})</small>
+<p>
+  {{bilag.beskrivelse}}
+  {% if bilag.content_type %}
+  <br>Se: {{bilag.content_type.app_label}}/{{bilag.content_type.name}} <a href="{{bilag.related_instance.get_absolute_url}}">{{bilag.related_instance}}</a>
+  {% endif %}
+</p>
+{% with bilag.external_actor as ea %}
+<table style="float:right">
+  <tr>
+    <th>Ekstern aktør</th>
+    <td><a href="{{ea.get_absolute_url}}">{{ea.name}}</a></td>
+  </tr>
+  <tr>
+    <th>Epost</th>
+    <td>{{ea.email}}</td>
+  </tr>
+  <tr>
+    <th>org. nr</th>
+    <td>{{ea.org_nr}}</td>
+  </tr>
+  <tr>
+    <th>Adresse</th>
+    <td>{{ea.adress|linebreaksbr}}</td>
+  </tr>
+</table>
+{% endwith %}
+<table>
+  <tr>
+    <th>Konto</th>
+    <th>Debit</th>
+    <th>Kredit</th>
+  </tr>
+  {% for innslag in innslags %}
+  <tr>
+    <td title="{{innslag.konto.beskrivelse}}"><a href="{{innslag.konto.get_absolute_url}}">{{innslag.konto.nummer}}</a> {{innslag.konto.tittel}}</td>
+    <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
+    <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
+  </tr>
+{% endfor %}
+</table>
+{% if bilag.files.all %}
+
+
+<h2>Filer</h2>
+<ul id="fileList">
+  {% for file in bilag.files.all %}
+  <li><a href="{{file.url}}">{{file.file}}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<div id="pdf_div" style="width:800px;height:800"></div>
+
+<script>
+var ul = $("#fileList");
+var tmp = new PDFObject({'url':'ehm-not inn use'});
+if(tmp.get("pluginTypeFound")){
+    var pObj = new PDFObject({ 
+      url: "/lonn/perioderapport/{{bilag.related_instance.id}}",
+      pdfOpenParams: {
+        navpanes: 0,
+        toolbar: 0,
+        statusbar: 0,
+        view: "FitV"
+      }
+    });
+    pObj.embed("pdf_div")
+      
+}
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Liste over lønnsperioder{% endblock %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Sent</th>
+    <th>Dato</th>
+    <th>Navn</th>
+    <th>Selskap</th>
+    <th>Link</th>
+  </tr>
+  {% for periode in periodes%}
+  <tr>
+    <td>{% if periode.finalized %}🆗{% else %}❌{% endif %}</td>
+    <td>{{periode.dato}}</td>
+    <td>{{periode.navn}}</td>
+    <td>{{periode.selskap}}</td>
+    <td><a href="{{periode.get_absolute_url}}">Se</a></td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

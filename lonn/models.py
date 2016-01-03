@@ -70,6 +70,8 @@ class LonnPeriode(models.Model):
         return LonnPeriode.objects.filter(dato__lte = self.dato).filter(dato__year = self.dato.year).filter(selskap=self.selskap)
     class Meta:
         ordering = ['-dato']
+    def get_absolute_url(self):
+        return "/lonn/periode/"+str(self.id)
 
 class KontoProxy(models.Model):
     nummer = models.IntegerField(unique=True)
