@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django_regnskap.regnskap.models import Konto, Prosjekt
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.generic import GenericRelation
+
+
+from django_regnskap.regnskap.models import Konto, Bilag, Prosjekt
 from datetime import datetime
 
 # Create your models here.
@@ -49,6 +53,9 @@ class LonnPeriode(models.Model):
     dato = models.DateField()
     selskap = models.ForeignKey(Selskap)
     finalized = models.BooleanField(default=False)
+    bilags = GenericRelation(Bilag)
+    def content_type(self):
+        return ContentType.objects.get_for_model(self)
     def __unicode__(self):
         return self.navn+' ('+unicode(self.dato)+')'
 #    def addAnsatt(self, ansatt):

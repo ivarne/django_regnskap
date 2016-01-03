@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db import transaction
-from django.contrib.contenttypes.models import ContentTypeManager
+from django.contrib.contenttypes.models import ContentType
 
 
 import json
@@ -32,6 +32,11 @@ def positive_or_None(number):
 def registrerBilagForm(request, prosjekt, extra):
     NumberOfInnslag = int(extra or 5)
     prosjekt = Prosjekt.objects.get(navn = prosjekt)
+    if request.GET.has_key('content_type'):
+        content_type = ContentType.objects.get_for_id(int(request.GET['content_type']))
+        related_object = content_type.model_class().objects.get(pk=int(request.GET['object_id']))
+    else:
+        related_object = None
     InnslagForm = innslag_form_factory(prosjekt)
     InnslagFormSet = formset_factory(InnslagForm, extra = NumberOfInnslag, formset=BaseInnslagFormSet)
     if(request.method == 'POST'):
@@ -98,6 +103,7 @@ def registrerBilagForm(request, prosjekt, extra):
         'url'           : request.path,
         'bilag_file_form':bilag_file_form,
         'bilag_draft_id': request.GET.get('bilag_draft_id',0),
+        'related_object': related_object,
     },RequestContext(request))
 
 @transaction.commit_on_success

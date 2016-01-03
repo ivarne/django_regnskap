@@ -5,6 +5,9 @@
 {% block content %}
 <a style="float:right" href="/regnskap/registrer/{{prosjekt}}/30">Registrer bilag med opp til 30 innslag</a>
 <h1>Registrer bilag på {{prosjekt.navn}}</h1>
+{% if related_object %}
+  <h2>Relatert til <a href="{{related_object.get_absolute_url}}">{{related_object}}</a></h2>
+{% endif %}
 <form action="/regnskap/registrer/{{prosjekt.navn}}/{{innslagform.management_form.TOTAL_FORMS.value}}" enctype="multipart/form-data" method="post">{% csrf_token %}
 {{ bilagform.non_field_errors }}
 {{bilagform.errors}}
