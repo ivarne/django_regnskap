@@ -31,6 +31,7 @@ def betal_faktura(request, id):
             beskrivelse = bilag_text,
             external_actor = faktura.kunde,
             prosjekt = faktura.prosjekt,
+            registrerd_by = request.user,
         )
         bilag.related_instance = faktura
         bilag.save()
@@ -71,6 +72,7 @@ def betal_faktura_draft(request, faktura_id, draft_id):
         beskrivelse = bilag_text,
         external_actor = faktura.kunde,
         prosjekt = faktura.prosjekt,
+        registrerd_by = request.user,
     )
     bilag.related_instance = faktura
     bilag.save()
