@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django_regnskap.regnskap.models import Konto
+from django_regnskap.regnskap.models import Konto, Prosjekt
 from datetime import datetime
 
 # Create your models here.
@@ -13,6 +13,7 @@ class Selskap(models.Model):
     art_feriepenger = models.ForeignKey('LonnArt', related_name='+')
     art_skatt_prosent = models.ForeignKey('LonnArt', related_name='+')
     art_skatt_ordinar = models.ForeignKey('LonnArt', related_name='+')
+    prosjekt = models.ForeignKey(Prosjekt)
     def __unicode__(self):
         return self.navn
 
