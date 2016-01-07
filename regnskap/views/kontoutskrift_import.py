@@ -42,7 +42,7 @@ def kontoutskrift_import(request, project):
 
 def show_drafts(request, project):
     project = Prosjekt.objects.get(navn = project)
-    drafts = BilagDraft.objects.filter(prosjekt = project).order_by("-dato")
+    drafts = BilagDraft.objects.filter(prosjekt = project).order_by("konto","-dato")
     return render_to_response('bilag/show_drafts.html', {
         'project': project,
         'drafts': drafts,
