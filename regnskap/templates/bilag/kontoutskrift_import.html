@@ -52,12 +52,79 @@ $("#id_metadata-konto").children().each(function(){
 });
 
 function update_form(){
-    var date_regex = /^([0123]\d)\.([01]\d)\.(2[012]\d\d)$/g
-    var TOTAL_FORMS = parseInt($("#id_rows-TOTAL_FORMS").val(),10);
-    var rows = $("#csv_inn").val().split("\n");
+    var data = $("#csv_inn").val().trim();
+    var first_row = data.split("\n")[0];
+    if(first_row == "**"){
+        var values = sp_sor(data);
+    } else if (first_row.startsWith("// KONTO")){
+        var values = marius_dnb(data);
+    }else{
+        var values = [{
+            date:"",
+            text: "Første rad matcher ikke noen av templatene (bruk: \"// KONTO\" eller \"første linje fra sp_sor\")",
+            ammount: "",
+            DELETE: true,
+        }]
+    }
     var i = 0;
-    while(i < rows.length){
+    while (i < values.length){
         $("#id_rows-"+i+"-date").parent().parent()[0].hidden = false;
+        $("#id_rows-"+i+"-date").val(values[i].date);
+        $("#id_rows-"+i+"-text").val(values[i].text);
+        $("#id_rows-"+i+"-DELETE").prop("checked", values[i].DELETE);
+        $("#id_rows-"+i+"-ammount").val(values[i].ammount);
+        i++;
+    }
+    
+    // Hide the remaining forms
+    var TOTAL_FORMS = parseInt($("#id_rows-TOTAL_FORMS").val(),10);
+    while(i<TOTAL_FORMS){
+        $("#id_rows-"+i+"-date").parent().parent()[0].hidden = true;
+        $("#id_rows-"+i+"-DELETE").prop("checked", true);
+        $("#id_rows-"+i+"-date").val("");
+        $("#id_rows-"+i+"-text").val("");
+        $("#id_rows-"+i+"-ammount").val("");
+        i++;
+    }
+
+}
+
+var date_regex = /^([0123]\d)\.([01]\d)\.(2[012]\d\d)$/g;
+
+function marius_dnb(data){
+    var rows = data.split("\n");
+    var values = [];
+    for(var i in rows){
+        var row = rows[i].split("\t");
+        var text = "";
+        var date = "";
+        var DELETE = true;
+        var ammount = "";
+        if(row.length == 3){
+            if(date_regex.test(row[0])){
+                DELETE = false;
+                date = row[0].replace(date_regex,"$3-$2-$1");
+            }else{
+                date = row[0];
+            }
+            text = row[2];
+            ammount = row[1];
+        }
+        values.push({
+            date: date,
+            text: text,
+            ammount: ammount,
+            DELETE: DELETE,
+        })
+    }
+    return values;
+}
+
+
+function sp_sor(data){
+    var rows = data.split("\n");
+    var values = [];
+    for(var i in rows){
         var row = rows[i].split("\t");
         var text = "";
         var date = "";
@@ -73,22 +140,14 @@ function update_form(){
             text = row[2]+ " " + row[3] + " " + row[6];
             ammount = row[4].replace(",",".");
         }
-        $("#id_rows-"+i+"-date").val(date);
-        $("#id_rows-"+i+"-text").val(text);
-        $("#id_rows-"+i+"-DELETE").prop("checked", DELETE);
-        $("#id_rows-"+i+"-ammount").val(ammount);
-        i++;
+        values.push({
+            date: date,
+            text: text,
+            ammount: ammount,
+            DELETE: DELETE,
+        })
     }
-    // Ensure that the rest of the forms are inactive, empty and hidden
-    while(i<TOTAL_FORMS){
-        $("#id_rows-"+i+"-date").parent().parent()[0].hidden = true;
-        $("#id_rows-"+i+"-DELETE").prop("checked", true);
-        $("#id_rows-"+i+"-date").val("");
-        $("#id_rows-"+i+"-text").val("");
-        $("#id_rows-"+i+"-ammount").val("");
-        i++;
-    }
-    
+    return values;
 }
 $("#csv_inn").change(update_form);
 $(update_form);
