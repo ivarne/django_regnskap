@@ -54,14 +54,14 @@ $("#id_metadata-konto").children().each(function(){
 function update_form(){
     var data = $("#csv_inn").val().trim();
     var first_row = data.split("\n")[0];
-    if(first_row == "**"){
+    if(first_row == "Bokført\tRentedato\tTekstkode\tBeskrivelse\tBeløp\tArkivref.\tMotkonto"){
         var values = sp_sor(data);
     } else if (first_row.startsWith("// KONTO")){
         var values = marius_dnb(data);
     }else{
         var values = [{
-            date:"",
-            text: "Første rad matcher ikke noen av templatene (bruk: \"// KONTO\" eller \"første linje fra sp_sor\")",
+            date:"Ingen gjenkjennte",
+            text: "Kontoutskriftformater",
             ammount: "",
             DELETE: true,
         }]
