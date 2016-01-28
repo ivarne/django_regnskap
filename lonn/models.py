@@ -27,8 +27,12 @@ class Ansatt(models.Model):
     def __unicode__(self):
         return self.navn
     def _getSkattekort(self):
-        return Skattekort.objects.get(ansatt=self, dato_til__gte=datetime.now)
+        return self.getSkattekort(datetime.now)
+    def getSkattekort(self, dato):
+        return Skattekort.objects.get(ansatt=self, dato_fra__lte=dato, dato_til__gte=dato)
     skattekort = property(_getSkattekort)
+    class Meta:
+        ordering = ['navn']
 
 class Skattekort(models.Model):
     ansatt = models.ForeignKey(Ansatt)
@@ -36,6 +40,8 @@ class Skattekort(models.Model):
     dato_fra = models.DateField()
     dato_til = models.DateField(null=True)
     prosent = models.IntegerField()
+    def __unicode__(self):
+        return 'Skattekort ('+unicode(self.dato_fra)+' - '+unicode(self.dato_til)+':  '+self.ansatt.navn+')'
 
 class LonnPeriode(models.Model):
     navn = models.CharField(max_length=63)
@@ -54,6 +60,8 @@ class LonnPeriode(models.Model):
     arts = property(_getArts)
     def getYearToThis(self):
         return LonnPeriode.objects.filter(dato__lte = self.dato).filter(dato__year = self.dato.year).filter(selskap=self.selskap)
+    class Meta:
+        ordering = ['-dato']
 
 class KontoProxy(models.Model):
     nummer = models.IntegerField(unique=True)
@@ -83,6 +91,8 @@ class LonnArt(models.Model):
     def _skattShort(self):
         return ['-','%','%'][self.skattetrekk]
     skattShort = property(_skattShort)
+    class Meta:
+        ordering = ['nummer']
 
 class LonnAnsattPeriode(models.Model):
     ansatt = models.ForeignKey(Ansatt)
@@ -112,6 +122,8 @@ class LonnAnsattPeriode(models.Model):
                 dataElem['periodeSum'] = art.sum
             artDict[art.lonnArt.nummer] = dataElem
         return artDict
+    class Meta:
+        ordering = ['periode']
 
 
 class LonnAnsattPeriodeArt(models.Model):
