@@ -58,7 +58,7 @@ def frontpage(request):
         y, p, bal_ok = row
         if y not in years:
             # If there is no bilag on a project for a year assume it is correct
-            years[y] = [[p.navn, True, True] for p in prosjekt]
+            years[y] = [[pr.navn, True, True] for pr in prosjekt]
         years[y][prosjekt_id.index(p)][2] = bool(bal_ok)
     
     return render_to_response('menues/frontpage.html', {
