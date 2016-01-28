@@ -110,22 +110,4 @@ Hvis regnskapsperioden fakturaen var ført på blir regningen dermed ført som t
 <p>Totalt utestående: {{faktura.getOutstanding}}</p>
 <p><a href="/faktura/generate/{{faktura.id}}">Generer faktura pdf her</a></p>
 
-<div id="pdf_div" style="width:800px;height:800"></div>
-
-<script>
-  var tmp = new PDFObject({'url':'ehm-not inn use'});
-  if(tmp.get("pluginTypeFound")){
-    var pObj = new PDFObject({ 
-      url: "/faktura/generate/{{faktura.id}}",
-      pdfOpenParams: {
-        navpanes: 0,
-        toolbar: 0,
-        statusbar: 0,
-        view: "FitV"
-      }
-    });
-    pObj.embed("pdf_div");
-  }
-</script>
-
 {% endblock %}

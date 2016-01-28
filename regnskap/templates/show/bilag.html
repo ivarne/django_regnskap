@@ -74,32 +74,4 @@
 </table>
 <input type="submit">
 </form>
-
-<div id="pdf_div" style="width:800px;height:800"></div>
-
-<script>
-var ul = $("#fileList");
-var tmp = new PDFObject({'url':'ehm-not inn use'});
-var is_pdf = new RegExp(".*\.pdf","i");
-if(tmp.get("pluginTypeFound")){
-  ul.click(function(e){
-    var t = e.target;
-    if(!is_pdf.test(t.innerText)){
-      return true; // do not change non pdf links
-    }
-    var pObj = new PDFObject({ 
-      url: t.href,
-      pdfOpenParams: {
-        navpanes: 0,
-        toolbar: 0,
-        statusbar: 0,
-        view: "FitV"
-      }
-    });
-    pObj.embed("pdf_div")
-      
-    return false;
-  });
-}
-</script>
 {% endblock %}
