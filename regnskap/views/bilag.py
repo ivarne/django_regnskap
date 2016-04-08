@@ -146,9 +146,9 @@ def inngaaendeBalanseForm(request, prosjekt, year):
                 })
 
     innslags = []
-    kontos = Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (from_year,)).filter(kontoType = 1)
+    kontos = Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (from_year,),include_outgoing_balance=True).filter(kontoType = 1)
     append_kontos_as_innslag(kontos, innslags)
-    kontos = Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (from_year,)).filter(kontoType = 2)
+    kontos = Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (from_year,),include_outgoing_balance=True).filter(kontoType = 2)
     append_kontos_as_innslag(kontos, innslags)
     if(request.method == 'POST'):
         bal_ut = Bilag(

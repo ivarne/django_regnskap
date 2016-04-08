@@ -24,7 +24,8 @@ def konto(request,id):
             year = bilag.dato.year
         for innslag in bilag.innslag.all():
             if innslag.konto == konto:
-                saldo += innslag.value
+                if bilag.bilagType != Bilag.UTGAAENDE_BALANSE:
+                    saldo += innslag.value
                 bilag.saldo = saldo
     return render_to_response( 'show/konto.html',{
         'konto' : konto,

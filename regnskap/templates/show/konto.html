@@ -60,7 +60,7 @@
       {% endif %}
     </td>
     <td><a href="{{bilag.external_actor.get_absolute_url}}">{{bilag.external_actor}}</a></td>
-    <td>{{bilag.saldo}}</td>
+    <td>{% ifchanged bilag.dato|date:"b" %}{{bilag.saldo}}{%endifchanged%}</td>
   </tr>
 {% endfor %}
 </table>
