@@ -21,6 +21,7 @@
     <th>Kredit</th>
     <th>Mot konto</th>
     <th>Ekstern</th>
+    <th>Saldo</th>
   </tr>
 {% for bilag in bilags %}
   <tr>
@@ -59,6 +60,7 @@
       {% endif %}
     </td>
     <td><a href="{{bilag.external_actor.get_absolute_url}}">{{bilag.external_actor}}</a></td>
+    <td>{{bilag.saldo}}</td>
   </tr>
 {% endfor %}
 </table>

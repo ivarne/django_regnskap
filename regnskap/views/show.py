@@ -15,7 +15,17 @@ from decimal import Decimal
 def konto(request,id):
     konto = Konto.objects.get(pk = id)
     bilags = Bilag.objects.filter(innslag__konto = konto).order_by('-dato').prefetch_related('innslag__konto').prefetch_related('innslag__konto__prosjekt').prefetch_related('innslag').prefetch_related('external_actor')
-#    omsettning = 
+#    omsettning =
+    year = 0
+    saldo = 0
+    for bilag in reversed(bilags):
+        if bilag.dato.year != year:
+            saldo = 0
+            year = bilag.dato.year
+        for innslag in bilag.innslag.all():
+            if innslag.konto == konto:
+                saldo += innslag.value
+                bilag.saldo = saldo
     return render_to_response( 'show/konto.html',{
         'konto' : konto,
         'bilags': bilags,
