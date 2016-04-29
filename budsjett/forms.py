@@ -13,6 +13,7 @@ class BudsjettPostForm(forms.ModelForm):
             'konto'  : widgets.DynamicSelectMultiple,
             'comment': forms.Textarea( attrs={'columns':40,'rows':4})
             }
+        exclude = ()
     def __init__(self, *args, **kwargs):
         super(BudsjettPostForm, self).__init__(*args, **kwargs)
         try:
