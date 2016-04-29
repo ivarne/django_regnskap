@@ -106,7 +106,7 @@ def registrerBilagForm(request, prosjekt, extra):
         'related_object': related_object,
     },RequestContext(request))
 
-@transaction.commit_on_success
+@transaction.atomic
 def inngaaendeBalanseForm(request, prosjekt, year):
     from_year = int(year)
     to_year = from_year + 1
