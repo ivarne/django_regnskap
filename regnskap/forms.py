@@ -50,8 +50,8 @@ class External_ActorForm(forms.ModelForm):
         super(External_ActorForm,self).__init__(data,*args, **kwargs)
         
         #shuffle Id to the first place
-        #self.fields.insert(0,'id',self.fields.pop('id'))
-        self.fields.keyOrder.insert(0, self.fields.keyOrder.pop(self.fields.keyOrder.index('id')))
+        self.fields.insert(0,'id',self.fields.pop('id'))
+        #self.fields.keyOrder.insert(0, self.fields.keyOrder.pop(self.fields.keyOrder.index('id')))
 
 class BaseInnslagForm(forms.Form):
 #    kontos = None #Set kontos with choices in innslag_form_factory
