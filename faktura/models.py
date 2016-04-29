@@ -6,7 +6,7 @@ from django.contrib.contenttypes.generic import GenericRelation
 from django_regnskap.regnskap.models import *
 
 
-from django_regnskap.utilities.JSONField import JSONField
+from django_extensions.db.fields.json import JSONField
 
 
 from decimal import *
