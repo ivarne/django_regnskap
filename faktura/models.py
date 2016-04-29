@@ -138,7 +138,7 @@ class Faktura(models.Model):
     def assignNumber(self, *args, **kwargs):
         """Assign a fakturanumber to the Faktura (done while sending)"""
         from django.db import connection, transaction
-        with transaction.commit_on_success():
+        with transaction.atomic():
             cursor = connection.cursor()
             cursor.execute("SELECT `number` FROM `"+self._meta.db_table+ "` WHERE YEAR(`date`) = %s ORDER BY `number` DESC FOR UPDATE;",[self.date.year])
             self.number = cursor.fetchone()[0] + 1
