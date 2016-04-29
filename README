@@ -6,6 +6,7 @@ dropbox     # for dropbox upload and make security copies of files
 mathplotlib # for making graphs
 reportlab   # for generating PDF files 
 MySQL-python# for mysql drivers
+django-extensions # for JSONField
 
 To install:
 * copy local_settings.py.dist to local_settings.py and insert your local settings (Database, apiKeys...)
