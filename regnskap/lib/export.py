@@ -8,6 +8,9 @@ import openpyxl
 from openpyxl.writer.excel import save_virtual_workbook
 import datetime
 
+from openpyxl.styles import Border, Side
+border_thin_bottom = Border(bottom=Side(border_style="thin"))
+
 class ExelYearView(object):
     """Exporter regnskapet i excel format for year"""
     
@@ -55,9 +58,10 @@ class ExelYearView(object):
         def kontos_list_sum(title, kontos, row, col, sign = 1, min_length = None):
             h = sheet.cell(row=row, column=col)
             h.value = title
-            h.style.borders.bottom.border_style = 'thin'
+            #h.style.borders.bottom.border_style = 'thin'
+            h.style.border = border_thin_bottom
             h.style.font.bold = True
-            sheet.cell(row=row, column=col+1).style.borders.bottom.border_style = 'thin'
+            sheet.cell(row=row, column=col+1).style.border = border_thin_bottom
             sheet.merge_cells(start_row=row, start_column=col, end_row=row, end_column=col+1)
             row +=1
             for konto in kontos:
@@ -65,54 +69,56 @@ class ExelYearView(object):
                 h.value = "%s %s" % (konto.nummer, konto.tittel)
                 h = sheet.cell(row = row, column = col+1)
                 h.value = sign*(konto.sum_kredit-konto.sum_debit)
-                h.style.number_format.format_code = u'#\u00A0##0.00'
+                h.style.number_format = u'#\u00A0##0.00'
                 row +=1
             if min_length:
                 row += min_length - len(kontos)
             h = sheet.cell(row = row, column = col)
             h.value = "SUM"
-            h.style.borders.top.border_style = 'thin'
+            #h.style.borders.top.border_style = 'thin'
+            h.style.border= border_thin_bottom
             h.style.font.bold = True
             h = sheet.cell(row = row, column = col+1)
             column = openpyxl.cell.get_column_letter(col+2)
             h.value = "=SUM(%c%d:%c%d)" % (column,row-(min_length or len(kontos))+1,column, row)
-            h.style.number_format.format_code = u'#\u00A0##0.00'
-            h.style.borders.top.border_style = 'thin'
+            h.style.number_format = u'#\u00A0##0.00'
+            #h.style.borders.top.border_style = 'thin'
+            h.style.border = border_thin_bottom
             h.style.font.bold = True
             return row+1
-        row_inn = kontos_list_sum("Salgs og driftsinntekt", groups[3], 1, 0, 1)
-        row_kost = kontos_list_sum("Driftskostnader", groups[4]+groups[5]+groups[6]+groups[7], row_inn+1, 0, -1)
-        row_fin = kontos_list_sum("Finanskostnader og Resultat", groups[8], row_kost+1, 0, -1)
+        row_inn = kontos_list_sum("Salgs og driftsinntekt", groups[3], 1, 1, 1)
+        row_kost = kontos_list_sum("Driftskostnader", groups[4]+groups[5]+groups[6]+groups[7], row_inn+1, 1, -1)
+        row_fin = kontos_list_sum("Finanskostnader og Resultat", groups[8], row_kost+1, 1, -1)
         
-        sheet.cell(row = row_fin + 2, column = 0).value = u'Ikke ført resultat'
-        sheet.cell(row = row_fin + 2, column = 1).value = u'=B%d-B%d-B%d' % (row_inn, row_kost, row_fin)
+        sheet.cell(row = row_fin + 2, column = 1).value = u'Ikke ført resultat'
+        sheet.cell(row = row_fin + 2, column = 2).value = u'=B%d-B%d-B%d' % (row_inn, row_kost, row_fin)
         
         #vis inngående balanse
-        row = 0
+        row = 1
         h = sheet.cell(row = row, column = 3)
         h.value = u"Inngående balanse %s %s"%(prosjekt, year)
         h.style.font.bold = True
         h.style.alignment.horizontal = 'center'
-        sheet.merge_cells(start_row=row, start_column=3, end_row=row, end_column=6)
+        sheet.merge_cells(start_row=row, start_column=4, end_row=row, end_column=7)
         row+=1
         inn_konto = Konto.objects.bilagRelated(related = prosjekt, year = year, kontoTypes=(1,2), bilagTypes=Bilag.INNGAAENDE_BALANSE)
         inn_groups = [None, [],[]]
         for konto in inn_konto:
             inn_groups[konto.kontoType].append(konto)
         min_length = max([len(a) for a in inn_groups if isinstance(a,list)])
-        kontos_list_sum("Eiendeler", inn_groups[1], row, 3, -1, min_length)
-        kontos_list_sum("Egenkapital og gjeld", inn_groups[2], row, 5, 1, min_length)
+        kontos_list_sum("Eiendeler", inn_groups[1], row, 4, -1, min_length)
+        kontos_list_sum("Egenkapital og gjeld", inn_groups[2], row, 6, 1, min_length)
         row+=min_length+3
         #vis utgående balanse
-        h = sheet.cell(row = row, column = 3)
+        h = sheet.cell(row = row, column = 4)
         h.value = u"Utgående balanse %s %s"%(prosjekt, year)
         h.style.font.bold = True
         h.style.alignment.horizontal = 'center'
-        sheet.merge_cells(start_row=row, start_column=3, end_row=row, end_column=6)
+        sheet.merge_cells(start_row=row, start_column=4, end_row=row, end_column=6)
         row+=1
         min_length = max(len(groups[1]),len(groups[2]))
-        kontos_list_sum("Eiendeler", groups[1], row, 3, -1, min_length)
-        kontos_list_sum("Egenkapital og gjeld", groups[2], row, 5, 1, min_length)
+        kontos_list_sum("Eiendeler", groups[1], row, 4, -1, min_length)
+        kontos_list_sum("Egenkapital og gjeld", groups[2], row, 6, 1, min_length)
         row+=min_length+3
         
         #set column width
@@ -154,17 +160,17 @@ class ExelYearView(object):
         #write konto numbers and labels (first two lines)
         kontoIndex = {} # kontonummer -> column pos
         for i, konto in enumerate(kontoList):
-            sheet.cell(row=0,column=i+4).value = konto.tittel
-            sheet.cell(row=1,column=i+4).value = konto.nummer
+            sheet.cell(row=1,column=i+4).value = konto.tittel
+            sheet.cell(row=2,column=i+4).value = konto.nummer
             kontoIndex[konto.nummer] = i+4;
         #write all bilag
         for i, bilag in enumerate(bilagList):
-            sheet.cell(row=i+2, column=0).value = "%s-%s" % (bilag.dato.year, bilag.bilagsnummer)
-            c = sheet.cell(row=i+2, column=1)
+            sheet.cell(row=i+2, column=1).value = "%s-%s" % (bilag.dato.year, bilag.bilagsnummer)
+            c = sheet.cell(row=i+2, column=2)
             c.value = bilag.dato
-            c.style.number_format.format_code = "D. MMM"
-            sheet.cell(row=i+2, column=2).value = bilag.beskrivelse
-            sheet.cell(row=i+2, column=3).value = unicode(bilag.external_actor or "")
+            c.style.number_format = "D. MMM"
+            sheet.cell(row=i+2, column=3).value = bilag.beskrivelse
+            sheet.cell(row=i+2, column=4).value = unicode(bilag.external_actor or "")
             try:
                 for innslag in bilag.innslag.all():
                     c = kontoIndex[innslag.konto.nummer]
@@ -173,7 +179,7 @@ class ExelYearView(object):
                     else: #negativ for kredit
                         sheet.cell(row=i+2, column = c).value = -innslag.belop
             except KeyError:
-                sheet.cell(row=i+2, column = 4).value = "ERROR: innslag registrert pa konto som ikke er del av dette prosjketet"
+                sheet.cell(row=i+2, column = 5).value = "ERROR: innslag registrert pa konto som ikke er del av dette prosjketet"
     
     def getExcelFileStream(self):
         return save_virtual_workbook(self._wb)

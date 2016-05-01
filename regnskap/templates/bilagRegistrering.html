@@ -14,7 +14,13 @@
 <div style="float:right">
   <h3>Hvem?</h3>
   <table>
-    {{ external_a_form }}
+    {% with external_a_form as e %}
+    <tr><th>{{e.id.label_tag}}</th><td>{{e.id}}</td></tr>
+    <tr><th>{{e.name.label_tag}}</th><td>{{e.name}}</td></tr>
+    <tr><th>{{e.email.label_tag}}</th><td>{{e.email}}</td></tr>
+    <tr><th>{{e.adress.label_tag}}</th><td>{{e.adress}}</td></tr>
+    <tr><th>{{e.org_nr.label_tag}}</th><td>{{e.org_nr}}</td></tr>
+    {% endwith %}
   </table>
 </div>
 
@@ -124,7 +130,7 @@ function update(){
     if(this.value){
       var v = parseFloat(this.value.replace(",",".").replace(" ",""));
       debit += v;
-      this.value = v.toFixed(2);  
+      this.value = v.toFixed(2);
       deactivateTwinField(this,true);
     }else{
       deactivateTwinField(this,false)
@@ -230,7 +236,7 @@ $(document).ready(function(){
       if(!is_pdf.test(t.innerText)){
         return true; // do not change non pdf links
       }
-      var pObj = new PDFObject({ 
+      var pObj = new PDFObject({
         url: t.href,
         pdfOpenParams: {
           navpanes: 0,
@@ -240,7 +246,7 @@ $(document).ready(function(){
         }
       });
       pObj.embed("pdf_div")
-        
+
       return false;
     });
   }
@@ -249,6 +255,6 @@ $(document).ready(function(){
     ul.append(this.children)
   });
 });
-  
+
 </script>
 {% endblock %}

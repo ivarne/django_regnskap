@@ -250,7 +250,7 @@ def generate_response(request, faktura):
     pdf = generate_faktura_pdf(faktura)
     
     # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse(mimetype='application/pdf')
+    response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename=faktura%s.pdf' % faktura.getNumber()
     response.write(pdf)
     

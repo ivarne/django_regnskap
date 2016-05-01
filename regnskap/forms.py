@@ -32,9 +32,9 @@ class External_ActorForm(forms.ModelForm):
         widgets = {
             'adress': forms.Textarea(attrs={'cols': 20, 'rows': 4}),
         }
-        exclude = ('prosjekt',)
-        #fields = ['id', 'name', 'email', 'adress', 'org_nr']
-        
+        #exclude = ('prosjekt',)
+        fields = ['id', 'name', 'email', 'adress', 'org_nr']
+
     def __init__(self,data = None, *args,**kwargs):
         # find the instance to be edited
         if not kwargs.get('instance'):
@@ -48,10 +48,6 @@ class External_ActorForm(forms.ModelForm):
                 pass
         # Call parent constructor
         super(External_ActorForm,self).__init__(data,*args, **kwargs)
-        
-        #shuffle Id to the first place
-        self.fields.insert(0,'id',self.fields.pop('id'))
-        #self.fields.keyOrder.insert(0, self.fields.keyOrder.pop(self.fields.keyOrder.index('id')))
 
 class BaseInnslagForm(forms.Form):
 #    kontos = None #Set kontos with choices in innslag_form_factory
@@ -102,7 +98,7 @@ def innslag_form_factory(prosjekt):
     })
 
 class BaseInnslagFormSet(forms.formsets.BaseFormSet):
-    
+
     def clean(self):
         """Checks that no two articles have the same title."""
         if any(self.errors):
@@ -121,7 +117,7 @@ class BaseInnslagFormSet(forms.formsets.BaseFormSet):
         if debit != kredit:
             raise forms.ValidationError(u"Kredit og debit må summere til samme tall")
 
-        
+
 class BilagFileForm(forms.Form):
     currentUpload = forms.FileField(required =False)
     previousUploads = forms.MultipleChoiceField(required =False, widget= forms.CheckboxSelectMultiple())
@@ -169,7 +165,7 @@ class BilagFileForm(forms.Form):
     def slugify(fileName):
         fname, ext = fileName.rsplit('.',1)
         return django_slugify(fname) + '.' + ext
-    
+
     @classmethod
     def get_files_from_dropbox(cls, dropbox_client):
         """Utility function to download files from the users dropbox/upload folder and store them on the server"""
@@ -202,4 +198,4 @@ class BilagKontoutskriftRowForm(forms.Form):
         widget=forms.TextInput(attrs={'size':'10'}),
     )
 BilagKontoutskriftRowFormset = formset_factory(BilagKontoutskriftRowForm, extra=1000, can_delete=True)
-    
+
