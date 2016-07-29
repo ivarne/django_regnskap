@@ -7,7 +7,7 @@ from itertools import chain
 from urlparse import urljoin
 
 from django.conf import settings
-from django.forms.util import flatatt, to_current_timezone
+from django.forms.utils import flatatt, to_current_timezone
 from django.utils.datastructures import MultiValueDict, MergeDict
 from django.utils.html import escape, conditional_escape
 from django.utils.translation import ugettext, ugettext_lazy

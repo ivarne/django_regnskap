@@ -390,7 +390,7 @@ def generate_slip_response(request, ansattPeriodeID):
     pdf = generate_slip_pdf(ansattPeriode)
     
     # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse(mimetype='application/pdf')
+    response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename=lonn_%s.pdf' % ansattPeriode.periode.navn
     response.write(pdf)
     
@@ -407,7 +407,7 @@ def generate_periode_response(request, periodeID):
     pdf = generate_periode_pdf(periode)
     
     # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse(mimetype='application/pdf')
+    response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename=lonn_%s.pdf' % periode.navn
     response.write(pdf)
     
