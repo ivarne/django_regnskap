@@ -56,6 +56,8 @@ function update_form(){
     var first_row = data.split("\n")[0];
     if(first_row == "Bokført\tRentedato\tTekstkode\tBeskrivelse\tBeløp\tArkivref.\tMotkonto"){
         var values = sp_sor(data);
+    } else if(first_row == "Bokført;Rentedato;Tekstkode;Beskrivelse;Ut av konto;Inn på konto;Arkivref.;Motkonto"){
+        var values = simon(data);
     } else if (first_row.startsWith("// KONTO")){
         var values = marius_dnb(data);
     }else{
@@ -120,6 +122,34 @@ function marius_dnb(data){
     return values;
 }
 
+function simon(data){
+    var rows = data.split("\n");
+    var values = [];
+    for(var i in rows){
+        var row = rows[i].split(";");
+        var text = "";
+        var date = "";
+        var DELETE = true;
+        var ammount = "";
+        if(row.length == 8){
+            if(date_regex.test(row[0])){
+                DELETE = false;
+                date = row[0].replace(date_regex,"$3-$2-$1");
+           }else{
+               date = row[0];
+           }
+           text = row[2]+ " " + row[3] + " " + row[7];
+           ammount = row[4]=="" ? row[5].replace(",",".") : row[4].replace(",",".");
+        }
+        values.push({
+            date: date,
+            text: text,
+            ammount: ammount,
+            DELETE: DELETE,
+        })
+    }
+    return values;
+}
 
 function sp_sor(data){
     var rows = data.split("\n");
