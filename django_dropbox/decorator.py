@@ -34,13 +34,24 @@ def _dropboxConnect(request,sess):
     return HttpResponseRedirect(url)
 
 def get_dropbox(request, sess = None):
+    return get_client(request.user,sess)
+
+def get_client(user, sess = None):
     if not sess:
         _keys = settings.DROPBOX_SETTINGS
         sess = session.DropboxSession(_keys['app_key'], _keys['app_secret'],_keys['type'])
-    token = request.user.django_dropbox.dropbox_token
+    token = user.django_dropbox.dropbox_token
     sess.token =  OAuthToken.from_string(token)
     return client.DropboxClient(sess)
 
+def db_client_update_file(client,filename,file):
+    try:
+        metadata = client.metadata(filename)['rev'];
+    except Exception:
+        metadata = None
+    client.put_file(filename,file,parent_rev=metadata)
+
+# The main decorator for django view functions
 def dropbox_user_required(funk):
     @login_required
     def _dropbox_wrap(request, *args, **kwargs):
