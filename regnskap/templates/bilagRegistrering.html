@@ -229,6 +229,7 @@ $(document).ready(function(){
   });
 
   var ul = $("#fileList");
+  var last_pdf = "";
   var tmp = new PDFObject({'url':'ehm-not inn use'});
   if(tmp.get("pluginTypeFound")){
     ul.click(function(e){
@@ -236,6 +237,12 @@ $(document).ready(function(){
       if(!is_pdf.test(t.innerText)){
         return true; // do not change non pdf links
       }
+      if(t.href === last_pdf){
+        $("#pdf_div").empty();
+        last_pdf = "";
+        return false;
+      }
+      last_pdf = t.href;
       var pObj = new PDFObject({
         url: t.href,
         pdfOpenParams: {
