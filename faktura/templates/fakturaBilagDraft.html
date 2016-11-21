@@ -11,10 +11,12 @@
       </a>
     </td>
     <td>
-      <form action="/faktura/draft/{{faktura.id}}/{{draft.id}}" method="POST">
-        {% csrf_token %}
-          <input type="submit" value="Registrer uendret"> 
-      </form>
+      {% if draft.belop = faktura.getOutstanding %}
+        <form action="/faktura/draft/{{faktura.id}}/{{draft.id}}" method="POST">
+          {% csrf_token %}
+            <input type="submit" value="Registrer uendret"> 
+        </form>
+      {%endif%}
     </td>
   </tr>
   {% endfor %}
