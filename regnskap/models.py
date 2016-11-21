@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from django.utils.safestring import mark_safe
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 from decimal import *
 import os
@@ -237,7 +237,7 @@ class Bilag(models.Model):
     # ektra fields for generic relations to extra components
     content_type = models.ForeignKey(ContentType, null=True, blank=True, default=None)
     object_id = models.PositiveIntegerField( blank=True,  default=0)
-    related_instance = generic.GenericForeignKey('content_type', 'object_id')
+    related_instance = GenericForeignKey('content_type', 'object_id')
 
     objects = BaseProsjektManager()
     def getInnslag(self):
