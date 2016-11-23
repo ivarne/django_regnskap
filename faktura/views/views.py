@@ -97,6 +97,42 @@ def betal_faktura_draft(request, faktura_id, draft_id):
 
     return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )
 
+# Ikke ferdig!!
+def kreditnota(request):
+    if request.method != 'POST':
+        raise Exception("Wrong method")
+    faktura = Faktura.objects.get(id = request.POST['faktura_id'])
+    faktura.data['log'].append(u"Kreditnota generert %s av %s"%(datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
+
+    bilag_ids = tuple([int(b.id) for b in faktura.bilags.all()])
+    related_kontos = list(Konto.objects.bilagRelated(bilag_ids=bilag_ids))
+
+    bilag = Bilag(
+        dato = datetime.datetime.today(),
+        beskrivelse = u"Faktura %s kreditert (slettet/reversert)" % (faktura.getNumber()),
+        external_actor = faktura.kunde,
+        prosjekt = faktura.prosjekt,
+        registrerd_by = request.user,
+    )
+    bilag.related_instance = faktura
+    faktura.status
+    for konto in related_kontos:
+        i = Innslag(
+            bilag = bilag,
+            konto = konto,
+            belop = abs(konto.getLoadedDebit()),
+            type = int(konto.getLoadedDebit()<0)
+        )
+
+# Ikke ferdig!
+def purring(request, faktura_id):
+    if request.method != 'POST':
+        raise Exception("Wrong Method")
+    faktura = Faktura.objects.get(id = faktura_id)
+    faktura.status = 2 # Purret
+    faktura.data['log'].append(u"Purring generert %s av %s"%(datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
+    faktura.save()
+    return HttpResponseRedirect(faktura.get_absolute_url())
 
 def show_faktura(request, id):
     faktura = Faktura.objects.get(id = id)

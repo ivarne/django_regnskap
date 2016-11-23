@@ -10,4 +10,6 @@ urlpatterns = patterns('django_regnskap.faktura.views',
     url(r'^betal/(\d+)$',       'views.betal_faktura'),
     url(r'^generate/(\d*)$',    'fakturaPDF.generate_response'),
     url(r'^draft/(\d+)/(\d+)',  'views.betal_faktura_draft'),
+    url(r'^kreditnota',         'views.kreditnota'),
+    url(r'^purring',            'views.purring'),
 )

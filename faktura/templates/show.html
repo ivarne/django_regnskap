@@ -54,8 +54,70 @@ og du har alternaltiver
     return false; 
   });
   </script>
+
   <li>Lage Purring</li>
-  <li>Trekk tilbake(slett)</li>
+  {% include "fakturaPurring.html" with drafts=drafts faktura=faktura %}
+
+  <li><a href="#" onclick="$('#kreditnota').toggle()">Trekk tilbake(slett)</a></li>
+  <div id="kreditnota" style="display:none">
+    En faktura kan ikke slettes, men det kan lages et nytt bilag (kreditnota) som reverserer effekten på regnskapet (flytter pengene tilbake)
+    <form method="post" action="/faktura/kreditnota">
+      {% csrf_token %}
+      <input type="hidden" value="{{faktura.pk}}" name="faktura_id">
+      <table id="kreditnota-table">
+        <thead>
+          <tr>
+            <th>Vare#</th>
+            <th>Tekst</th>
+            <th>Pris</th>
+            <th>Orignalt antall</th>
+            <th>Nytt antall</th>
+            <th>Sum</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for vare in faktura.fakturavare.all %}
+          <tr>
+            <td><a href="{{vare.vare.get_absolute_url}}">{{vare.vare.id}}</a></td>
+            <td>{{vare.name}}</td>
+            <td class="kreditnota-price">{{vare.price}}</td>
+            <td style="color:grey">{{vare.ammount}}</td>
+            <td><input type="text" name="fakturavare-{{vare.id}}" value="{{vare.ammount}}"></td>
+            <td class="kreditnota-sum"></td>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <td colspan="5"></td>
+          <td id="kreditnota-totalsum"></td>
+        </tfoot>
+      </table>
+      <script>
+        var table = $("#kreditnota-table");
+        function update_sum_kreditnota_table(){
+          table.find("input").each(function(){ 
+            var $input = $(this);
+            var tr = $input.closest("tr");
+            var ammount = parseFloat($input.val().replace(",","."));
+            if(isNaN(ammount) && $input.val()!=ammount) $input.val(ammount);
+            var price = parseFloat(tr.children(".kreditnota-price").text());
+            tr.children(".kreditnota-sum").text(ammount*price);
+          });
+          var sum = 0;
+          table.find(".kreditnota-sum").each(function(){
+            sum += parseFloat($(this).text());
+          });
+          $("#kreditnota-totalsum").text(sum);
+        }
+        update_sum_kreditnota_table();
+        table.click(update_sum_kreditnota_table);
+        table.focus(update_sum_kreditnota_table);
+        table.blur(update_sum_kreditnota_table);
+        table.change(update_sum_kreditnota_table);
+        table.keyup(update_sum_kreditnota_table);
+      </script>
+      <input type="submit" value="Lag kreditnota">
+    </form>
+  </div>
 </ul>
 
 {% endif %}
