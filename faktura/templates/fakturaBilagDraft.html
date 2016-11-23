@@ -1,6 +1,24 @@
 <table>
+  <thead>
+    <tr>
+      <th>Dato</th>
+      <th>Melding</th>
+      <th>Beløp</th>
+      <th>Konto</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
   {% for draft in drafts %}
-  <tr {% if draft.belop = faktura.getOutstanding %}style="color:green"{%endif%} >
+  {% if draft.belop = faktura.getOutstanding %}
+  <tr style="color:green">
+  {% elif draft.belop > 0 %}
+  <tr style="display:none" class="fakturaBilagDraft-positive">
+  {% else %}
+  <tr style="display:none" class="fakturaBilagDraft-negative">
+  {% endif %}
+
     <td>{{draft.dato}}</td>
     <td>{{draft.beskrivelse}}</td>
     <td>{{draft.belop}}</td>
@@ -20,4 +38,10 @@
     </td>
   </tr>
   {% endfor %}
+  </tbody>
 </table>
+
+<ul>
+  <li><a href="#" onclick="$('.fakturaBilagDraft-positive').toggle()">Vis andre innbetalinger</a></li>
+  <li><a href="#" onclick="$('.fakturaBilagDraft-negative').toggle()">Vis utbetalinger (eg refusjoner)</a></li>
+</ul>

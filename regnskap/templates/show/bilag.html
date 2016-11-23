@@ -54,8 +54,8 @@
   {% endfor %}
 </ul>
 {% endif %}
-<h2>Last opp flere filer</h2>
-<form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+<h2>Last opp flere filer <a href="#" onclick="$('#more_files').toggle()">+</a></h2>
+<form action="" enctype="multipart/form-data" method="post" id="more_files">{% csrf_token %}
 <table>
   <tr>
     <th>Upload New File</th>
@@ -78,6 +78,13 @@
 <div id="pdf_div" style="width:800px;height:800"></div>
 
 <script>
+//Hide list of possible files to upload
+var more_files = $("#more_files");
+more_files.hide();
+
+
+
+//Show pdf preview
 var ul = $("#fileList");
 var tmp = new PDFObject({'url':'ehm-not inn use'});
 var is_pdf = new RegExp(".*\.pdf","i");

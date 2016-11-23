@@ -38,6 +38,8 @@ class Vare(AbstractVare):
     """Represntasjon av varene som er i vare registeret"""
     active = models.BooleanField(default = True)
     prosjekt = models.ForeignKey(Prosjekt)
+    def get_absolute_url(self):
+        return u'/faktura/list_vare/%s' % (self.prosjekt.navn)
 
 class Template(models.Model):
     #interne felt

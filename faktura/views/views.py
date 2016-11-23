@@ -57,7 +57,7 @@ def betal_faktura(request, id):
 
 def betal_faktura_draft(request, faktura_id, draft_id):
     if request.method != 'POST':
-        raise Exception("Wrong metthod")
+        raise Exception("Wrong method")
     faktura = Faktura.objects.get(id = faktura_id)
     draft = BilagDraft.objects.get(id = draft_id)
 

@@ -36,20 +36,16 @@ Alternaltivt kan du slette den.
 {% endif %}
 {% if faktura.status == 1 %}
 <h2>Fakturaen har nå status sendt</h2>
-og du har tre alternaltiver
+og du har alternaltiver
 <ul>
   <li>
-      <a href="#" id="betaling_form_table_togle">Registrer betaling</a>
-      <div id="betaling_form_table" style="display:none">
-          <form method="POST" action="/faktura/betal/{{faktura.id}}">
-              <table>{{faktura_betaling_form}}</table>
-              {% csrf_token %}
-              <input type="submit" value="Registrer innbetaling på faktura">
-          </form>
-      </div>
+    <a href="/regnskap/registrer/{{faktura.prosjekt}}/?content_type={{faktura.content_type.pk}}&object_id={{faktura.pk}}">Registrer bilag</a>
   </li>
   <li>
-    {% include "fakturaBilagDraft.html" with drafts=drafts faktura=faktura %}
+    <a href="#" onclick="$('#fakturaBilagDraft').toggle()">Registrer innbetaling fra bilagskladd</a>
+    <div id="fakturaBilagDraft" style="display:none">
+      {% include "fakturaBilagDraft.html" with drafts=drafts faktura=faktura %}
+    </div>
   </li>
   <script>
   $("#betaling_form_table_togle").click(function(){
@@ -94,7 +90,7 @@ Hvis regnskapsperioden fakturaen var ført på blir regningen dermed ført som t
   </tr>
   {% for vare in faktura.fakturavare.all %}
   <tr>
-    <td>{{vare.vare.id}}</td>
+    <td><a href="{{vare.vare.get_absolute_url}}">{{vare.vare.id}}</a></td>
     <td>{{vare.name}}</td>
     <td>{{vare.ammount}}</td>
     <td>{{vare.price}}</td>
@@ -107,7 +103,7 @@ Hvis regnskapsperioden fakturaen var ført på blir regningen dermed ført som t
   </tr>
 </table>
   
-<h2>Bilagsføring for denne faktura:<small><a href="/regnskap/registrer/{{faktura.prosjekt}}/?content_type={{faktura.content_type.pk}}&object_id={{faktura.pk}}">+</a></small></h2>
+<h2>Bilagsføring for denne faktura:<small><a href="/regnskap/registrer/{{faktura.prosjekt}}/?content_type={{faktura.content_type.pk}}&object_id={{faktura.pk}}" title="Før billag knyttet til denne fakturaen">+</a></small></h2>
 
 {% include "include/bilagDebitKredit.html" with related_kontos=related_kontos bilags=bilags %}
 
