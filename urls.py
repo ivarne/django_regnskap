@@ -23,7 +23,7 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     url(r'^budsjett/', include('django_regnskap.budsjett.urls')),
     url(r'^lonn/', include('django_regnskap.lonn.urls')),
-    url(r'^$', RedirectView.as_view(url= "/regnskap") )
+    url(r'^$', RedirectView.as_view(url= "/regnskap",permanent=True) )
 )
 if settings.SERVE_MEDIA_IN_PYTHON:
     urlpatterns += patterns('',
