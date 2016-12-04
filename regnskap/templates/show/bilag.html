@@ -44,9 +44,40 @@
   </tr>
 {% endfor %}
 </table>
+
+<h2>Korrigeringer</h2>
+<a href="{{bilag.korrigerings_url}}">Registrer korrigeringsbillag</a>
+{% with bilag.korrigerings_bilag as korrigeringsbilag %}
+  {% if korrigeringsbilag %}
+  <div style="background-color:lightyellow;">
+    <h3>Korrigert bilag</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Konto</th>
+          <th>Debit</th>
+          <th>Kredit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for innslag in bilag.getKorrigerteInnslag %}
+        <tr>
+          <td title="{{innslag.konto.beskrivelse}}"><a href="{{innslag.konto.get_absolute_url}}">{{innslag.konto.nummer}}</a> {{innslag.konto.tittel}}</td>
+          <td>{{innslag.debit|default_if_none:"&nbsp;"}}</td>
+          <td>{{innslag.kredit|default_if_none:"&nbsp;"}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% for b in korrigeringsbilag %}
+      <br>Se: korrigering i <a href="{{b.get_absolute_url}}">{{b.getNummer}} {{b.beskrivelse}}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
 {% if bilag.files.all %}
-
-
 <h2>Filer</h2>
 <ul id="fileList">
   {% for file in bilag.files.all %}

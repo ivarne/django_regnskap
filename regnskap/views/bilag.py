@@ -28,7 +28,15 @@ def positive_or_None(number):
         return number
     return None
 
+# monkey patch initial form count so that we can remove inslag rows (eg. purringer)
+def initial_form_count(self):
+    if self.is_bound:
+        return self.management_form.cleaned_data[django.forms.formsets.INITIAL_FORM_COUNT]
+    return 0
+    #return len(self.initial) if self.initial else 0
+
 #views
+@transaction.atomic
 def registrerBilagForm(request, prosjekt, extra):
     NumberOfInnslag = int(extra or 5)
     prosjekt = Prosjekt.objects.get(navn = prosjekt)
@@ -39,6 +47,7 @@ def registrerBilagForm(request, prosjekt, extra):
         related_object = None
     InnslagForm = innslag_form_factory(prosjekt)
     InnslagFormSet = formset_factory(InnslagForm, extra = NumberOfInnslag, formset=BaseInnslagFormSet)
+    InnslagFormSet.initial_form_count = initial_form_count # monkey patch
     if(request.method == 'POST'):
         bilagform   = BilagForm(request.POST, prefix="bilag")
         innslagform = InnslagFormSet(request.POST, prefix="innslag")
@@ -47,7 +56,6 @@ def registrerBilagForm(request, prosjekt, extra):
         if bilagform.is_valid() and innslagform.is_valid():
             b = bilagform.instance
             b.prosjekt = prosjekt
-            print request.user.id
             b.registrerd_by = request.user
             if(external_actor.is_valid()):
                 if external_actor.instance.pk == None:
@@ -69,31 +77,46 @@ def registrerBilagForm(request, prosjekt, extra):
             #except Exception, e:
             #    messages.add_message(request, messages.ERROR, "Det skjedde en feil med lagring av filer (%s)" % e)
             messages.add_message(request, messages.SUCCESS, 'Bilag lagret med bilagsnummer %s' % ( bilagform.instance.getNummer()))
-            if int(request.POST["bilag_draft_id"])>0:
-                BilagDraft.objects.get(id = request.POST["bilag_draft_id"]).delete()
-                return HttpResponseRedirect("/regnskap/registrer/%s/drafts"%prosjekt.navn)
+            if int(request.POST["bilag_draft_id"]) > 0:
+                BilagDraft.objects.get(id=request.POST["bilag_draft_id"]).delete()
+                if not b.related_instance:
+                    return HttpResponseRedirect("/regnskap/registrer/%s/drafts"%prosjekt.navn)
+            if b.related_instance:
+                return HttpResponseRedirect(b.related_instance.get_absolute_url())
             return HttpResponseRedirect(request.path)
         messages.add_message(request, messages.ERROR, 'Det var feil med valideringen av bilagsregistreringen.')
     else:
-        if request.GET.get('bilag_draft_id',False):
+        initial_bilag = {
+            'object_id': request.GET.get('object_id', None),
+            'content_type': request.GET.get('content_type', None),
+            'dato': request.GET.get('dato',None),
+            'beskrivelse': request.GET.get("beskrivelse",None)
+        }
+        initial_innslag = []
+        if request.GET.get('bilag_draft_id', False):
             draft = BilagDraft.objects.get(id=int(request.GET.get('bilag_draft_id')))
-            bilagform   = BilagForm(prefix="bilag", initial={ 
-                'object_id': request.GET.get('object_id', ""),
-                'content_type': request.GET.get('content_type', ""),
-                'dato':draft.dato,
-                'beskrivelse': draft.beskrivelse
+            initial_bilag['dato'] = draft.dato
+            initial_bilag['beskrivelse'] = draft.beskrivelse
+
+            initial_innslag.append({
+                'kontos':draft.konto.id,
+                "debit":positive_or_None(draft.belop),
+                "kredit":positive_or_None(-draft.belop)
             })
-            innslagform = InnslagFormSet(prefix="innslag", initial=[
-                {'kontos':draft.konto.id,"debit":positive_or_None(draft.belop),"kredit":positive_or_None(-draft.belop)},
-                {"debit":positive_or_None(-draft.belop),"kredit":positive_or_None(draft.belop)}
-            ])
-        else:
-            bilagform   = BilagForm(prefix="bilag", initial={ 
-                'object_id': request.GET.get('object_id', ""),
-                'content_type': request.GET.get('content_type', "")
-            })
-            innslagform = InnslagFormSet(prefix="innslag")
-        external_actor = External_ActorForm(prefix="external")
+        for i in range(30):
+            if request.GET.get("konto_%d_id"%i, False):
+                mot_konto_belop = float(request.GET.get("konto_%d_belop"%i, 0))
+                initial_innslag.append({
+                    'kontos':request.GET.get("konto_%d_id"%i, None),
+                    "debit":positive_or_None(-mot_konto_belop),
+                    "kredit":positive_or_None(mot_konto_belop)
+                })
+        bilagform = BilagForm(prefix="bilag", initial=initial_bilag)
+        innslagform = InnslagFormSet(prefix="innslag", initial=initial_innslag)
+        external_actor = None
+        if(request.GET.get("external_actor_id",False)):
+            external_actor = Exteral_Actor.objects.get(pk=request.GET.get("external_actor_id"))
+        external_actor = External_ActorForm(prefix="external", instance=external_actor)
         bilag_file_form = BilagFileForm(prefix="files")
     return render_to_response('bilagRegistrering.html', {
         'prosjekt'      : prosjekt,
@@ -102,9 +125,9 @@ def registrerBilagForm(request, prosjekt, extra):
         'external_a_form':external_actor,
         'url'           : request.path,
         'bilag_file_form':bilag_file_form,
-        'bilag_draft_id': request.GET.get('bilag_draft_id',0),
+        'bilag_draft_id': request.GET.get('bilag_draft_id', 0),
         'related_object': related_object,
-    },RequestContext(request))
+    }, RequestContext(request))
 
 @transaction.atomic
 def inngaaendeBalanseForm(request, prosjekt, year):

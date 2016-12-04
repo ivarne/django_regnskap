@@ -12,6 +12,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 
 from decimal import *
 import os
+import urllib
 
 class Prosjekt(models.Model):
     navn = models.CharField(max_length=60)
@@ -257,6 +258,8 @@ class Bilag(models.Model):
         self.innslag.filter(type=0)
     def _getDebit(self):
         self.innslag.filter(type=1)
+    def bilag_content_type(self):
+        return ContentType.objects.get_for_model(self)
     innslagKredit = property(_getKredit)
     innslagDebit = property(_getDebit)
     def set_bilagsnummer(self):
@@ -286,9 +289,35 @@ class Bilag(models.Model):
         for i in self.getInnslag():
             sum += i.value
         return sum
+    def korrigerings_url(self):
+        url = "/regnskap/registrer/%s/?content_type=%d&object_id=%d&external_actor_id=%d" % (self.prosjekt, self.bilag_content_type().pk,self.pk,self.external_actor_id)
+        i = 1
+        for innslag in self.getInnslag():
+            url +="&konto_%d_id=%d&konto_%d_belop=%s"%(i,innslag.konto_id,i,innslag.value)
+            i +=1
+        url += "&dato=%s&beskrivelse=%s"%(urllib.quote_plus(str(self.dato)),urllib.quote_plus("Korrigering av " + self.getNummer()))
+        return url
+    def korrigerings_bilag(self):
+        return list(Bilag.objects.filter(content_type = self.bilag_content_type(), object_id = self.pk))
+    def getKorrigerteInnslag(self):
+        innslag = {}
+        for i in self.getInnslag():
+            innslag[i.konto_id] = {'konto':i.konto, 'value': i.value}
+        for b in self.korrigerings_bilag():
+            for i in b.getInnslag():
+                if i.konto_id in innslag:
+                    innslag[i.konto_id]["value"] += i.value
+                else:
+                    innslag[i.konto_id] = {'konto':i.konto, 'value': i.value}
+        for i in innslag.values():
+            v = i['value']
+            i['kredit'] = -v if v < 0 else None
+            i['debit'] = v if v > 0 else None
+        return innslag.values()
 
 def _bilag_upload_to(instance, filename):
     return "bilag/%s/%s-%s" % (instance.dato.year, instance.bilag.id, filename)
+
 
 class BilagFile(models.Model):
     bilag = models.ForeignKey(Bilag, related_name="files")
