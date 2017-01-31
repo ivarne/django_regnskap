@@ -69,6 +69,9 @@ def offisielltRegnskap(request, prosjekt, year):
         },RequestContext(request))
 
 
+def removeKontoerUtenBilag(kontoer):
+    # Hack: konto.getLoadedDebit()/.getLoadedKredit() returns 0 (int) when there are no "Bilag" for this year.
+    return [konto for konto in kontoer if not isinstance(konto.getLoadedDebit(), int) and not isinstance(konto.getLoadedKredit(), int)]
 
 def showYear(request, prosjekt, year):
     bilagYear = list(Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato','bilagsnummer').prefetch_related('external_actor').prefetch_related('innslag').prefetch_related('prosjekt').prefetch_related('innslag__konto'))
@@ -81,13 +84,16 @@ def showYear(request, prosjekt, year):
     totalInt = Decimal(0);
     for i in intKonto:
         totalInt += i.getLoadedKredit()
+    
+    kostKonto= removeKontoerUtenBilag(kostKonto)
+    intKonto = removeKontoerUtenBilag(intKonto)
     # adjust the lists so that they get equal length
     l = max(intKonto, kostKonto, key=len)
     s = min(intKonto, kostKonto, key=len)
     s.extend(None for asdf in range(len(l) - len(s)))
     resultat = zip(kostKonto, intKonto)
     
-    eiendelKonto =list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType = 1))
+    eiendelKonto = list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType = 1))
     totalEie = Decimal(0);
     for e in eiendelKonto:
         totalEie += e.getLoadedDebit()
@@ -95,6 +101,9 @@ def showYear(request, prosjekt, year):
     totalFinans = Decimal(0);
     for e in finansKonto:
         totalFinans += e.getLoadedKredit()
+        
+    eiendelKonto= removeKontoerUtenBilag(eiendelKonto)
+    finansKonto = removeKontoerUtenBilag(finansKonto)    
     # adjust the lists so that they get equal length
     l = max(eiendelKonto, finansKonto, key=len)
     s = min(eiendelKonto, finansKonto, key=len)
