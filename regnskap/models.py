@@ -290,7 +290,9 @@ class Bilag(models.Model):
             sum += i.value
         return sum
     def korrigerings_url(self):
-        url = "/regnskap/registrer/%s/?content_type=%d&object_id=%d&external_actor_id=%d" % (self.prosjekt, self.bilag_content_type().pk,self.pk,self.external_actor_id)
+        url = "/regnskap/registrer/%s/?content_type=%d&object_id=%d" % (self.prosjekt, self.bilag_content_type().pk,self.pk)
+        if self.external_actor_id:
+            url += "&external_actor_id=%d" % self.external_actor_id
         i = 1
         for innslag in self.getInnslag():
             url +="&konto_%d_id=%d&konto_%d_belop=%s"%(i,innslag.konto_id,i,innslag.value)
