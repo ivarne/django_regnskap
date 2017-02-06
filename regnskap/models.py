@@ -381,4 +381,4 @@ class BilagDraft(models.Model):
     def __unicode__(self):
         return "%s %s" % (self.dato,self.beskrivelse)
     def get_absolute_url(self):
-        return "/regnskap/registrer/%s/3?bilag_draft_id=%s" % (self.prosjekt.navn, self.id)
+        return "/regnskap/registrer/%s/5?bilag_draft_id=%s" % (self.prosjekt.navn, self.id)
