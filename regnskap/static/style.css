@@ -1,5 +1,5 @@
 body {
-  margin:50px;
+  margin:3%;
 }
 
 /* general reset */
@@ -31,10 +31,6 @@ ul.messages > li.error{
 /*************
  * General  *
  *************/
-
-body {
-	margin: 3em;
-}
 
 h2 {
 	font-size: 1.7em;
