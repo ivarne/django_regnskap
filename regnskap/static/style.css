@@ -112,7 +112,10 @@ table {
    border-right: 1px dashed black;
 }
 
-.rowTable td{
+/* Make some space between resultat and balanse regnskap tables */
+.rowTable { margin-right:20px; }
+
+.rowTable td {
    padding:2px 10px 2px 10px;
 }
 .rowTable td:nth-child(3){
