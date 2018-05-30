@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>{{konto}}</h1>
-<p>{{konto.beskrivelse}}</p>
+<p>{{konto.beskrivelse|linebreaksbr}}</p>
 <a href="{{konto.get_admin_url}}">Rediger</a>
 <div id="konto_graph_slide">
   {% for year in years %}
