@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>{{konto}}</h1>
-<p>{{konto.beskrivelse}}</p>
+<p>{{konto.beskrivelse|linebreaksbr}}</p>
 <a href="{{konto.get_admin_url}}">Rediger</a>
 <div id="konto_graph_slide">
   {% for year in years %}
@@ -11,7 +11,7 @@
     <img {% if forloop.first %}class="active"{% endif %} year ="{{year}}" src="/regnskap/show/konto_graph/{{year}}-{{konto.id}}.png">
   {% endfor %}
 </div>
-<h2>Sisste bilag</h2>
+<h2>Siste bilag</h2>
 <table>
   <tr>
     <th colspan="3">Dato</th>
