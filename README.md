@@ -5,13 +5,13 @@ Django regnskap
 ### List of dependencies:
 
 Installable using easy_install:
-django version 1.8  # Later versions will not workdocumentation
-openpyxl    # to enable Excel export
-dropbox     # for dropbox upload and make security copies of files
-mathplotlib # for making graphs
-reportlab   # for generating PDF files
-MySQL-python# for mysql drivers
-django-extensions # for JSONField
+- django version 1.8  # Later versions will not workdocumentation
+- openpyxl    # to enable Excel export
+- dropbox     # for dropbox upload and make security copies of files
+- mathplotlib # for making graphs
+- reportlab   # for generating PDF files
+- MySQL-python# for mysql drivers
+- django-extensions # for JSONField
 
 you can also run
 
