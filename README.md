@@ -5,7 +5,7 @@ Django regnskap
 ### List of dependencies:
 
 Installable using easy_install:
-django version 1.8  # Later versions will not work
+django version 1.8  # Later versions will not workdocumentation
 openpyxl    # to enable Excel export
 dropbox     # for dropbox upload and make security copies of files
 mathplotlib # for making graphs
@@ -29,6 +29,6 @@ Then it should behave as a normal django app:)
 
 To run on pythonanywhere.com you need to set ut WSGI and create a virtual envirement to install packages.
 
-Se how in [documentation/run on pythonanywhere.com/README.md](documentation/run on pythonanywhere.com/README.txt)
+Se how in [documentation/run on pythonanywhere.com/README.md](documentation/run%20on%20pythonanywhere.com/README.md)
 
 
