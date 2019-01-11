@@ -2,6 +2,9 @@
 Django regnskap
 ===============
 
+A simple attemt to make an accounting application for django. Ugly mix of Norwegian and English in variable names and comments. You can freely use this code for whatever purpuse you'd like, but I take no responsibility.
+
+
 ### List of dependencies:
 
 Installable using easy_install:
