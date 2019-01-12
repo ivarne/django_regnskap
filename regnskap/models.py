@@ -39,7 +39,7 @@ class KontoManager(BaseProsjektManager):
             ret = self
         if not include_outgoing_balance:
             when += " AND `b`.`bilagType` <> %d" % Bilag.UTGAAENDE_BALANSE
-        
+
         subsql = '''SELECT SUM(`i`.`belop`)\
             FROM `%(i)s` as `i`\
             LEFT JOIN `%(b)s` as `b`\
@@ -47,7 +47,7 @@ class KontoManager(BaseProsjektManager):
             WHERE `i`.`konto_id` = `%(k)s`.`id`\
                 AND %(when)s\
                 AND `i`.`type` = %(type)s'''
-        
+
         ret = ret.extra(
             select = {
                 'sum_debit': subsql % {
@@ -73,7 +73,7 @@ class KontoManager(BaseProsjektManager):
         """
         somewhat same as sum_colums, but returns a list of kontos with extra properties instead of a query set
         this is also a cleaner approach as it does not use two separate subsql queries
-        
+
         """
         where = [ ]
         args = []
@@ -92,7 +92,7 @@ class KontoManager(BaseProsjektManager):
         if year:
             where.append("YEAR(`%(b)s`.`dato`) = %%s")
             args.append(int(year))
-        
+
         if kontoTypes:
             where.append("`%(k)s`.`kontoType` IN %%s")
             args.append(kontoTypes)
@@ -108,17 +108,17 @@ class KontoManager(BaseProsjektManager):
             return []
         where = " AND ".join(where)
         sql = ("""SELECT
-            SUM(`%(i)s`.`belop` * `%(i)s`.`type` ) AS `sum_kredit`, 
-            SUM(`%(i)s`.`belop` * (1 -`%(i)s`.`type`) ) AS `sum_debit`, 
-            `%(k)s`.`id`, 
-            `%(k)s`.`kontoType`, 
-            `%(k)s`.`nummer`, 
-            `%(k)s`.`tittel`, 
-            `%(k)s`.`beskrivelse`, 
+            SUM(`%(i)s`.`belop` * `%(i)s`.`type` ) AS `sum_kredit`,
+            SUM(`%(i)s`.`belop` * (1 -`%(i)s`.`type`) ) AS `sum_debit`,
+            `%(k)s`.`id`,
+            `%(k)s`.`kontoType`,
+            `%(k)s`.`nummer`,
+            `%(k)s`.`tittel`,
+            `%(k)s`.`beskrivelse`,
             `%(k)s`.`prosjekt_id`
-        FROM `%(k)s` 
-        INNER JOIN `%(i)s` ON (`%(k)s`.`id` = `%(i)s`.`konto_id`) 
-        INNER JOIN `%(b)s` ON (`%(i)s`.`bilag_id` = `%(b)s`.`id`) 
+        FROM `%(k)s`
+        INNER JOIN `%(i)s` ON (`%(k)s`.`id` = `%(i)s`.`konto_id`)
+        INNER JOIN `%(b)s` ON (`%(i)s`.`bilag_id` = `%(b)s`.`id`)
         WHERE """ + where + """ GROUP BY `%(k)s`.`id` ORDER BY `%(k)s`.`nummer` ASC
         """) % {
             'b': Bilag._meta.db_table,
@@ -170,7 +170,7 @@ class Konto(models.Model):
     beskrivelse = models.TextField(blank = True)
     prosjekt = models.ForeignKey(Prosjekt, blank=True, null=True)
     objects = KontoManager()
-    
+
     def __unicode__(self):
         return u"%s %s/%s" %(self.nummer, self.prosjekt.navn, self.tittel)
     def getTittel(self):
@@ -191,7 +191,9 @@ class Konto(models.Model):
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
-    
+    class Meta:
+        ordering = ['nummer',]
+
 
 class Exteral_Actor(models.Model):
     name = models.CharField(max_length = 256)
@@ -216,7 +218,7 @@ class Exteral_Actor(models.Model):
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return urlresolvers.reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
-    
+
 
 class Bilag(models.Model):
     STANDARD_BILAG     = 0
@@ -342,7 +344,7 @@ class Innslag(models.Model):
     )
     bilag = models.ForeignKey(Bilag, related_name='innslag')
     konto = models.ForeignKey(Konto, related_name='innslag')
-    
+
     belop = models.DecimalField(max_digits=16,decimal_places=2, blank=True, null=False)
     type = models.IntegerField(choices=AVAILABLE_TYPE)
     @property
@@ -353,7 +355,7 @@ class Innslag(models.Model):
         return self.type == 1
     def __unicode__(self):
         return unicode(self.konto.nummer) +' '+unicode(self.debit)+'|'+unicode(self.kredit)
-        
+
     def _debitValue(self):
         if self.type == 0:
             return self.belop
@@ -371,6 +373,7 @@ class Innslag(models.Model):
     debit = property(_debitValue)
     kredit = property(_kreditValue)
     value = property(_value)
+
 
 class BilagDraft(models.Model):
     prosjekt = models.ForeignKey(Prosjekt)
