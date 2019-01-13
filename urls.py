@@ -29,3 +29,10 @@ if settings.SERVE_MEDIA_IN_PYTHON:
             'document_root': settings.MEDIA_ROOT,
         }),
    )
+   
+if settings.SERVE_STATIC_IN_PYTHON:
+    urlpatterns += patterns('',
+        url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.STATIC_ROOT,
+        }),
+   )
