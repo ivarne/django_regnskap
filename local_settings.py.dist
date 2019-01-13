@@ -25,6 +25,7 @@ MEDIA_ROOT = "<path>/media"       # Example: /home/jont/django_regnskap/media
 STATIC_ROOT = '<path>/static'      # Example: /home/jont/django_regnskap/static
 
 SERVE_MEDIA_IN_PYTHON = False
+SERVE_STATIC_IN_PYTHON = False
 
 #Change this secret key!!
 SECRET_KEY = '$#^vz+bplxugid_28g+(5y*+&+o!ik3p$bdcs_67reqi^wacf4'
