@@ -101,6 +101,7 @@ class Faktura(models.Model):
         (3, 'Inkasso'),
         (4, 'Betalt'),
         (5, 'Slettet'),
+        (6, 'Tapt'),
     )
     number = models.IntegerField(editable = False, default=0)
     status = models.IntegerField(choices=STATUS_VALUES)

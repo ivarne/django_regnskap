@@ -51,7 +51,7 @@ og du har alternaltiver
   $("#betaling_form_table_togle").click(function(){
     $("#betaling_form_table").show("slow");
     $(this).hide("slow").remove();
-    return false; 
+    return false;
   });
   </script>
 
@@ -82,7 +82,7 @@ og du har alternaltiver
             <td>{{vare.name}}</td>
             <td class="kreditnota-price">{{vare.price}}</td>
             <td style="color:grey">{{vare.ammount}}</td>
-            <td><input type="text" name="fakturavare-{{vare.id}}" value="{{vare.ammount}}"></td>
+            <td><input type="text" name="fakturavare-{{vare.id}}" value="{{vare.ammount}}" disabled="disabled"></td>
             <td class="kreditnota-sum"></td>
           {% endfor %}
         </tbody>
@@ -94,7 +94,7 @@ og du har alternaltiver
       <script>
         var table = $("#kreditnota-table");
         function update_sum_kreditnota_table(){
-          table.find("input").each(function(){ 
+          table.find("input").each(function(){
             var $input = $(this);
             var tr = $input.closest("tr");
             var ammount = parseFloat($input.val().replace(",","."));
@@ -164,7 +164,7 @@ Hvis regnskapsperioden fakturaen var ført på blir regningen dermed ført som t
     <td>{{faktura.totalPrice}}</td>
   </tr>
 </table>
-  
+
 <h2>Bilagsføring for denne faktura:<small><a href="/regnskap/registrer/{{faktura.prosjekt}}/?content_type={{faktura.content_type.pk}}&object_id={{faktura.pk}}" title="Før billag knyttet til denne fakturaen">+</a></small></h2>
 
 {% include "include/bilagDebitKredit.html" with related_kontos=related_kontos bilags=bilags %}
@@ -177,7 +177,7 @@ Hvis regnskapsperioden fakturaen var ført på blir regningen dermed ført som t
 <script>
   var tmp = new PDFObject({'url':'ehm-not inn use'});
   if(tmp.get("pluginTypeFound")){
-    var pObj = new PDFObject({ 
+    var pObj = new PDFObject({
       url: "/faktura/generate/{{faktura.id}}",
       pdfOpenParams: {
         navpanes: 0,

@@ -52,7 +52,7 @@ def betal_faktura(request, id):
 
         faktura.data['log'].append(u"Betaling registrert (%s kr) %s av %s"%(fdata['belop'],datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
         faktura.save()
-        
+
     return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )
 
 def betal_faktura_draft(request, faktura_id, draft_id):
@@ -97,32 +97,47 @@ def betal_faktura_draft(request, faktura_id, draft_id):
 
     return HttpResponseRedirect( '/faktura/show/'+str(faktura.id) )
 
-# Ikke ferdig!!
+
+# TODO: Mangler funksjon slik at man kan endre antall varer.
 def kreditnota(request):
     if request.method != 'POST':
         raise Exception("Wrong method")
+
     faktura = Faktura.objects.get(id = request.POST['faktura_id'])
-    faktura.data['log'].append(u"Kreditnota generert %s av %s"%(datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
 
-    bilag_ids = tuple([int(b.id) for b in faktura.bilags.all()])
-    related_kontos = list(Konto.objects.bilagRelated(bilag_ids=bilag_ids))
-
-    bilag = Bilag(
+    kredittnota_bilag = Bilag(
         dato = datetime.datetime.today(),
         beskrivelse = u"Faktura %s kreditert (slettet/reversert)" % (faktura.getNumber()),
         external_actor = faktura.kunde,
         prosjekt = faktura.prosjekt,
         registrerd_by = request.user,
     )
-    bilag.related_instance = faktura
-    faktura.status
-    for konto in related_kontos:
-        i = Innslag(
-            bilag = bilag,
-            konto = konto,
-            belop = abs(konto.getLoadedDebit()),
-            type = int(konto.getLoadedDebit()<0)
+    kredittnota_bilag.related_instance = faktura
+    kredittnota_bilag.save()
+
+    first_bilag = faktura.bilags.order_by('created')[0]
+    innslags = first_bilag.getInnslag()
+
+    for innslag in innslags:
+        if innslag.type == 0:
+            opposite_innslag_type = 1
+        else:
+            opposite_innslag_type = 0
+
+        opposite_innslag = Innslag(
+            bilag = kredittnota_bilag,
+            konto = innslag.konto,
+            belop = innslag.belop,
+            type = opposite_innslag_type
         )
+        opposite_innslag.save()
+
+    faktura.status = 5 # Slettet
+    faktura.data['log'].append(u"Kreditnota generert %s av %s"%(datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), request.user))
+    faktura.save()
+
+    return HttpResponseRedirect('/faktura/show/'+str(faktura.id) )
+
 
 # Ikke ferdig!
 def purring(request, faktura_id):
