@@ -29,7 +29,7 @@ def offisielltRegnskap(request, prosjekt, year):
                 table.append_cell(TableCell(u"Sum %s" % undergruppe, italics = True))
             table.append_cell(TableCell(u"Sum %s" % hovedgruppe, bold = True))
         table.append_cell(TableCell(u"SUM %s" % overskrift, bold = True))
-    
+
     for year in years:
         kontos = iter(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType__in = (1,2)).order_by('nummer'))
         konto = kontos.next()
@@ -72,7 +72,7 @@ def offisielltRegnskap(request, prosjekt, year):
 
 def showYear(request, prosjekt, year):
     bilagYear = list(Bilag.objects.prosjekt(prosjekt).filter(dato__year = int(year)).order_by('dato','bilagsnummer').prefetch_related('external_actor').prefetch_related('innslag').prefetch_related('prosjekt').prefetch_related('innslag__konto'))
-    
+
     kostKonto= list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType__in = (4,5,6,7,8,9)))
     totalKost = Decimal(0);
     for k in kostKonto:
@@ -86,7 +86,7 @@ def showYear(request, prosjekt, year):
     s = min(intKonto, kostKonto, key=len)
     s.extend(None for asdf in range(len(l) - len(s)))
     resultat = zip(kostKonto, intKonto)
-    
+
     eiendelKonto =list(Konto.objects.sum_columns(prosjekt = prosjekt, when_arg = (int(year),)).filter(kontoType = 1))
     totalEie = Decimal(0);
     for e in eiendelKonto:
@@ -106,7 +106,7 @@ def showYear(request, prosjekt, year):
     if prosjekt:
         cursor = connection.cursor()
         p_id = Prosjekt.objects.get(navn=prosjekt).id
-        cursor.execute( """SELECT 
+        cursor.execute( """SELECT
             SUM(type*belop) - sum((1-type)*belop) = 0 AS bal_inner,
             k.nummer
             FROM regnskap_innslag as i
@@ -125,7 +125,7 @@ def showYear(request, prosjekt, year):
         'bilagYear'  : bilagYear,
         'overskrift' : u"Årsoversikt %s" % year,
         'prosjekt'   : prosjekt,
-        
+
         'resultat'     : resultat,
         'balanse'      : balanse,
         'totalKost'    : totalKost,
@@ -148,13 +148,13 @@ def calculate_intrest(request, year, kontos, rate):
     year = int(year)
     rate = float(rate) / 100
     innslags = list(Innslag.objects.filter(konto__in = kontos.split(',')).filter(bilag__dato__year = int(year)).order_by('bilag__dato', '-bilag__bilagType').select_related('bilag'))
-    
+
     prev = innslags[0]
     saldo = prev.value
     rentesaldo = [float(0)] # mutable type can be changed inside intrest_period
     # calculation of leap years from 1901 to 2199
     days_in_year = 365 + (year % 4 == 0) - (year == 2100)
-    
+
     def intrest_period(start, end):
         days = (end - start).days
         intrest = rate * float(saldo) * float(days) / float(days_in_year)
@@ -168,7 +168,7 @@ def calculate_intrest(request, year, kontos, rate):
             "saldo" : saldo,
             "rentesaldo": rentesaldo[0],
         }
-    
+
     rows = [prev]
     for innslag in innslags[1:]:
         p_dato = get_innslag_dato(prev)
@@ -178,7 +178,11 @@ def calculate_intrest(request, year, kontos, rate):
         saldo += innslag.value
         rows.append(innslag)
         prev = innslag
-        
+
+    year_end_dato = date(prev.bilag.dato.year, 12, 31);
+    if prev.bilag.dato != year_end_dato:
+        rows.append(intrest_period(prev.bilag.dato, year_end_dato))
+
     return render_to_response( 'report/calculate_intrest.html',{
         'kontos': Konto.objects.filter(id__in = kontos.split(',')).select_related('prosjekt'),
         'rows': rows,

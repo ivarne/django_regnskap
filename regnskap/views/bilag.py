@@ -78,7 +78,7 @@ def inngaaendeBalanseForm(request, prosjekt, year):
     to_year = from_year + 1
     prosjekt = Prosjekt.objects.get(navn = prosjekt)
     #collect usefull infromation
-    
+
     def append_kontos_as_innslag(kontos, innslags):
         for konto in kontos:
             v = (konto.sum_debit or 0) - (konto.sum_kredit or 0)
@@ -96,18 +96,6 @@ def inngaaendeBalanseForm(request, prosjekt, year):
                     'kredit': None,
                     'belop' : abs(v),
                     'type'  : Innslag.TYPE_DEBIT,
-                    'konto' : konto,
-                })
-            else: # v==0
-                if konto.kontoType == 1:
-                    t = Innslag.TYPE_DEBIT
-                else:
-                    t = Innslag.TYPE_KREDIT
-                innslags.append({
-                    'debit' : 0 if t == Innslag.TYPE_DEBIT else None,
-                    'kredit': 0 if t == Innslag.TYPE_KREDIT else None,
-                    'belop' : 0,
-                    'type'  : t,
                     'konto' : konto,
                 })
 
@@ -167,7 +155,7 @@ def inngaaendeBalanseForm_old(request, prosjekt, year):
     InnslagForm = innslag_form_factory(prosjekt)
     InnslagFormSet = formset_factory(InnslagForm, extra = 0, formset=BaseInnslagFormSet)
     #collect usefull infromation
-    
+
     bilagform   = BilagForm(prefix="bilag", initial={
                 'dato' : date(year,1,1),
                 'beskrivelse': u"Inngående balanse %d" % year,

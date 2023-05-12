@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 
 # library imports
-from reportlab.pdfgen import canvas
+#from reportlab.pdfgen import canvas
 from io import BytesIO
 
 # Koordinater og fargekoder for giroblankett er basert på arbeid av Marius N. Nicolaysen
@@ -115,7 +115,7 @@ def draw_giro_template(c, color=(1, 0.9, 0.2)):
     c.setLineWidth(0.2)
     c.setFont('Helvetica-Bold',11)
     c.drawString(45,327,"Kvittering")
-    
+
     c.setFont('Helvetica',7)
     def feltHake(x,y,up,right):
         p = c.beginPath()
@@ -136,8 +136,8 @@ def draw_giro_template(c, color=(1, 0.9, 0.2)):
     feltHake(555,184,-1,-1)
     feltHake(555,120,1,-1)
     #Diverse småtekst
-    
-    
+
+
     c.drawString(45,315,"Innbetalt til konto")
     c.drawString(250,315,u"Beløp")
     c.drawString(380,315,'Betalers kontonummer')
@@ -192,20 +192,20 @@ def draw_giro_content(c, faktura, data):
     c.drawCentredString(276,298,price)
     c.drawString(240,58, price.split('.')[0]) #kroner
     c.drawString(310,58, price.split('.')[1]) #øre
-    
+
 def generate_faktura_pdf(faktura):
     """This is one way of connecting the drawing functions"""
     buffer = BytesIO()
     # Create the PDF object, using the response object as its "file."
     c = canvas.Canvas(buffer)
-    
+
     c.setAuthor("Django_regnskap")
     c.setTitle("Faktura %s"%faktura.getNumber())
     c.setFont("Helvetica", 12)
 
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
-    
+
     if faktura.status == 0: #Kladdet
         data = faktura.get_data_for_sending()
         c.saveState()
@@ -230,12 +230,12 @@ def generate_faktura_pdf(faktura):
 def generate_response(request, faktura):
     """This is the view function"""
     faktura = Faktura.objects.get(pk = faktura)
-    
+
     pdf = generate_faktura_pdf(faktura)
-    
+
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(mimetype='application/pdf')
     response['Content-Disposition'] = 'filename=faktura%s.pdf' % faktura.getNumber()
     response.write(pdf)
-    
+
     return response
